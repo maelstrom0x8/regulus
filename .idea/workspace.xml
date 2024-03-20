@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dc5063b1-e83e-4a78-9731-c11f192c0acb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/spotless-register-dependencies" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kill.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/commons/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/commons/JpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/commons/Location.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/commons/LocationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/commons/Repository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/config/RestConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/CollectorRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/model/Collector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/model/CollectorAgent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/model/CollectorAgents.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/model/LandFill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/model/Recycler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/service/CollectionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/control/service/DisposalScheduler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/model/Label.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/model/Waste.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/service/DefaultWasteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/service/DisposalResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/service/DisposalStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/service/WasteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/web/DisposalRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/web/Priority.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/generator/web/resource/WasteDisposalResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/integration/geocode/client/GeoCoderClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/security/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/security/SecureEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/security/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/security/UserIdentityStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/user/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/user/UserRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/user/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/user/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/user/web/UserRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/ceze/regulus/user/web/UserResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-ExtraLightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/IBMPlexSans-ThinItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/IBM/OFL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/OFL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_Condensed-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/fonts/OpenSans/static/OpenSans_SemiCondensed-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/2023-cyberpunk-2077-game-4k-ie-1507x847.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/ced3718c0b540b5988d06248c0c5982a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/dac9b8c6472c1cdad6c265f61a9b9524.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/de.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/dead-space-1366x768-10227.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/ferrari-488-in-forza-horizon-5-m5-1507x847 (copy).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/ferrari-488-in-forza-horizon-5-m5-1507x847.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/jiraiya-chibi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/reyna-valorant-fanart-4k-zb-1507x847.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/star-citizen-rsi-apollo-concept-4k-p9-1336x768.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/star-citizen-rsi-apollo-concept-4k-p9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/wallpaperflare.com_wallpaper (1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/wallpaperflare.com_wallpaper.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/wing-prototype-4k-it.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/pages/about.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/styles/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/io/ceze/regulus/commons/AbstractDataTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/io/ceze/regulus/commons/JpaRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/logback-test.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/test-persistence.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="regulus" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="regulus" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="regulus" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="payara micro" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Record" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/fish.payara.security.connectors/security-connectors-api/3.1/d9103d109800cebee43120d6308e6e55960a6324/security-connectors-api-3.1.jar!/fish/payara/security/annotations/AzureAuthenticationDefinition.class" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="graalvm-21" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2ddF9kauN5thT5awzRA7QOOBNZG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.CollectorRepositoryTests.shouldReturnCollectorsInTheCity.executor": "Run",
+    "Gradle.JpaRepositoryTest.executor": "Debug",
+    "Gradle.UserRepositoryTests.savedUserHasValidId.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/maelstrom/workstation/coffee/aeros/src/test/java/io/ceze/aeros/ItemResourceTest.java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="io.ceze.regulus.user" />
+      <recent name="io.ceze.regulus.web" />
+      <recent name="io.ceze.regulus" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="io.ceze.regulus.commons" />
+      <recent name="io.ceze.regulus.domain.model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.UserRepositoryTests.savedUserHasValidId">
+    <configuration name="CollectorRepositoryTests.shouldReturnCollectorsInTheCity" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;io.ceze.regulus.commons.JpaRepositoryTest$CollectorRepositoryTests.shouldReturnCollectorsInTheCity&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="JpaRepositoryTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;io.ceze.regulus.commons.JpaRepositoryTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="UserRepositoryTests.savedUserHasValidId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;io.ceze.regulus.commons.JpaRepositoryTest$UserRepositoryTests.savedUserHasValidId&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.UserRepositoryTests.savedUserHasValidId" />
+        <item itemvalue="Gradle.CollectorRepositoryTests.shouldReturnCollectorsInTheCity" />
+        <item itemvalue="Gradle.JpaRepositoryTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.10-corretto-17.0.10-f644763e9732-f00315f9" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-78a6f59c" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc5063b1-e83e-4a78-9731-c11f192c0acb" name="Changes" comment="" />
+      <created>1695805893805</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695805893805</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="true" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

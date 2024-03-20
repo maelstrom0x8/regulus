@@ -1,0 +1,138 @@
+@font-face {
+    font-family: IBMPlexSansRegular;
+    src: url('../assets/fonts/IBM/IBMPlexSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: OpenSansRegular;
+    src: url("../assets/fonts/OpenSans/static/OpenSans-Regular.ttf");
+}
+
+:root {
+    margin: 0;
+}
+
+body {
+    font-family: OpenSansRegular, Helvetica, sans-serif;
+    margin: 0;
+    font-weight: lighter;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100svw;
+}
+
+header {
+    width: 100%;
+    padding: .5em;
+    background-color: #414141;
+    color: white;
+    margin-top: 0;
+    text-align: center;
+    font-size: smaller;
+}
+
+h1 {
+    font-weight: 400;
+    color: black;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+.slide {
+    padding: 1.5em;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.main-container {
+    min-height: 100%;
+    margin-bottom: -100px;
+}
+
+.main-container:after {
+    content: "";
+    display: block;
+    height: 100px;
+}
+
+footer {
+    background-color: #212121;
+    color: white;
+}
+
+.nav-container {
+    box-shadow: #414141;
+    padding: .2em;
+}
+
+.main-carousel {
+    display: flex;
+}
+
+.main-carousel>div {
+    display: flex;
+    flex-shrink: 0;
+    width: 100%;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+}
+
+.main-carousel>div:not(.active) {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .main-carousel {
+        display: none;
+    }
+}
+
+.content>p {
+    padding: 1em;
+}
+
+.carousel-item {
+    position: relative;
+    /* Ensure relative positioning for absolute positioning of images */
+    width: 100%;
+    /* Set the width of the carousel item */
+    height: 300px;
+    /* Set the height of the carousel item */
+    overflow: hidden;
+    /* Hide any overflow content */
+}
+
+.carousel-item img {
+    position: absolute;
+    /* Position the images absolutely within the carousel item */
+    width: 100%;
+    /* Ensure the image takes up the full width of the carousel item */
+    height: auto;
+    /* Maintain aspect ratio */
+    top: 0;
+    /* Position the image at the top */
+    left: 0;
+    /* Position the image at the left */
+}
+
+.carousel-item {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.4s;
+    animation-name: fade;
+    animation-duration: 1.4s;
+  }
+  
+  @-webkit-keyframes fade {
+    from {opacity: .5}
+    to {opacity: 2}
+  }
+  
+  @keyframes fade {
+    from {opacity: .5}
+    to {opacity: 2}
+  }
