@@ -20,7 +20,6 @@ import io.ceze.regulus.generator.model.Disposal;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
