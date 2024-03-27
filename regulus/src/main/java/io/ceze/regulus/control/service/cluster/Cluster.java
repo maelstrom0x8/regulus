@@ -21,12 +21,12 @@ import io.ceze.regulus.generator.model.Disposal;
 import java.util.Comparator;
 import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
+
 
 public class Cluster {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ClusterManager.class);
+  private static final Logger LOG = Logger.getLogger(ClusterManager.class);
 
   // TODO: Fix this. Label priority has higher precedence over request priority
   private final Comparator<Disposal> priorityComparator =
@@ -38,7 +38,7 @@ public class Cluster {
   private Location origin;
 
   public Cluster(String name) {
-    LOG.info("Creating new cluster {}", name);
+    LOG.infof("Creating new cluster {}", name);
     this.name = name;
   }
 

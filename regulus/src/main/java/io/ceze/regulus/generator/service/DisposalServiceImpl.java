@@ -28,13 +28,13 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
+
 
 @Stateless
 public class DisposalServiceImpl implements DisposalService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DisposalService.class);
+  private static final Logger LOG = Logger.getLogger(DisposalService.class);
 
   @Inject private SecurityContext securityContext;
 
@@ -72,12 +72,12 @@ public class DisposalServiceImpl implements DisposalService {
     Location location = user.getLocation();
 
     if (location == null) {
-      LOG.error("No location found for the user {}", user.getUsername());
+      LOG.errorf("No location found for the user {}", user.getUsername());
       throw new LocationNotFoundException("Location is not available");
     }
 
     if (disposalRepository.findByLocationId(location.getId()) != null) {
-      LOG.warn("Cannot make multiple request at the same location");
+      LOG.warnf("Cannot make multiple request at the same location");
       throw new RuntimeException("Disposal request already initiated at this location");
     }
 
@@ -92,12 +92,12 @@ public class DisposalServiceImpl implements DisposalService {
     disposal.setLocation(location);
     disposal = disposalRepository.save(disposal);
     collectionService.handleDisposal(disposal);
-    LOG.info("Processing disposal request {}", disposal.getId());
+    LOG.infof("Processing disposal request {}", disposal.getId());
     return from(disposal);
   }
 
   public DisposalStatus getDisposalStatus(Long disposalId) {
-    LOG.info(
+    LOG.infof(
         "User: {} request disposal status for disposal with id {}", user.getUsername(), disposalId);
     Optional<Disposal> disposal = disposalRepository.findById(disposalId);
 

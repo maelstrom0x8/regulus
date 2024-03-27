@@ -24,15 +24,16 @@ import io.ceze.regulus.security.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
+import org.jboss.logging.Logger;
+
 import java.security.Principal;
 import javax.security.auth.login.AccountNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 @ApplicationScoped
 public class AccountService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(AccountService.class);
+  private static final Logger LOG = Logger.getLogger(AccountService.class);
 
   @Inject private AccountRepository userRepository;
   @Inject private LocationRepository locationRepository;
@@ -40,12 +41,12 @@ public class AccountService {
   @Inject SecurityContext securityContext;
 
   public AccountResponse registerAccount(AccountRequest accountRequest) {
-    LOG.info("Register new user {}", accountRequest);
+    LOG.infof("Register new user {}", accountRequest);
     User user =
         new User(accountRequest.username(), accountRequest.password(), accountRequest.email());
 
     User saved = userRepository.save(user);
-    LOG.info("User registered successfully {}", saved.getId());
+    LOG.infof("User registered successfully {}", saved.getId());
     return new AccountResponse(
         saved.getUsername(), saved.getEmail(), AccountResponse.AccountStatus.CREATED);
   }

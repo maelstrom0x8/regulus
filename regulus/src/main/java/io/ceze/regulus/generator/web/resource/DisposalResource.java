@@ -27,8 +27,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
+
 
 @Path("v1/disposals")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,20 +36,20 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class DisposalResource {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DisposalResource.class);
+  private static final Logger LOG = Logger.getLogger(DisposalResource.class);
 
   @Inject private DisposalService disposalService;
 
   @POST
   public Response requestDisposal(@NotNull @Valid @RequestBody DisposalRequest request) {
     try {
-      LOG.info("Initiating new disposal request...");
-      LOG.info("request: {}", request);
+      LOG.infof("Initiating new disposal request...");
+      LOG.infof("request: {}", request);
       DisposalResponse response = disposalService.newDisposalRequest(request);
-      LOG.info("Disposal request successfully initiated");
+      LOG.infof("Disposal request successfully initiated");
       return Response.status(Response.Status.CREATED).entity(response).build();
     } catch (RuntimeException e) {
-      LOG.error("Error occurred while processing disposal request: {}", e.getMessage());
+      LOG.errorf("Error occurred while processing disposal request: {}", e.getMessage());
       return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
     }
   }
@@ -64,13 +64,13 @@ public class DisposalResource {
   @Path("/status/{id}")
   @Produces(MediaType.TEXT_PLAIN)
   public Response fetchDisposalStatus(@PathParam("id") Long id) {
-    LOG.info("Fetching status for disposal request with ID: {}", id);
+    LOG.infof("Fetching status for disposal request with ID: {}", id);
     DisposalStatus status = disposalService.getDisposalStatus(id);
     if (status != null) {
-      LOG.info("Disposal request found with ID: {}. Status: {}", id, status);
+      LOG.infof("Disposal request found with ID: {}. Status: {}", id, status);
       return Response.ok(status).build();
     } else {
-      LOG.warn("No disposal request found with ID: {}", id);
+      LOG.warnf("No disposal request found with ID: {}", id);
       return Response.status(Response.Status.NOT_FOUND).entity("No such disposal").build();
     }
   }

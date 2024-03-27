@@ -26,14 +26,14 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
+
 
 @Path("v1/accounts")
 @RequestScoped
 public class AccountResource {
 
-  private static final Logger LOG = LoggerFactory.getLogger(AccountResource.class);
+  private static final Logger LOG = Logger.getLogger(AccountResource.class);
 
   @Inject private AccountService accountService;
 

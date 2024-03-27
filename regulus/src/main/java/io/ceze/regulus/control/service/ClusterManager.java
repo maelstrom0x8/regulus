@@ -29,15 +29,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
+
 
 @ApplicationScoped
 public class ClusterManager {
 
   @Inject DispatchHandler dispatchHandler;
 
-  private static final Logger LOG = LoggerFactory.getLogger(ClusterManager.class);
+  private static final Logger LOG = Logger.getLogger(ClusterManager.class);
 
   private final Map<String, Cluster> clusterQueueMap = new ConcurrentHashMap<>();
   private final Map<String, Instant> clusterStartTimeMap = new ConcurrentHashMap<>();
@@ -46,7 +46,7 @@ public class ClusterManager {
 
   public ClusterManager() {
     Class<? extends DispatchHandler> handlerClass = dispatchHandler.getClass();
-    LOG.info("Dispatch managed by {}", handlerClass.getCanonicalName());
+    LOG.infof("Dispatch managed by {}", handlerClass.getCanonicalName());
     executorService.scheduleAtFixedRate(this::checkClusterWaitTimes, 1, 1, TimeUnit.MINUTES);
   }
 
@@ -84,7 +84,7 @@ public class ClusterManager {
       Duration elapsedTime = Duration.between(startTime, now);
 
       if (elapsedTime.compareTo(maxWaitTime) >= 0) {
-        LOG.info("Cluster {} wait-time expired", cluster);
+        LOG.infof("Cluster {} wait-time expired", cluster);
         dispatchCluster(cluster);
         clusterStartTimeMap.remove(cluster);
       }
@@ -93,7 +93,7 @@ public class ClusterManager {
 
   private void dispatchCluster(String clusterKey) {
     Cluster cluster = clusterQueueMap.remove(clusterKey);
-    LOG.info("Dispatching cluster {}", clusterKey);
+    LOG.infof("Dispatching cluster {}", clusterKey);
     dispatchHandler.dispatch(cluster);
   }
 
