@@ -14,8 +14,8 @@ git clone https://github.com/maelstrom0x8/regulus.git
 Build the project using Gradle:
 
 ```shell
-./gradlew build # Linux/Unix
-gradlew build # Windows
+./mvnw build # Linux/Unix
+mvn build # Windows
 ```
 Deploy the application using Payara Micro:
 
