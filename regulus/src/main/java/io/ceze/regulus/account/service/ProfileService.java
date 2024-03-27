@@ -24,6 +24,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Optional;
 
 @ApplicationScoped
 public class ProfileService {
@@ -40,15 +43,20 @@ public class ProfileService {
     this.user = accountRepository.findByUsername(name).orElseThrow();
   }
 
-  public ProfileDataResponse updateProfile(ProfileDataRequest request) {
-    user.setLocation(Location.from(request.location()));
-    user.setEmail(request.email());
-    user.setUsername(request.username());
+  public ProfileDataResponse updateProfile(String user, ProfileDataRequest request) {
+    Optional<User> optional = accountRepository.findByUsername(user);
+    if (optional.isPresent()) {
+      this.user.setLocation(Location.from(request.location()));
+      this.user.setEmail(request.email());
+      this.user.setUsername(request.username());
+    } else {
+      throw new RuntimeException("Can only update your profile");
+    }
 
-    return from(accountRepository.save(user));
+    return from(accountRepository.save(this.user));
   }
 
-  private ProfileDataResponse from(User user) {
+  private ProfileDataResponse from(@NotNull User user) {
     return new ProfileDataResponse(
         user.getUsername(),
         user.getFirstName(),

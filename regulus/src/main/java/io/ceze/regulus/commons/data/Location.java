@@ -17,6 +17,8 @@ package io.ceze.regulus.commons.data;
 
 import io.ceze.regulus.account.web.LocationData;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -43,7 +45,7 @@ public class Location implements Serializable {
     return new Location();
   }
 
-  public static LocationData from(Location location) {
+  public static LocationData from(@NotNull Location location) {
     return new LocationData(location.getCountry(), location.getState(), location.getCity());
   }
 

@@ -29,6 +29,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import io.ceze.regulus.account.web.AccountType;
+
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
 
@@ -41,7 +43,7 @@ class AccountServiceTest {
 
   @Test
   void registerAccount() {
-    AccountRequest accountRequest = new AccountRequest("alan", "secret", null);
+    AccountRequest accountRequest = new AccountRequest("alan", "secret", "alan@regulus.com", AccountType.BASIC);
     User user =
         new User(accountRequest.username(), accountRequest.password(), accountRequest.email());
     Mockito.when(userRepository.save(user)).thenReturn(user);

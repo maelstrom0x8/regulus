@@ -15,4 +15,6 @@
  */
 package io.ceze.regulus.account.web;
 
-public record ProfileDataRequest(String username, String email, LocationData location) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record ProfileDataRequest(@NotBlank String username, @NotBlank String email, LocationData location) {}

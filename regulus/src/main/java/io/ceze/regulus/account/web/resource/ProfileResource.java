@@ -37,6 +37,7 @@ public class ProfileResource {
   @POST
   @Path("/update-profile")
   public Response updateProfile(@PathParam("user") String user, ProfileDataRequest request) {
+    var result = profileService.updateProfile(user, request);
     return Response.status(Response.Status.ACCEPTED).build();
   }
 }

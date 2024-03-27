@@ -15,6 +15,6 @@
  */
 package io.ceze.regulus.commons.data;
 
-import io.ceze.regulus.AbstractIT;
+class JpaRepositoryTest {
 
-class JpaRepositoryTest extends AbstractIT {}
+}

@@ -15,10 +15,9 @@
  */
 package io.ceze.regulus.generator.repository;
 
-import io.ceze.regulus.AbstractIT;
 import org.junit.jupiter.api.Test;
 
-class DisposalRepositoryTest extends AbstractIT {
+class DisposalRepositoryTest {
 
   @Test
   void findByLocationId() {}
