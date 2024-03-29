@@ -16,6 +16,7 @@
 package io.ceze.regulus.generator.model;
 
 import io.ceze.regulus.commons.data.BaseEntity;
+import io.ceze.regulus.commons.data.Location;
 import io.ceze.regulus.generator.service.DisposalStatus;
 import jakarta.persistence.*;
 
@@ -29,10 +30,18 @@ public class Disposal extends BaseEntity {
   private Long id;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "label")
   private Label label;
 
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
   private DisposalStatus status;
+
   private DisposalInfo disposalInfo;
+
+  @ManyToOne
+  @JoinColumn(name = "location_id")
+  private Location location;
 
   public Disposal() {}
 
@@ -68,5 +77,17 @@ public class Disposal extends BaseEntity {
 
   public void setDisposalInfo(DisposalInfo disposalInfo) {
     this.disposalInfo = disposalInfo;
+  }
+
+  public void setId(long l) {
+    this.id = l;
+  }
+
+  public Location getLocation() {
+    return location;
+  }
+
+  public void setLocation(Location location) {
+    this.location = location;
   }
 }

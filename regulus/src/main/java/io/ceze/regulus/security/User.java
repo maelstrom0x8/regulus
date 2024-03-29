@@ -27,22 +27,23 @@ public class User extends BaseEntity {
 
   @Id @GeneratedValue private Long id;
 
-  @Column(length = 32)
+  @Column(name = "first_name", length = 32)
   private String firstName;
 
-  @Column(length = 32)
+  @Column(name = "last_name", length = 32)
   private String lastName;
 
-  @OneToOne(optional = true, cascade = CascadeType.ALL)
-  @JoinColumn(name = "location_id", referencedColumnName = "location_id")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "location_id")
   private Location location;
 
-  @Column(length = 12, nullable = false)
+  @Column(name = "username", length = 12, nullable = false, unique = true)
   private String username;
 
-  @Column(nullable = false)
+  @Column(name = "password", nullable = false)
   private String password;
 
+  @Column(name = "email")
   @Email private String email;
 
   public User() {}

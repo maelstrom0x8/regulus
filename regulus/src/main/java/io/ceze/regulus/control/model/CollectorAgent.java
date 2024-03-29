@@ -16,6 +16,7 @@
 package io.ceze.regulus.control.model;
 
 import io.ceze.regulus.commons.data.BaseEntity;
+import io.ceze.regulus.commons.data.Location;
 import jakarta.persistence.*;
 import java.util.UUID;
 
@@ -29,6 +30,10 @@ public class CollectorAgent extends BaseEntity {
   private UUID id;
 
   private boolean available;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "location_id")
+  private Location location;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "collector_id", nullable = false)
@@ -58,5 +63,13 @@ public class CollectorAgent extends BaseEntity {
 
   public void setCollector(Collector collector) {
     this.collector = collector;
+  }
+
+  public Location getLocation() {
+    return location;
+  }
+
+  public void setLocation(Location location) {
+    this.location = location;
   }
 }

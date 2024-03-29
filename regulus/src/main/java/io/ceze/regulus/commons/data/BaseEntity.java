@@ -19,20 +19,16 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+
 @MappedSuperclass
 public class BaseEntity implements Serializable {
-
-  @ManyToOne(
-      fetch = FetchType.EAGER,
-      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-  @JoinColumn(name = "location_id")
-  protected Location location;
 
   @Column(name = "created_at")
   protected LocalDateTime createdAt;
 
   @Column(name = "last_modified")
   protected LocalDateTime lastModified;
+
 
   @PrePersist
   public void onPersist() {
@@ -46,12 +42,4 @@ public class BaseEntity implements Serializable {
   }
 
   public BaseEntity() {}
-
-  public Location getLocation() {
-    return location;
-  }
-
-  public void setLocation(Location location) {
-    this.location = location;
-  }
 }

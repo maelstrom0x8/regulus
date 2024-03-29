@@ -31,18 +31,28 @@ public class Location implements Serializable {
   @GeneratedValue
   private Long id;
 
+  @Column(name = "number")
   private int number;
+  @Column(name = "street")
   private String street;
+  @Column(name = "city")
   private String city;
+  @Column(name = "state")
   private String state;
+  @Column(name = "country")
   private String country;
+  @Column(name = "zip_code")
   private String zipCode;
 
   @Column(name = "registered_at", columnDefinition = "TIMESTAMP")
   private LocalDateTime registeredAt;
 
-  public static Location from(LocationData location) {
-    return new Location();
+  public static Location from(LocationData locationData) {
+    Location location = new Location();
+    location.setCity(locationData.city());
+    location.setState(locationData.state());
+    location.setCountry(locationData.country());
+    return location;
   }
 
   public static LocationData from(@NotNull Location location) {
@@ -121,4 +131,8 @@ public class Location implements Serializable {
   public LocalDateTime getRegisteredAt() {
     return registeredAt;
   }
+
+    public void setId(long l) {
+      this.id = l;
+    }
 }

@@ -16,12 +16,16 @@
 package io.ceze.regulus.generator.model;
 
 import io.ceze.regulus.generator.web.Priority;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class DisposalInfo {
 
+  @Column(name = "weight")
   private int weight;
+
+  @Column(name = "priority")
   private Priority priority;
 
   public DisposalInfo() {}
