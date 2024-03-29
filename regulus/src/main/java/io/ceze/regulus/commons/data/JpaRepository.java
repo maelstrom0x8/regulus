@@ -75,6 +75,10 @@ public abstract class JpaRepository<T, U> implements Repository<T, U> {
     }
   }
 
+  public void update(T t) {
+    em.merge(t);
+  }
+
   public void setEntityManager(EntityManager em) {
     this.em = em;
   }

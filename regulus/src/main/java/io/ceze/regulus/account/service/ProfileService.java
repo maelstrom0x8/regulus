@@ -19,6 +19,7 @@ import io.ceze.regulus.account.repository.AccountRepository;
 import io.ceze.regulus.account.web.ProfileDataRequest;
 import io.ceze.regulus.account.web.ProfileDataResponse;
 import io.ceze.regulus.commons.data.Location;
+import io.ceze.regulus.commons.data.LocationRepository;
 import io.ceze.regulus.security.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,45 +27,45 @@ import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Optional;
-
 @ApplicationScoped
 public class ProfileService {
 
-  @Inject private AccountRepository accountRepository;
+    @Inject
+    private AccountRepository accountRepository;
 
-  @Inject SecurityContext securityContext;
+    @Inject
+    SecurityContext securityContext;
 
-  private User user;
+    @Inject
+    LocationRepository locationRepository;
 
-  @PostConstruct
-  void loadUser() {
-    String name = securityContext.getCallerPrincipal().getName();
-    this.user = accountRepository.findByUsername(name).orElseThrow();
-  }
+    private User user;
 
-  public ProfileDataResponse updateProfile(String user, ProfileDataRequest request) {
-    Optional<User> optional = accountRepository.findByUsername(user);
-    if (optional.isPresent()) {
-      this.user.setLocation(Location.from(request.location()));
-      this.user.setEmail(request.email());
-      this.user.setUsername(request.username());
-    } else {
-      throw new RuntimeException("Can only update your profile");
+    @PostConstruct
+    public void initializeUser() {
+        String name = securityContext.getCallerPrincipal().getName();
+        this.user = accountRepository.findByUsername(name).orElseThrow();
     }
 
-    return from(accountRepository.save(this.user));
-  }
+    public ProfileDataResponse updateProfile(String user, ProfileDataRequest request) {
+        Location location = Location.from(request.location());
+        locationRepository.save(location);
+        this.user.setLocation(location);
+        this.user.setEmail(request.email());
+        this.user.setUsername(request.username());
+        accountRepository.update(this.user);
+        return from(this.user);
+    }
 
-  private ProfileDataResponse from(@NotNull User user) {
-    return new ProfileDataResponse(
-        user.getUsername(),
-        user.getFirstName(),
-        user.getLastName(),
-        Location.from(user.getLocation()));
-  }
+    private ProfileDataResponse from(@NotNull User user) {
+        return new ProfileDataResponse(
+            user.getUsername(),
+            user.getFirstName(),
+            user.getLastName(),
+            Location.from(user.getLocation()));
+    }
 
-  public ProfileDataResponse getProfile() {
-    return from(user);
-  }
+    public ProfileDataResponse getProfile() {
+        return from(user);
+    }
 }

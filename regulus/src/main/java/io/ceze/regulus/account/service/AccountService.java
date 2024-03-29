@@ -23,10 +23,9 @@ import io.ceze.regulus.commons.exception.UserNotFoundException;
 import io.ceze.regulus.security.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.security.enterprise.SecurityContext;
+import jakarta.security.enterprise.identitystore.openid.OpenIdContext;
 import org.jboss.logging.Logger;
 
-import java.security.Principal;
 import javax.security.auth.login.AccountNotFoundException;
 
 
@@ -38,7 +37,8 @@ public class AccountService {
   @Inject private AccountRepository userRepository;
   @Inject private LocationRepository locationRepository;
 
-  @Inject SecurityContext securityContext;
+  @Inject
+  OpenIdContext securityContext;
 
   public AccountResponse registerAccount(AccountRequest accountRequest) {
     LOG.infof("Register new user {}", accountRequest);
@@ -52,11 +52,10 @@ public class AccountService {
   }
 
   public void updatePassword(String newPassword) throws AccountNotFoundException {
-    Principal principal = securityContext.getCallerPrincipal();
-    if (principal == null) return;
+    String subject = securityContext.getSubject();
     User user =
         userRepository
-            .findByUsername(principal.getName())
+            .findByUsername(subject)
             .orElseThrow(AccountNotFoundException::new);
 
     user.setPassword(newPassword);
@@ -64,15 +63,17 @@ public class AccountService {
   }
 
   public void deleteAccount() throws AccountNotFoundException {
-    String name = securityContext.getCallerPrincipal().getName();
+    String name = securityContext.getSubject();
     User user = userRepository.findByUsername(name).orElseThrow(AccountNotFoundException::new);
 
     userRepository.deleteById(user.getId());
   }
 
   public User loadByUsername(String username) {
-    return userRepository
+    User user = userRepository
         .findByUsername(username)
-        .orElseThrow(() -> new UserNotFoundException("User does not exist"));
+        .orElseThrow(UserNotFoundException::new);
+    LOG.infof("Found user %s", user.getUsername());
+    return user;
   }
 }

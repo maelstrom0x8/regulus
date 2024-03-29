@@ -15,7 +15,4 @@
  */
 package io.ceze.regulus.account.repository;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
 class AccountRepositoryImpl extends AccountRepository {}
