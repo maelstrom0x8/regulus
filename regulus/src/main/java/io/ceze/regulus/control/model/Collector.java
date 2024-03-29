@@ -18,75 +18,75 @@ package io.ceze.regulus.control.model;
 import io.ceze.regulus.commons.data.BaseEntity;
 import io.ceze.regulus.commons.data.Location;
 import jakarta.persistence.*;
-
 import java.util.Set;
 
 @Entity
 @Table(name = "collectors")
 public class Collector extends BaseEntity {
 
-  @Id
-  @Column(name = "collector_id")
-  @GeneratedValue
-  private Long id;
+    @Id
+    @Column(name = "collector_id")
+    @GeneratedValue
+    private Long id;
 
-  @Column(name = "name")
-  private String name;
-  @Column(name = "available")
-  private boolean available;
+    @Column(name = "name")
+    private String name;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "location_id")
-  private Location location;
+    @Column(name = "available")
+    private boolean available;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "collector")
-  private Set<CollectorAgent> collectorAgents;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
+    private Location location;
 
-  public Collector() {}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "collector")
+    private Set<CollectorAgent> collectorAgents;
 
-  public Collector(String name, boolean available) {
-    this.name = name;
-    this.available = available;
-  }
+    public Collector() {}
 
-  public Collector(String name) {
-    this.name = name;
-    this.available = false;
-  }
+    public Collector(String name, boolean available) {
+        this.name = name;
+        this.available = available;
+    }
 
-  public Long getId() {
-    return id;
-  }
+    public Collector(String name) {
+        this.name = name;
+        this.available = false;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public boolean isAvailable() {
-    return available;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setAvailable(boolean available) {
-    this.available = available;
-  }
+    public boolean isAvailable() {
+        return available;
+    }
 
-  public Set<CollectorAgent> getCollectorAgents() {
-    return collectorAgents;
-  }
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 
-  public void setCollectorAgents(Set<CollectorAgent> collectorAgents) {
-    this.collectorAgents = collectorAgents;
-  }
+    public Set<CollectorAgent> getCollectorAgents() {
+        return collectorAgents;
+    }
 
-  public Location getLocation() {
-    return location;
-  }
+    public void setCollectorAgents(Set<CollectorAgent> collectorAgents) {
+        this.collectorAgents = collectorAgents;
+    }
 
-  public void setLocation(Location location) {
-    this.location = location;
-  }
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }

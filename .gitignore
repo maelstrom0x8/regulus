@@ -174,3 +174,6 @@ buildNumber.properties
 
 # Built Visual Studio Code Extensions
 *.vsix
+google.client.json
+deploy.sh
+regulus (1).iml

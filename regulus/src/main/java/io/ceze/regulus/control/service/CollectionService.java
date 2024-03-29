@@ -22,13 +22,13 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class CollectionService {
 
-  @Inject private ClusterManager clusterManager;
+    @Inject private ClusterManager clusterManager;
 
-  public void handleDisposal(Disposal disposal) {
-    clusterManager.add(disposal);
-    /*
-    * TODO: Support notification for users in close proximity
-    *  with the disposal request
-    */
-  }
+    public void handleDisposal(Disposal disposal) {
+        clusterManager.add(disposal);
+        /*
+         * TODO: Support notification for users in close proximity
+         *  with the disposal request
+         */
+    }
 }

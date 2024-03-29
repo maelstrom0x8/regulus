@@ -24,52 +24,52 @@ import java.util.UUID;
 @Table(name = "agents")
 public class CollectorAgent extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name = "agent_id")
-  private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "agent_id")
+    private UUID id;
 
-  private boolean available;
+    private boolean available;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "location_id")
-  private Location location;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
+    private Location location;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "collector_id", nullable = false)
-  private Collector collector;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collector_id", nullable = false)
+    private Collector collector;
 
-  public CollectorAgent() {}
+    public CollectorAgent() {}
 
-  public CollectorAgent(Collector collector) {
-    this.collector = collector;
-  }
+    public CollectorAgent(Collector collector) {
+        this.collector = collector;
+    }
 
-  public UUID getId() {
-    return id;
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public boolean isAvailable() {
-    return available;
-  }
+    public boolean isAvailable() {
+        return available;
+    }
 
-  public void setAvailable(boolean available) {
-    this.available = available;
-  }
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 
-  public Collector getCollector() {
-    return collector;
-  }
+    public Collector getCollector() {
+        return collector;
+    }
 
-  public void setCollector(Collector collector) {
-    this.collector = collector;
-  }
+    public void setCollector(Collector collector) {
+        this.collector = collector;
+    }
 
-  public Location getLocation() {
-    return location;
-  }
+    public Location getLocation() {
+        return location;
+    }
 
-  public void setLocation(Location location) {
-    this.location = location;
-  }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }

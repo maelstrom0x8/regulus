@@ -21,8 +21,6 @@ import io.ceze.regulus.generator.model.Disposal;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
-import org.jboss.logging.Logger;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
@@ -30,72 +28,72 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
+import org.jboss.logging.Logger;
 
 public class ClusterManager {
 
-  @Inject NoopDispatchHandler dispatchHandler;
+    @Inject NoopDispatchHandler dispatchHandler;
 
-  private static final Logger LOG = Logger.getLogger(ClusterManager.class);
+    private static final Logger LOG = Logger.getLogger(ClusterManager.class);
 
-  private final Map<String, Cluster> clusterQueueMap = new ConcurrentHashMap<>();
-  private final Map<String, Instant> clusterStartTimeMap = new ConcurrentHashMap<>();
-  private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-  private final Duration maxWaitTime = Duration.ofMinutes(1); // TODO: Externalize this
+    private final Map<String, Cluster> clusterQueueMap = new ConcurrentHashMap<>();
+    private final Map<String, Instant> clusterStartTimeMap = new ConcurrentHashMap<>();
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+    private final Duration maxWaitTime = Duration.ofMinutes(1); // TODO: Externalize this
 
-  public ClusterManager() {
-    executorService.scheduleAtFixedRate(this::checkClusterWaitTimes, 1, 1, TimeUnit.MINUTES);
-  }
-
-  public void add(@NotNull Disposal disposal) {
-    Location location = disposal.getLocation();
-    if (contains(location)) return;
-
-    String cluster = String.format("%s-%d", location.getCity(), location.getId());
-
-    Cluster disposalRequests = clusterQueueMap.computeIfAbsent(cluster, Cluster::new);
-    disposalRequests.add(disposal);
-    clusterStartTimeMap.putIfAbsent(cluster, Instant.now());
-  }
-
-  public Cluster get(@NotNull String cluster) {
-    return clusterQueueMap.get(cluster);
-  }
-
-  /**
-   * @param location Location of a request
-   * @return true if a location is in a cluster otherwise false
-   */
-  public boolean contains(@NotNull Location location) {
-    return clusterQueueMap.values().stream()
-        .flatMap(c -> c.getRequestQueue().stream())
-        .map(Disposal::getLocation)
-        .anyMatch(e -> e.getId().equals(location.getId()));
-  }
-
-  private void checkClusterWaitTimes() {
-    Instant now = Instant.now();
-    for (Map.Entry<String, Instant> entry : clusterStartTimeMap.entrySet()) {
-      String cluster = entry.getKey();
-      Instant startTime = entry.getValue();
-      Duration elapsedTime = Duration.between(startTime, now);
-
-      if (elapsedTime.compareTo(maxWaitTime) >= 0) {
-        LOG.infof("Cluster %s wait-time expired", cluster);
-        dispatchCluster(cluster);
-        clusterStartTimeMap.remove(cluster);
-      }
+    public ClusterManager() {
+        executorService.scheduleAtFixedRate(this::checkClusterWaitTimes, 1, 1, TimeUnit.MINUTES);
     }
-  }
 
-  private void dispatchCluster(String clusterKey) {
-    Cluster cluster = clusterQueueMap.remove(clusterKey);
-    LOG.infof("Dispatching cluster %s", clusterKey);
-    dispatchHandler.dispatch(cluster);
-  }
+    public void add(@NotNull Disposal disposal) {
+        Location location = disposal.getLocation();
+        if (contains(location)) return;
 
-  @PreDestroy
-  public void shutdown() {
-    executorService.shutdown();
-  }
+        String cluster = String.format("%s-%d", location.getCity(), location.getId());
+
+        Cluster disposalRequests = clusterQueueMap.computeIfAbsent(cluster, Cluster::new);
+        disposalRequests.add(disposal);
+        clusterStartTimeMap.putIfAbsent(cluster, Instant.now());
+    }
+
+    public Cluster get(@NotNull String cluster) {
+        return clusterQueueMap.get(cluster);
+    }
+
+    /**
+     * @param location Location of a request
+     * @return true if a location is in a cluster otherwise false
+     */
+    public boolean contains(@NotNull Location location) {
+        return clusterQueueMap.values().stream()
+                .flatMap(c -> c.getRequestQueue().stream())
+                .map(Disposal::getLocation)
+                .anyMatch(e -> e.getId().equals(location.getId()));
+    }
+
+    private void checkClusterWaitTimes() {
+        Instant now = Instant.now();
+        for (Map.Entry<String, Instant> entry : clusterStartTimeMap.entrySet()) {
+            String cluster = entry.getKey();
+            Instant startTime = entry.getValue();
+            Duration elapsedTime = Duration.between(startTime, now);
+
+            if (elapsedTime.compareTo(maxWaitTime) >= 0) {
+                LOG.infof("Cluster %s wait-time expired", cluster);
+                dispatchCluster(cluster);
+                clusterStartTimeMap.remove(cluster);
+            }
+        }
+    }
+
+    private void dispatchCluster(String clusterKey) {
+        Cluster cluster = clusterQueueMap.remove(clusterKey);
+        LOG.infof("Dispatching cluster %s", clusterKey);
+        dispatchHandler.dispatch(cluster);
+    }
+
+    @PreDestroy
+    public void shutdown() {
+        executorService.shutdown();
+    }
 }

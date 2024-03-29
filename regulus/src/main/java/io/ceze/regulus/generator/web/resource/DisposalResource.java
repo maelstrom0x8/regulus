@@ -29,49 +29,48 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jboss.logging.Logger;
 
-
 @Path("v1/disposals")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class DisposalResource {
 
-  private static final Logger LOG = Logger.getLogger(DisposalResource.class);
+    private static final Logger LOG = Logger.getLogger(DisposalResource.class);
 
-  @Inject private DisposalService disposalService;
+    @Inject private DisposalService disposalService;
 
-  @POST
-  public Response requestDisposal(@NotNull @Valid @RequestBody DisposalRequest request) {
-//    try {
-      LOG.infof("Initiating new disposal request...");
-      LOG.infof("request: %s", request);
-      DisposalResponse response = disposalService.newDisposalRequest(request);
-      LOG.infof("Disposal request successfully initiated");
-      return Response.status(Response.Status.CREATED).entity(response).build();
-//    } catch (RuntimeException e) {
-//      LOG.errorf("Error occurred while processing disposal request: %s", e.getMessage());
-//      return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-//    }
-  }
-
-  /**
-   * Fetches the status of a disposal request with the specified ID.
-   *
-   * @param id the ID of the disposal request
-   * @return a {@code Response} with the status of the disposal request
-   */
-  @GET
-  @Path("/status/{id}")
-  @Produces(MediaType.TEXT_PLAIN)
-  public Response fetchDisposalStatus(@PathParam("id") Long id) {
-    LOG.infof("Fetching status for disposal request with ID: {}", id);
-    DisposalStatus status = disposalService.getDisposalStatus(id);
-    if (status != null) {
-      LOG.infof("Disposal request found with ID: {}. Status: {}", id, status);
-      return Response.ok(status).build();
-    } else {
-      LOG.warnf("No disposal request found with ID: {}", id);
-      return Response.status(Response.Status.NOT_FOUND).entity("No such disposal").build();
+    @POST
+    public Response requestDisposal(@NotNull @Valid @RequestBody DisposalRequest request) {
+        //    try {
+        LOG.infof("Initiating new disposal request...");
+        LOG.infof("request: %s", request);
+        DisposalResponse response = disposalService.newDisposalRequest(request);
+        LOG.infof("Disposal request successfully initiated");
+        return Response.status(Response.Status.CREATED).entity(response).build();
+        //    } catch (RuntimeException e) {
+        //      LOG.errorf("Error occurred while processing disposal request: %s", e.getMessage());
+        //      return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        //    }
     }
-  }
+
+    /**
+     * Fetches the status of a disposal request with the specified ID.
+     *
+     * @param id the ID of the disposal request
+     * @return a {@code Response} with the status of the disposal request
+     */
+    @GET
+    @Path("/status/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response fetchDisposalStatus(@PathParam("id") Long id) {
+        LOG.infof("Fetching status for disposal request with ID: {}", id);
+        DisposalStatus status = disposalService.getDisposalStatus(id);
+        if (status != null) {
+            LOG.infof("Disposal request found with ID: {}. Status: {}", id, status);
+            return Response.ok(status).build();
+        } else {
+            LOG.warnf("No disposal request found with ID: {}", id);
+            return Response.status(Response.Status.NOT_FOUND).entity("No such disposal").build();
+        }
+    }
 }

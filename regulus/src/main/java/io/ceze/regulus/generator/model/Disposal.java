@@ -24,70 +24,70 @@ import jakarta.persistence.*;
 @Table(name = "disposals")
 public class Disposal extends BaseEntity {
 
-  @Id
-  @Column(name = "disposal_id")
-  @GeneratedValue
-  private Long id;
+    @Id
+    @Column(name = "disposal_id")
+    @GeneratedValue
+    private Long id;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "label")
-  private Label label;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "label")
+    private Label label;
 
-  @Column(name = "status")
-  @Enumerated(EnumType.STRING)
-  private DisposalStatus status;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private DisposalStatus status;
 
-  private DisposalInfo disposalInfo;
+    private DisposalInfo disposalInfo;
 
-  @ManyToOne
-  @JoinColumn(name = "location_id")
-  private Location location;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
-  public Disposal() {}
+    public Disposal() {}
 
-  public Disposal(Label label, DisposalStatus status, DisposalInfo disposerInfo) {
-    this.label = label;
-    this.status = status;
-    this.disposalInfo = disposerInfo;
-  }
+    public Disposal(Label label, DisposalStatus status, DisposalInfo disposerInfo) {
+        this.label = label;
+        this.status = status;
+        this.disposalInfo = disposerInfo;
+    }
 
-  public Long getId() {
-    return id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public Label getLabel() {
-    return label;
-  }
+    public Label getLabel() {
+        return label;
+    }
 
-  public void setLabel(Label label) {
-    this.label = label;
-  }
+    public void setLabel(Label label) {
+        this.label = label;
+    }
 
-  public DisposalStatus getStatus() {
-    return status;
-  }
+    public DisposalStatus getStatus() {
+        return status;
+    }
 
-  public void setStatus(DisposalStatus status) {
-    this.status = status;
-  }
+    public void setStatus(DisposalStatus status) {
+        this.status = status;
+    }
 
-  public DisposalInfo getDisposalInfo() {
-    return disposalInfo;
-  }
+    public DisposalInfo getDisposalInfo() {
+        return disposalInfo;
+    }
 
-  public void setDisposalInfo(DisposalInfo disposalInfo) {
-    this.disposalInfo = disposalInfo;
-  }
+    public void setDisposalInfo(DisposalInfo disposalInfo) {
+        this.disposalInfo = disposalInfo;
+    }
 
-  public void setId(long l) {
-    this.id = l;
-  }
+    public void setId(long l) {
+        this.id = l;
+    }
 
-  public Location getLocation() {
-    return location;
-  }
+    public Location getLocation() {
+        return location;
+    }
 
-  public void setLocation(Location location) {
-    this.location = location;
-  }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }

@@ -30,14 +30,11 @@ import jakarta.validation.constraints.NotNull;
 @ApplicationScoped
 public class ProfileService {
 
-    @Inject
-    private AccountRepository accountRepository;
+    @Inject private AccountRepository accountRepository;
 
-    @Inject
-    SecurityContext securityContext;
+    @Inject SecurityContext securityContext;
 
-    @Inject
-    LocationRepository locationRepository;
+    @Inject LocationRepository locationRepository;
 
     private User user;
 
@@ -59,10 +56,10 @@ public class ProfileService {
 
     private ProfileDataResponse from(@NotNull User user) {
         return new ProfileDataResponse(
-            user.getUsername(),
-            user.getFirstName(),
-            user.getLastName(),
-            Location.from(user.getLocation()));
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                Location.from(user.getLocation()));
     }
 
     public ProfileDataResponse getProfile() {

@@ -24,45 +24,44 @@ import io.ceze.regulus.integration.geo.PointToPoint;
 import io.ceze.regulus.integration.geo.Route;
 import io.ceze.regulus.integration.geo.RouteFinder;
 import jakarta.inject.Inject;
-
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 public class RegulusDispatchHandler {
 
-  @Inject CollectorRepository collectorRepository;
+    @Inject CollectorRepository collectorRepository;
 
-  @Inject RouteFinder routeFinder;
+    @Inject RouteFinder routeFinder;
 
-  public void dispatch(Cluster cluster) {
-    Set<CollectorAgent> collectorAgents = checkAvailableAgents(cluster.getCity());
-    CollectorAgent nearestAgent = getNearestAgent(collectorAgents, cluster.getOrigin());
-    PointToPoint route =
-        (PointToPoint)
-            routeFinder.find(
-                GeoData.from(nearestAgent.getLocation()), GeoData.from(cluster.getOrigin()));
+    public void dispatch(Cluster cluster) {
+        Set<CollectorAgent> collectorAgents = checkAvailableAgents(cluster.getCity());
+        CollectorAgent nearestAgent = getNearestAgent(collectorAgents, cluster.getOrigin());
+        PointToPoint route =
+                (PointToPoint)
+                        routeFinder.find(
+                                GeoData.from(nearestAgent.getLocation()),
+                                GeoData.from(cluster.getOrigin()));
 
-    ArrayDeque<GeoData> geoPoints =
-        cluster.getRequestQueue().stream()
-            .filter(f -> f.getLocation() != cluster.getOrigin())
-            .map(e -> GeoData.from(e.getLocation()))
-            .collect(Collectors.toCollection(ArrayDeque::new));
+        ArrayDeque<GeoData> geoPoints =
+                cluster.getRequestQueue().stream()
+                        .filter(f -> f.getLocation() != cluster.getOrigin())
+                        .map(e -> GeoData.from(e.getLocation()))
+                        .collect(Collectors.toCollection(ArrayDeque::new));
 
-    Route plannedRoute = routeFinder.find(route.destination(), geoPoints);
-  }
+        Route plannedRoute = routeFinder.find(route.destination(), geoPoints);
+    }
 
-  private Set<CollectorAgent> checkAvailableAgents(String city) {
-    return collectorRepository.findAllByCity(city).stream()
-        .filter(e -> e.getLocation().getCity().equals(city))
-        .flatMap(e -> e.getCollectorAgents().stream())
-        .filter(CollectorAgent::isAvailable)
-        .collect(Collectors.toSet());
-  }
+    private Set<CollectorAgent> checkAvailableAgents(String city) {
+        return collectorRepository.findAllByCity(city).stream()
+                .filter(e -> e.getLocation().getCity().equals(city))
+                .flatMap(e -> e.getCollectorAgents().stream())
+                .filter(CollectorAgent::isAvailable)
+                .collect(Collectors.toSet());
+    }
 
-  CollectorAgent getNearestAgent(Collection<CollectorAgent> agents, Location location) {
-    return null;
-  }
+    CollectorAgent getNearestAgent(Collection<CollectorAgent> agents, Location location) {
+        return null;
+    }
 }

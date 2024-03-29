@@ -21,23 +21,23 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
 
-
 class NoopDispatchHandler {
 
-  private static final Logger LOG = Logger.getLogger(NoopDispatchHandler.class);
+    private static final Logger LOG = Logger.getLogger(NoopDispatchHandler.class);
 
-  @Inject
-  private Event<CollectionEvent> event;
+    @Inject private Event<CollectionEvent> event;
 
-  public NoopDispatchHandler() {
-    LOG.warn("Dispatching provider by {noop}");
-  }
+    public NoopDispatchHandler() {
+        LOG.warn("Dispatching provider by {noop}");
+    }
 
-  public void dispatch(Cluster cluster) {
-    LOG.infof("Dispatch agents candidate cluster %s", cluster.getRequestQueue());
-    cluster.getRequestQueue().forEach(e ->{
-      e.setStatus(DisposalStatus.DISPOSED);
-      event.fire(new CollectionEvent(CollectionEventType.PROCESSED, e));
-    });
-  }
+    public void dispatch(Cluster cluster) {
+        LOG.infof("Dispatch agents candidate cluster %s", cluster.getRequestQueue());
+        cluster.getRequestQueue()
+                .forEach(
+                        e -> {
+                            e.setStatus(DisposalStatus.DISPOSED);
+                            event.fire(new CollectionEvent(CollectionEventType.PROCESSED, e));
+                        });
+    }
 }

@@ -22,10 +22,10 @@ import io.ceze.regulus.generator.web.DisposalRequest;
 public interface DisposalService {
 
     DisposalResponse newDisposalRequest(DisposalRequest request)
-        throws LocationNotFoundException, UserNotFoundException;
+            throws LocationNotFoundException, UserNotFoundException;
 
     DisposalStatus getDisposalStatus(Long disposalId)
-        throws LocationNotFoundException, UserNotFoundException;
+            throws LocationNotFoundException, UserNotFoundException;
 
     void update(Disposal disposal);
 }

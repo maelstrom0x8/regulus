@@ -19,27 +19,25 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
-  @Column(name = "created_at")
-  protected LocalDateTime createdAt;
+    @Column(name = "created_at")
+    protected LocalDateTime createdAt;
 
-  @Column(name = "last_modified")
-  protected LocalDateTime lastModified;
+    @Column(name = "last_modified")
+    protected LocalDateTime lastModified;
 
+    @PrePersist
+    public void onPersist() {
+        this.createdAt = LocalDateTime.now();
+        this.lastModified = LocalDateTime.now();
+    }
 
-  @PrePersist
-  public void onPersist() {
-    this.createdAt = LocalDateTime.now();
-    this.lastModified = LocalDateTime.now();
-  }
+    @PreUpdate
+    public void onUpdate() {
+        this.lastModified = LocalDateTime.now();
+    }
 
-  @PreUpdate
-  public void onUpdate() {
-    this.lastModified = LocalDateTime.now();
-  }
-
-  public BaseEntity() {}
+    public BaseEntity() {}
 }

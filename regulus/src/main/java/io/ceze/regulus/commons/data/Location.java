@@ -18,7 +18,6 @@ package io.ceze.regulus.commons.data;
 import io.ceze.regulus.account.web.LocationData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,113 +25,118 @@ import java.time.LocalDateTime;
 @Table(name = "locations")
 public class Location implements Serializable {
 
-  @Id
-  @Column(name = "location_id")
-  @GeneratedValue
-  private Long id;
+    @Id
+    @Column(name = "location_id")
+    @GeneratedValue
+    private Long id;
 
-  @Column(name = "number")
-  private int number;
-  @Column(name = "street")
-  private String street;
-  @Column(name = "city")
-  private String city;
-  @Column(name = "state")
-  private String state;
-  @Column(name = "country")
-  private String country;
-  @Column(name = "zip_code")
-  private String zipCode;
+    @Column(name = "number")
+    private int number;
 
-  @Column(name = "registered_at", columnDefinition = "TIMESTAMP")
-  private LocalDateTime registeredAt;
+    @Column(name = "street")
+    private String street;
 
-  public static Location from(LocationData locationData) {
-    Location location = new Location();
-    location.setCity(locationData.city());
-    location.setState(locationData.state());
-    location.setCountry(locationData.country());
-    return location;
-  }
+    @Column(name = "city")
+    private String city;
 
-  public static LocationData from(@NotNull Location location) {
-    return new LocationData(location.getCountry(), location.getState(), location.getCity());
-  }
+    @Column(name = "state")
+    private String state;
 
-  @PrePersist
-  public void onPersist() {
-    registeredAt = LocalDateTime.now();
-  }
+    @Column(name = "country")
+    private String country;
 
-  public Location() {}
+    @Column(name = "zip_code")
+    private String zipCode;
 
-  public Location(
-      int number, String street, String city, String state, String country, String zipCode) {
-    this.number = number;
-    this.street = street;
-    this.city = city;
-    this.state = state;
-    this.country = country;
-    this.zipCode = zipCode;
-  }
+    @Column(name = "registered_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime registeredAt;
 
-  public Long getId() {
-    return id;
-  }
+    public static Location from(LocationData locationData) {
+        Location location = new Location();
+        location.setCity(locationData.city());
+        location.setState(locationData.state());
+        location.setCountry(locationData.country());
+        return location;
+    }
 
-  public int getNumber() {
-    return number;
-  }
+    public static LocationData from(@NotNull Location location) {
+        return new LocationData(location.getCountry(), location.getState(), location.getCity());
+    }
 
-  public void setNumber(int number) {
-    this.number = number;
-  }
+    @PrePersist
+    public void onPersist() {
+        registeredAt = LocalDateTime.now();
+    }
 
-  public String getStreet() {
-    return street;
-  }
+    public Location() {}
 
-  public void setStreet(String street) {
-    this.street = street;
-  }
+    public Location(
+            int number, String street, String city, String state, String country, String zipCode) {
+        this.number = number;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipCode = zipCode;
+    }
 
-  public String getCity() {
-    return city;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setCity(String city) {
-    this.city = city;
-  }
+    public int getNumber() {
+        return number;
+    }
 
-  public String getState() {
-    return state;
-  }
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
-  public void setState(String state) {
-    this.state = state;
-  }
+    public String getStreet() {
+        return street;
+    }
 
-  public String getCountry() {
-    return country;
-  }
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-  public void setCountry(String country) {
-    this.country = country;
-  }
+    public String getCity() {
+        return city;
+    }
 
-  public String getZipCode() {
-    return zipCode;
-  }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-  public void setZipCode(String zipCode) {
-    this.zipCode = zipCode;
-  }
+    public String getState() {
+        return state;
+    }
 
-  public LocalDateTime getRegisteredAt() {
-    return registeredAt;
-  }
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public LocalDateTime getRegisteredAt() {
+        return registeredAt;
+    }
 
     public void setId(long l) {
-      this.id = l;
+        this.id = l;
     }
 }

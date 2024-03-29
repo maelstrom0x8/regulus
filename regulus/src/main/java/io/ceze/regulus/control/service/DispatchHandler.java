@@ -17,8 +17,7 @@ package io.ceze.regulus.control.service;
 
 import io.ceze.regulus.control.service.cluster.Cluster;
 
-
 public interface DispatchHandler {
 
-  void dispatch(Cluster cluster);
+    void dispatch(Cluster cluster);
 }

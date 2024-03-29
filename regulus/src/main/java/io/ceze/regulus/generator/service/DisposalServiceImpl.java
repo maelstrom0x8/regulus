@@ -28,29 +28,22 @@ import io.ceze.regulus.security.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
-import org.jboss.logging.Logger;
-
 import java.util.Optional;
-
+import org.jboss.logging.Logger;
 
 public class DisposalServiceImpl implements DisposalService {
 
     private static final Logger LOG = Logger.getLogger(DisposalService.class);
 
-    @Inject
-    private SecurityContext securityContext;
+    @Inject private SecurityContext securityContext;
 
-    @Inject
-    private AccountService accountService;
+    @Inject private AccountService accountService;
 
-    @Inject
-    private CollectionService collectionService;
+    @Inject private CollectionService collectionService;
 
-    @Inject
-    private DisposalRepository disposalRepository;
+    @Inject private DisposalRepository disposalRepository;
 
-    @Inject
-    LocationRepository locationRepository;
+    @Inject LocationRepository locationRepository;
 
     private User user;
 
@@ -87,13 +80,13 @@ public class DisposalServiceImpl implements DisposalService {
         checkForPendingRequests(location);
 
         Disposal disposal =
-            new Disposal(
-                request.label(),
-                DisposalStatus.PENDING,
-                new DisposalInfo.Builder()
-                    .weight(request.weight())
-                    .priority(request.priority())
-                    .build());
+                new Disposal(
+                        request.label(),
+                        DisposalStatus.PENDING,
+                        new DisposalInfo.Builder()
+                                .weight(request.weight())
+                                .priority(request.priority())
+                                .build());
         disposal.setLocation(location);
         disposal = disposalRepository.save(disposal);
         collectionService.handleDisposal(disposal);
@@ -103,7 +96,9 @@ public class DisposalServiceImpl implements DisposalService {
 
     public DisposalStatus getDisposalStatus(Long disposalId) {
         LOG.infof(
-            "User: {} request disposal status for disposal with id {}", user.getUsername(), disposalId);
+                "User: {} request disposal status for disposal with id {}",
+                user.getUsername(),
+                disposalId);
         Optional<Disposal> disposal = disposalRepository.findById(disposalId);
 
         return disposal.map(Disposal::getStatus).orElse(null);
@@ -117,13 +112,18 @@ public class DisposalServiceImpl implements DisposalService {
 
     private void checkForPendingRequests(Location location) {
         Optional<Disposal> optional = disposalRepository.findByLocationId(location.getId());
-        optional.ifPresentOrElse(e -> {
-            if (e.getStatus().equals(DisposalStatus.PENDING)) {
-                LOG.warnf("Cannot make multiple request at the same location");
-                throw new DuplicateRequestException("Disposal request already initiated at this location");
-            }
-        }, () -> LOG.infof("New Disposal request from location %s", user.getLocation().toString()));
-
+        optional.ifPresentOrElse(
+                e -> {
+                    if (e.getStatus().equals(DisposalStatus.PENDING)) {
+                        LOG.warnf("Cannot make multiple request at the same location");
+                        throw new DuplicateRequestException(
+                                "Disposal request already initiated at this location");
+                    }
+                },
+                () ->
+                        LOG.infof(
+                                "New Disposal request from location %s",
+                                user.getLocation().toString()));
     }
 
     static DisposalResponse from(Disposal disposal) {

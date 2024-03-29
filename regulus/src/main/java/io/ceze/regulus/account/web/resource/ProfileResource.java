@@ -27,17 +27,17 @@ import jakarta.ws.rs.core.Response;
 @Path("v1/users/{user}")
 public class ProfileResource {
 
-  @Inject private ProfileService profileService;
+    @Inject private ProfileService profileService;
 
-  @GET
-  public Response fetchProfileData() {
-    return Response.ok(profileService.getProfile()).build();
-  }
+    @GET
+    public Response fetchProfileData() {
+        return Response.ok(profileService.getProfile()).build();
+    }
 
-  @POST
-  @Path("/update-profile")
-  public Response updateProfile(@PathParam("user") String user, ProfileDataRequest request) {
-    var result = profileService.updateProfile(user, request);
-    return Response.accepted(result).build();
-  }
+    @POST
+    @Path("/update-profile")
+    public Response updateProfile(@PathParam("user") String user, ProfileDataRequest request) {
+        var result = profileService.updateProfile(user, request);
+        return Response.accepted(result).build();
+    }
 }
