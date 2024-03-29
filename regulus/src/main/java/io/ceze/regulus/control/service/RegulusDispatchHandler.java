@@ -23,16 +23,15 @@ import io.ceze.regulus.integration.geo.GeoData;
 import io.ceze.regulus.integration.geo.PointToPoint;
 import io.ceze.regulus.integration.geo.Route;
 import io.ceze.regulus.integration.geo.RouteFinder;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ApplicationScoped
-@DispatchProvider
-public class RegulusDispatchHandler implements DispatchHandler {
+
+public class RegulusDispatchHandler {
 
   @Inject CollectorRepository collectorRepository;
 

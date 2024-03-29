@@ -42,16 +42,16 @@ public class DisposalResource {
 
   @POST
   public Response requestDisposal(@NotNull @Valid @RequestBody DisposalRequest request) {
-    try {
+//    try {
       LOG.infof("Initiating new disposal request...");
-      LOG.infof("request: {}", request);
+      LOG.infof("request: %s", request);
       DisposalResponse response = disposalService.newDisposalRequest(request);
       LOG.infof("Disposal request successfully initiated");
       return Response.status(Response.Status.CREATED).entity(response).build();
-    } catch (RuntimeException e) {
-      LOG.errorf("Error occurred while processing disposal request: {}", e.getMessage());
-      return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-    }
+//    } catch (RuntimeException e) {
+//      LOG.errorf("Error occurred while processing disposal request: %s", e.getMessage());
+//      return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+//    }
   }
 
   /**

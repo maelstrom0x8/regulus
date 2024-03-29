@@ -19,9 +19,10 @@ import io.ceze.regulus.commons.data.Location;
 import io.ceze.regulus.control.service.cluster.Cluster;
 import io.ceze.regulus.generator.model.Disposal;
 import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
+import org.jboss.logging.Logger;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
@@ -29,24 +30,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.jboss.logging.Logger;
 
 
-@ApplicationScoped
 public class ClusterManager {
 
-  @Inject DispatchHandler dispatchHandler;
+  @Inject NoopDispatchHandler dispatchHandler;
 
   private static final Logger LOG = Logger.getLogger(ClusterManager.class);
 
   private final Map<String, Cluster> clusterQueueMap = new ConcurrentHashMap<>();
   private final Map<String, Instant> clusterStartTimeMap = new ConcurrentHashMap<>();
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-  private final Duration maxWaitTime = Duration.ofMinutes(10); // TODO: Externalize this
+  private final Duration maxWaitTime = Duration.ofMinutes(1); // TODO: Externalize this
 
   public ClusterManager() {
-    Class<? extends DispatchHandler> handlerClass = dispatchHandler.getClass();
-    LOG.infof("Dispatch managed by {}", handlerClass.getCanonicalName());
     executorService.scheduleAtFixedRate(this::checkClusterWaitTimes, 1, 1, TimeUnit.MINUTES);
   }
 
@@ -84,7 +81,7 @@ public class ClusterManager {
       Duration elapsedTime = Duration.between(startTime, now);
 
       if (elapsedTime.compareTo(maxWaitTime) >= 0) {
-        LOG.infof("Cluster {} wait-time expired", cluster);
+        LOG.infof("Cluster %s wait-time expired", cluster);
         dispatchCluster(cluster);
         clusterStartTimeMap.remove(cluster);
       }
@@ -93,7 +90,7 @@ public class ClusterManager {
 
   private void dispatchCluster(String clusterKey) {
     Cluster cluster = clusterQueueMap.remove(clusterKey);
-    LOG.infof("Dispatching cluster {}", clusterKey);
+    LOG.infof("Dispatching cluster %s", clusterKey);
     dispatchHandler.dispatch(cluster);
   }
 

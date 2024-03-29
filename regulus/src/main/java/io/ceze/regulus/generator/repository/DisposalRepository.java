@@ -18,9 +18,12 @@ package io.ceze.regulus.generator.repository;
 import io.ceze.regulus.commons.data.JpaRepository;
 import io.ceze.regulus.generator.model.Disposal;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
+import java.util.Optional;
 
 @ApplicationScoped
 public class DisposalRepository extends JpaRepository<Disposal, Long> {
@@ -28,13 +31,18 @@ public class DisposalRepository extends JpaRepository<Disposal, Long> {
     super(Disposal.class);
   }
 
-  public Disposal findByLocationId(Long locationId) {
+  public Optional<Disposal> findByLocationId(Long locationId) {
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Disposal> query = cb.createQuery(Disposal.class);
     Root<Disposal> root = query.from(Disposal.class);
 
     query.select(root).where(cb.equal(root.get("location").get("id"), locationId));
 
-    return em.createQuery(query).getSingleResult();
+    try {
+      var q = em.createQuery(query).getSingleResult();
+      return Optional.of(q);
+    } catch (NoResultException r) {
+      return Optional.empty();
+    }
   }
 }

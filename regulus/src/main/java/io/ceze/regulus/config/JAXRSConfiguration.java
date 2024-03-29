@@ -15,14 +15,12 @@
  */
 package io.ceze.regulus.config;
 
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("api")
-@BasicAuthenticationMechanismDefinition
-@DeclareRoles({"user", "admin"})
 @ApplicationScoped
+@BasicAuthenticationMechanismDefinition(realmName = "regulus")
 public class JAXRSConfiguration extends Application {}

@@ -26,6 +26,9 @@ public class CollectionService {
 
   public void handleDisposal(Disposal disposal) {
     clusterManager.add(disposal);
-    // Ping close users
+    /*
+    * TODO: Support notification for users in close proximity
+    *  with the disposal request
+    */
   }
 }

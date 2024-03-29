@@ -10,6 +10,7 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+            <property name="eclipselink.jpa.uppercase-columns" value="false"/>
         </properties>
     </persistence-unit>
 </persistence>

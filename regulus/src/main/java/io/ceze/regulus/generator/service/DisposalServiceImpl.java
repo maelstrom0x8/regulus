@@ -17,94 +17,116 @@ package io.ceze.regulus.generator.service;
 
 import io.ceze.regulus.account.service.AccountService;
 import io.ceze.regulus.commons.data.Location;
+import io.ceze.regulus.commons.data.LocationRepository;
 import io.ceze.regulus.control.service.CollectionService;
+import io.ceze.regulus.generator.DuplicateRequestException;
 import io.ceze.regulus.generator.model.Disposal;
 import io.ceze.regulus.generator.model.DisposalInfo;
 import io.ceze.regulus.generator.repository.DisposalRepository;
 import io.ceze.regulus.generator.web.DisposalRequest;
 import io.ceze.regulus.security.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
-import java.util.Optional;
 import org.jboss.logging.Logger;
 
+import java.util.Optional;
 
-@Stateless
+
 public class DisposalServiceImpl implements DisposalService {
 
-  private static final Logger LOG = Logger.getLogger(DisposalService.class);
+    private static final Logger LOG = Logger.getLogger(DisposalService.class);
 
-  @Inject private SecurityContext securityContext;
+    @Inject
+    private SecurityContext securityContext;
 
-  @Inject private AccountService accountService;
+    @Inject
+    private AccountService accountService;
 
-  @Inject private CollectionService collectionService;
+    @Inject
+    private CollectionService collectionService;
 
-  @Inject private DisposalRepository disposalRepository;
+    @Inject
+    private DisposalRepository disposalRepository;
 
-  private User user;
+    @Inject
+    LocationRepository locationRepository;
 
-  @PostConstruct
-  void initializeUserInfo() {
-    String name = securityContext.getCallerPrincipal().getName();
-    this.user = accountService.loadByUsername(name);
-  }
+    private User user;
 
-  /**
-   * Initiates a new disposal request based on the provided {@code DisposalRequest}. This method
-   * creates a new disposal request for the user associated with the current security context. It
-   * checks if a disposal request has already been initiated at the user's location. If a disposal
-   * request already exists, a {@code RuntimeException} is thrown indicating the conflict.
-   * Otherwise, a new disposal request is created.
-   *
-   * @param request the {@code DisposalRequest} containing details of the disposal request
-   * @return a {@code DisposalResponse} indicating the status of the new disposal request
-   * @throws RuntimeException if a disposal request has already been initiated at the user's
-   *     location
-   * @throws NullPointerException if the user associated with the current security context is not
-   *     found or if the user's location is null
-   */
-  @Override
-  public DisposalResponse newDisposalRequest(DisposalRequest request) {
-
-    Location location = user.getLocation();
-
-    if (location == null) {
-      LOG.errorf("No location found for the user {}", user.getUsername());
-      throw new LocationNotFoundException("Location is not available");
+    @PostConstruct
+    void initializeUserInfo() {
+        String name = securityContext.getCallerPrincipal().getName();
+        this.user = accountService.loadByUsername(name);
     }
 
-    if (disposalRepository.findByLocationId(location.getId()) != null) {
-      LOG.warnf("Cannot make multiple request at the same location");
-      throw new RuntimeException("Disposal request already initiated at this location");
+    /**
+     * Initiates a new disposal request based on the provided {@code DisposalRequest}. This method
+     * creates a new disposal request for the user associated with the current security context. It
+     * checks if a disposal request has already been initiated at the user's location. If a disposal
+     * request already exists, a {@code RuntimeException} is thrown indicating the conflict.
+     * Otherwise, a new disposal request is created.
+     *
+     * @param request the {@code DisposalRequest} containing details of the disposal request
+     * @return a {@code DisposalResponse} indicating the status of the new disposal request
+     * @throws RuntimeException     if a disposal request has already been initiated at the user's
+     *                              location
+     * @throws NullPointerException if the user associated with the current security context is not
+     *                              found or if the user's location is null
+     */
+    @Override
+    public DisposalResponse newDisposalRequest(DisposalRequest request) {
+
+        Location location = user.getLocation();
+
+        if (location == null) {
+            LOG.errorf("No location found for the user %s", user.getUsername());
+            throw new LocationNotFoundException("Location is not available");
+        }
+
+        checkForPendingRequests(location);
+
+        Disposal disposal =
+            new Disposal(
+                request.label(),
+                DisposalStatus.PENDING,
+                new DisposalInfo.Builder()
+                    .weight(request.weight())
+                    .priority(request.priority())
+                    .build());
+        disposal.setLocation(location);
+        disposal = disposalRepository.save(disposal);
+        collectionService.handleDisposal(disposal);
+        LOG.infof("Processing disposal request %d", disposal.getId());
+        return from(disposal);
     }
 
-    Disposal disposal =
-        new Disposal(
-            request.label(),
-            DisposalStatus.PENDING,
-            new DisposalInfo.Builder()
-                .weight(request.weight())
-                .priority(request.priority())
-                .build());
-    disposal.setLocation(location);
-    disposal = disposalRepository.save(disposal);
-    collectionService.handleDisposal(disposal);
-    LOG.infof("Processing disposal request {}", disposal.getId());
-    return from(disposal);
-  }
+    public DisposalStatus getDisposalStatus(Long disposalId) {
+        LOG.infof(
+            "User: {} request disposal status for disposal with id {}", user.getUsername(), disposalId);
+        Optional<Disposal> disposal = disposalRepository.findById(disposalId);
 
-  public DisposalStatus getDisposalStatus(Long disposalId) {
-    LOG.infof(
-        "User: {} request disposal status for disposal with id {}", user.getUsername(), disposalId);
-    Optional<Disposal> disposal = disposalRepository.findById(disposalId);
+        return disposal.map(Disposal::getStatus).orElse(null);
+    }
 
-    return disposal.map(Disposal::getStatus).orElse(null);
-  }
+    @Override
+    public void update(Disposal disposal) {
+        LOG.infof("Updating disposal state");
+        disposalRepository.update(disposal);
+    }
 
-  static DisposalResponse from(Disposal disposal) {
-    return new DisposalResponse(disposal.getId(), disposal.getStatus());
-  }
+    private void checkForPendingRequests(Location location) {
+        Optional<Disposal> optional = disposalRepository.findByLocationId(location.getId());
+        optional.ifPresentOrElse(e -> {
+            if (e.getStatus().equals(DisposalStatus.PENDING)) {
+                LOG.warnf("Cannot make multiple request at the same location");
+                throw new DuplicateRequestException("Disposal request already initiated at this location");
+            }
+        }, () -> LOG.infof("New Disposal request from location %s", user.getLocation().toString()));
+
+    }
+
+    static DisposalResponse from(Disposal disposal) {
+        return new DisposalResponse(disposal.getId(), disposal.getStatus());
+    }
 }

@@ -16,13 +16,16 @@
 package io.ceze.regulus.generator.service;
 
 import io.ceze.regulus.commons.exception.UserNotFoundException;
+import io.ceze.regulus.generator.model.Disposal;
 import io.ceze.regulus.generator.web.DisposalRequest;
 
 public interface DisposalService {
 
-  DisposalResponse newDisposalRequest(DisposalRequest request)
-      throws LocationNotFoundException, UserNotFoundException;
+    DisposalResponse newDisposalRequest(DisposalRequest request)
+        throws LocationNotFoundException, UserNotFoundException;
 
-  DisposalStatus getDisposalStatus(Long disposalId)
-      throws LocationNotFoundException, UserNotFoundException;
+    DisposalStatus getDisposalStatus(Long disposalId)
+        throws LocationNotFoundException, UserNotFoundException;
+
+    void update(Disposal disposal);
 }

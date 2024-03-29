@@ -15,7 +15,15 @@
  */
 package io.ceze.regulus.control.web.resource;
 
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.ws.rs.Path;
 
-@Path("v1/collections")
-public class CollectionResource {}
+@Path("v1/collectors")
+@DeclareRoles("operator")
+public class CollectorResource {
+
+    @Path("/agent/")
+    public Object getClusterRoute() {
+        return null;
+    }
+}
