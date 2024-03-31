@@ -15,15 +15,21 @@
  */
 package io.ceze.regulus.control.web.resource;
 
-import jakarta.annotation.security.DeclareRoles;
+import io.ceze.regulus.control.service.CollectionService;
+import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 
 @Path("v1/collectors")
-@DeclareRoles("operator")
 public class CollectorResource {
 
-    @Path("/agent/")
-    public Object getClusterRoute() {
-        return null;
+    @Inject
+    private CollectionService collectionService;
+
+    @Path("/agents/{agent_id}")
+    public JsonObject getClusterRoute(@PathParam("agent_id") Long agentId, @QueryParam("cluster") String cluster) {
+        return collectionService.getRouteForCluster(agentId, cluster);
     }
 }

@@ -13,9 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.security;
+package io.ceze.regulus.config;
 
-public enum Role {
-  USER,
-  ADMIN
+import com.google.maps.GeoApiContext;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+@Singleton
+public class GoogleAPIConfig {
+
+    @Inject
+    @ConfigProperty(name = "googleMapApiKey")
+    private String googleMapApiKey;
+
+    @Produces
+    public GeoApiContext geoApiContext() {
+        return new GeoApiContext.Builder().apiKey(googleMapApiKey).build();
+    }
 }

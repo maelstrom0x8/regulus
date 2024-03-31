@@ -16,5 +16,12 @@
 package io.ceze.regulus.account.web;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
-public record LocationData(@NotBlank String country,@NotBlank String state,@NotBlank String city) {}
+public record LocationData(
+        @NotBlank String country,
+        @NotBlank String state,
+        @NotBlank String city,
+        @NotBlank String street,
+        @NotBlank String zipCode,
+        @Positive int number) {}

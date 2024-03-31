@@ -15,11 +15,24 @@
  */
 package io.ceze.regulus.commons.data;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import io.ceze.regulus.commons.GeoDataInterceptor;
+import jakarta.interceptor.Interceptors;
 
-@ApplicationScoped
 public class LocationRepository extends JpaRepository<Location, Long> {
-  protected LocationRepository() {
-    super(Location.class);
-  }
+
+    protected LocationRepository() {
+        super(Location.class);
+    }
+
+    @Override
+    @Interceptors(GeoDataInterceptor.class)
+    public Location save(Location location) {
+        return super.save(location);
+    }
+
+    @Override
+    @Interceptors(GeoDataInterceptor.class)
+    public void update(Location location) {
+        super.update(location);
+    }
 }

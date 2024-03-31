@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.model;
+package io.ceze.regulus.commons;
 
-import io.ceze.regulus.commons.data.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.interceptor.AroundConstruct;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
+import java.io.Serializable;
+import org.jboss.logging.Logger;
 
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends BaseEntity {
+@Interceptor
+public class GeoDataInterceptor implements Serializable {
 
-  @Id
-  @Column(name = "recycler_id")
-  @GeneratedValue
-  private Long id;
+    private static final Logger LOG = Logger.getLogger(GeoDataInterceptor.class);
 
-  public Recycler() {}
+    public GeoDataInterceptor() {}
 
-  public Long getId() {
-    return id;
-  }
+    @AroundConstruct
+    public void updateGeoData(InvocationContext ctx) throws Exception {
+        LOG.info("Updating location data");
+        ctx.proceed();
+    }
 }

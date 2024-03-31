@@ -17,6 +17,7 @@ package io.ceze.regulus.control.model;
 
 import io.ceze.regulus.commons.data.BaseEntity;
 import io.ceze.regulus.commons.data.Location;
+import io.ceze.regulus.security.User;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -42,11 +43,15 @@ public class Collector extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "collector")
     private Set<CollectorAgent> collectorAgents;
 
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    private User user;
+
     public Collector() {}
 
-    public Collector(String name, boolean available) {
+    public Collector(String name, boolean available, User user) {
         this.name = name;
         this.available = available;
+        this.user = user;
     }
 
     public Collector(String name) {
@@ -88,5 +93,13 @@ public class Collector extends BaseEntity {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

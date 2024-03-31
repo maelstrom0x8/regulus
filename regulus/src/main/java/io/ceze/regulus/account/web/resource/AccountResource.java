@@ -18,35 +18,28 @@ package io.ceze.regulus.account.web.resource;
 import io.ceze.regulus.account.service.AccountService;
 import io.ceze.regulus.account.web.AccountRequest;
 import io.ceze.regulus.account.web.AccountResponse;
-import io.ceze.regulus.security.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import java.util.Collections;
-import java.util.List;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import org.jboss.logging.Logger;
-
 
 @Path("v1/accounts")
 @RequestScoped
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
 
-  private static final Logger LOG = Logger.getLogger(AccountResource.class);
+    private static final Logger LOG = Logger.getLogger(AccountResource.class);
 
-  @Inject private AccountService accountService;
+    @Inject private AccountService accountService;
 
-  @POST
-  @Path("/register")
-  public AccountResponse createAccount(AccountRequest accountRequest) {
-    return accountService.registerAccount(accountRequest);
-  }
-
-  @GET
-  public List<User> fetchAllUsers() {
-    return Collections.emptyList();
-  }
-
-  public void deactivate() {}
+    @POST
+    @Path("/register")
+    public AccountResponse createAccount(AccountRequest accountRequest) {
+        return accountService.registerAccount(accountRequest);
+    }
 }

@@ -18,8 +18,11 @@ package io.ceze.regulus.account.service;
 import io.ceze.regulus.account.repository.AccountRepository;
 import io.ceze.regulus.account.web.AccountRequest;
 import io.ceze.regulus.account.web.AccountResponse;
+import io.ceze.regulus.account.web.AccountType;
 import io.ceze.regulus.commons.data.LocationRepository;
 import io.ceze.regulus.commons.exception.UserNotFoundException;
+import io.ceze.regulus.control.model.Collector;
+import io.ceze.regulus.control.repository.CollectorRepository;
 import io.ceze.regulus.security.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -34,21 +37,38 @@ public class AccountService {
 
     @Inject private AccountRepository userRepository;
     @Inject private LocationRepository locationRepository;
+    @Inject private CollectorRepository collectorRepository;
 
     @Inject OpenIdContext securityContext;
 
     public AccountResponse registerAccount(AccountRequest accountRequest) {
-        LOG.infof("Register new user {}", accountRequest);
-        User user =
-                new User(
-                        accountRequest.username(),
-                        accountRequest.password(),
-                        accountRequest.email());
+        LOG.infof("Registering new user %s", accountRequest);
 
-        User saved = userRepository.save(user);
-        LOG.infof("User registered successfully {}", saved.getId());
+        User user = createUserFromRequest(accountRequest);
+        User savedUser = userRepository.save(user);
+
+        LOG.infof("User registered successfully with ID %", savedUser.getId());
+
+        if (accountRequest.type().equals(AccountType.OPERATOR)) {
+            registerCollector(accountRequest, savedUser);
+        }
+
         return new AccountResponse(
-                saved.getUsername(), saved.getEmail(), AccountResponse.AccountStatus.CREATED);
+                savedUser.getUsername(),
+                savedUser.getEmail(),
+                AccountResponse.AccountStatus.CREATED);
+    }
+
+    private User createUserFromRequest(AccountRequest accountRequest) {
+        return new User(
+                accountRequest.username(), accountRequest.password(), accountRequest.email());
+    }
+
+    private void registerCollector(AccountRequest accountRequest, User user) {
+        LOG.info("Registering collector");
+
+        Collector collector = new Collector(accountRequest.username(), false, user);
+        collectorRepository.save(collector);
     }
 
     public void updatePassword(String newPassword) throws AccountNotFoundException {

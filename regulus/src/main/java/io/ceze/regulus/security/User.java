@@ -25,7 +25,10 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class User extends BaseEntity {
 
-    @Id @GeneratedValue private Long id;
+    @Column(name = "user_id")
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @Column(name = "first_name", length = 32)
     private String firstName;

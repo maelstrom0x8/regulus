@@ -17,10 +17,11 @@ package io.ceze.regulus.generator.model;
 
 public enum Label {
   BIO_WASTE("Biological Waste", "Animal and Agriculture wastes"),
-  HAZARDOUS("", ""),
-  MEDICAL("", ""),
-  RADIOACTIVE("", ""),
-  MSW("Municipal Solid Waste", "");
+  HAZARDOUS("Hazardous Waste", "Chemicals, toxins, and substances harmful to health or the environment"),
+  MEDICAL("Medical Waste", "Waste generated in healthcare facilities, such as hospitals, clinics, and laboratories"),
+  RADIOACTIVE("Radioactive Waste", "Waste containing radioactive materials with harmful radiation levels"),
+  MSW("Municipal Solid Waste", "General household waste and trash from residential, commercial, and industrial sources");
+
 
   private final String name;
   private final String description;

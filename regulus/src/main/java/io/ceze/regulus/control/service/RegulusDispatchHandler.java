@@ -17,6 +17,7 @@ package io.ceze.regulus.control.service;
 
 import io.ceze.regulus.commons.data.Location;
 import io.ceze.regulus.control.model.CollectorAgent;
+import io.ceze.regulus.control.model.CollectorAgents;
 import io.ceze.regulus.control.repository.CollectorRepository;
 import io.ceze.regulus.control.service.cluster.Cluster;
 import io.ceze.regulus.integration.geo.GeoData;
@@ -29,12 +30,19 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Handles the dispatching of collector agents within a cluster.
+ */
 public class RegulusDispatchHandler {
 
     @Inject CollectorRepository collectorRepository;
 
     @Inject RouteFinder routeFinder;
 
+    /**
+     * Dispatches tasks to collector agents within the given cluster.
+     * @param cluster The cluster containing locations to be dispatched.
+     */
     public void dispatch(Cluster cluster) {
         Set<CollectorAgent> collectorAgents = checkAvailableAgents(cluster.getCity());
         CollectorAgent nearestAgent = getNearestAgent(collectorAgents, cluster.getOrigin());
@@ -51,6 +59,7 @@ public class RegulusDispatchHandler {
                         .collect(Collectors.toCollection(ArrayDeque::new));
 
         Route plannedRoute = routeFinder.find(route.destination(), geoPoints);
+        CollectorAgents.withAgent(nearestAgent).dispatch(plannedRoute);
     }
 
     private Set<CollectorAgent> checkAvailableAgents(String city) {
@@ -61,7 +70,14 @@ public class RegulusDispatchHandler {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Gets the nearest collector agent to the given location from a collection of agents.
+     * @param agents The collection of collector agents.
+     * @param location The location for which the nearest agent is sought.
+     * @return The nearest collector agent to the given location.
+     */
     CollectorAgent getNearestAgent(Collection<CollectorAgent> agents, Location location) {
+        // Implementation is missing. It should calculate the nearest agent based on location.
         return null;
     }
 }

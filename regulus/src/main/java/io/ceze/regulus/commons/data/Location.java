@@ -56,11 +56,19 @@ public class Location implements Serializable {
         location.setCity(locationData.city());
         location.setState(locationData.state());
         location.setCountry(locationData.country());
+        location.setNumber(locationData.number());
+        location.setStreet(locationData.street());
         return location;
     }
 
     public static LocationData from(@NotNull Location location) {
-        return new LocationData(location.getCountry(), location.getState(), location.getCity());
+        return new LocationData(
+                location.getCountry(),
+                location.getState(),
+                location.getCity(),
+                location.getStreet(),
+                location.getZipCode(),
+                location.getNumber());
     }
 
     @PrePersist

@@ -15,25 +15,25 @@
  */
 package io.ceze.regulus.control.model;
 
-import io.ceze.regulus.commons.data.Location;
-import io.ceze.regulus.generator.service.DisposalResponse;
+import io.ceze.regulus.integration.geo.Route;
 import java.util.Collection;
 import java.util.Set;
 
 public class CollectorAgents {
 
-  private final Set<CollectorAgent> agents;
+    private final Set<CollectorAgent> agents;
 
-  private CollectorAgents(Set<CollectorAgent> agents) {
-    this.agents = agents;
-  }
+    private CollectorAgents(Set<CollectorAgent> agents) {
+        this.agents = agents;
+    }
 
-  public static CollectorAgents withAgents(Collection<? extends CollectorAgent> agents) {
-    return new CollectorAgents(Set.copyOf(agents));
-  }
+    public static CollectorAgents withAgents(Collection<? extends CollectorAgent> agents) {
+        return new CollectorAgents(Set.copyOf(agents));
+    }
 
-  public DisposalResponse dispatch(Location location) {
-    // Calculate nearest here
-    return null;
-  }
+    public static CollectorAgents withAgent(CollectorAgent agent) {
+        return new CollectorAgents(Set.of(agent));
+    }
+
+    public void dispatch(Route location) {}
 }

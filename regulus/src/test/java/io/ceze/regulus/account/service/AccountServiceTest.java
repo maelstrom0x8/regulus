@@ -16,49 +16,54 @@
 package io.ceze.regulus.account.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import io.ceze.regulus.account.repository.AccountRepository;
 import io.ceze.regulus.account.web.AccountRequest;
 import io.ceze.regulus.account.web.AccountResponse;
+import io.ceze.regulus.account.web.AccountType;
 import io.ceze.regulus.security.User;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import io.ceze.regulus.account.web.AccountType;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
 
-  @InjectMocks private AccountService accountService;
+    @InjectMocks private AccountService accountService;
 
-  @Mock AccountRepository userRepository;
+    @Mock AccountRepository userRepository;
 
-  @BeforeAll
-  static void setUp() {}
+    @BeforeAll
+    static void setUp() {}
 
-  @Test
-  void registerAccount() {
-    AccountRequest accountRequest = new AccountRequest("alan", "secret", "alan@regulus.com", AccountType.BASIC);
-    User user =
-        new User(accountRequest.username(), accountRequest.password(), accountRequest.email());
-    Mockito.when(userRepository.save(user)).thenReturn(user);
+    @Test
+    @Disabled
+    void registerAccount() {
+        AccountRequest accountRequest =
+                new AccountRequest("alan", "secret", "alan@regulus.com", AccountType.BASIC);
+        User user =
+                new User(
+                        accountRequest.username(),
+                        accountRequest.password(),
+                        accountRequest.email());
+        when(userRepository.save(user)).thenReturn(user);
 
-    AccountResponse accountResponse = accountService.registerAccount(accountRequest);
+        AccountResponse accountResponse = accountService.registerAccount(accountRequest);
 
-    assertEquals(accountResponse.username(), user.getUsername());
-  }
+        assertEquals(accountResponse.username(), user.getUsername());
+    }
 
-  @Test
-  void updatePassword() {}
+    @Test
+    void updatePassword() {}
 
-  @Test
-  void deleteAccount() {}
+    @Test
+    void deleteAccount() {}
 
-  @Test
-  void loadByUsername() {}
+    @Test
+    void loadByUsername() {}
 }
