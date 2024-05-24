@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.dispatch;
 
 import io.ceze.regulus.commons.data.Location;
-import io.ceze.regulus.control.model.CollectorAgent;
-import io.ceze.regulus.control.model.CollectorAgents;
-import io.ceze.regulus.control.repository.CollectorRepository;
-import io.ceze.regulus.control.service.cluster.Cluster;
+import io.ceze.regulus.core.control.model.CollectorAgent;
+import io.ceze.regulus.core.control.model.CollectorAgents;
+import io.ceze.regulus.core.control.repository.CollectorRepository;
+import io.ceze.regulus.core.control.service.cluster.Cluster;
 import io.ceze.regulus.integration.geo.GeoData;
 import io.ceze.regulus.integration.geo.PointToPoint;
 import io.ceze.regulus.integration.geo.Route;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 /**
  * Handles the dispatching of collector agents within a cluster.
  */
-public class RegulusDispatchHandler {
+class RegulusDispatchHandler {
 
     @Inject CollectorRepository collectorRepository;
 

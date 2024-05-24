@@ -73,4 +73,11 @@ public class DisposalResource {
             return Response.status(Response.Status.NOT_FOUND).entity("No such disposal").build();
         }
     }
+
+    @GET
+    @Path("/info")
+    public String info() {
+        LOG.info("Fetching application info");
+        return "Regulus Inc 2024";
+    }
 }

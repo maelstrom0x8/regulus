@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.cluster;
 
-import io.ceze.regulus.generator.model.Disposal;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import io.ceze.regulus.commons.data.Location;
 
-@ApplicationScoped
-public class CollectionService {
+class Haversine {
 
-    @Inject private ClusterManager clusterManager;
+    private static final Integer EARTH_RADIUS = 6371;
 
-    public void handleDisposal(Disposal disposal) {
-        clusterManager.add(disposal);
-        /*
-         * TODO: Support notification for users in close proximity
-         *  with the disposal request
-         */
+    public static double distance(Location start, Location dst) {
+        return 1;
     }
 }

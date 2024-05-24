@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.dispatch;
 
-import io.ceze.regulus.control.service.cluster.Cluster;
+import io.ceze.regulus.core.control.service.CollectionEvent;
+import io.ceze.regulus.core.control.service.CollectionEventType;
+import io.ceze.regulus.core.control.service.cluster.Cluster;
 import io.ceze.regulus.generator.service.DisposalStatus;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;

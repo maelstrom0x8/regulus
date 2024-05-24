@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.cluster;
 
-import jakarta.inject.Qualifier;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
-@Qualifier @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
-public @interface NoopDispatcher {}
+class ClusterMap {
+
+    private Map<String, Cluster> clusterMap = new HashMap<>();
+
+    public Cluster check(Predicate<Cluster> condition) {
+        return null;
+    }
+}

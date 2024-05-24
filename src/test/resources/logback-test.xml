@@ -1,14 +1,16 @@
 <configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
-        </encoder>
+        <withJansi>true</withJansi>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder"/>
+        <layout class="io.ceze.regulus.config.TestLoggingLayout"/>
     </appender>
 
-    <root level="infof">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 
+    <logger name="ch.qos" level="OFF"/>
     <logger name="org.testcontainers" level="INFO"/>
     <!-- The following logger can be used for containers logs since 1.18.0 -->
     <logger name="tc" level="INFO"/>

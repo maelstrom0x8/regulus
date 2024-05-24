@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.web.resource;
+package io.ceze.regulus.core.control.web.resource;
 
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.Path;

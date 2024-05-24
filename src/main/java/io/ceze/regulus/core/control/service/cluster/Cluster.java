@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service.cluster;
+package io.ceze.regulus.core.control.service.cluster;
 
 import io.ceze.regulus.commons.data.Location;
-import io.ceze.regulus.control.service.ClusterManager;
 import io.ceze.regulus.generator.model.Disposal;
+import org.jboss.logging.Logger;
+
 import java.util.Comparator;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.PriorityBlockingQueue;
-import org.jboss.logging.Logger;
 
 public class Cluster {
 
-    private static final Logger LOG = Logger.getLogger(ClusterManager.class);
+    private static final Logger LOG = Logger.getLogger(Cluster.class);
 
     // TODO: Fix this. Label priority has higher precedence over request priority
     private final Comparator<Disposal> priorityComparator =
@@ -37,9 +38,12 @@ public class Cluster {
     private final String name;
     private Location origin;
 
-    public Cluster(String name) {
-        LOG.infof("Creating new cluster {}", name);
-        this.name = name;
+    public Cluster(Location location) {
+        String clusterName =
+                String.join("-", location.getState(), location.getCity(), nameSuffix())
+                        .toLowerCase();
+        LOG.infof("Creating new cluster %s", clusterName);
+        this.name = clusterName;
     }
 
     public String getName() {
@@ -63,5 +67,16 @@ public class Cluster {
 
     public Location getOrigin() {
         return this.origin;
+    }
+
+    private String nameSuffix() {
+        String s = "abcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder(s.length());
+        Random random = new Random();
+        for (int i = 0; i < 5; i++) {
+            int index = random.nextInt(s.length());
+            sb.append(s.charAt(index));
+        }
+        return sb.toString();
     }
 }

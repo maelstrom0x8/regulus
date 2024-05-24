@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.cluster;
 
 import io.ceze.regulus.commons.data.Location;
-import io.ceze.regulus.control.service.cluster.Cluster;
+import io.ceze.regulus.core.control.service.dispatch.DispatchHandler;
+import io.ceze.regulus.core.control.service.dispatch.NoopDispatcher;
 import io.ceze.regulus.generator.model.Disposal;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -32,32 +35,38 @@ import org.jboss.logging.Logger;
 
 public class ClusterManager {
 
-    @Inject NoopDispatchHandler dispatchHandler;
+    private static final double MAX_CLUSTER_DISTANCE = 2.0;
+    @Inject @NoopDispatcher DispatchHandler dispatchHandler;
 
     private static final Logger LOG = Logger.getLogger(ClusterManager.class);
 
-    private final Map<String, Cluster> clusterQueueMap = new ConcurrentHashMap<>();
+    private final Map<String, Cluster> clusterMap = new ConcurrentHashMap<>();
     private final Map<String, Instant> clusterStartTimeMap = new ConcurrentHashMap<>();
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-    private final Duration maxWaitTime = Duration.ofMinutes(1); // TODO: Externalize this
+    private Duration maxWaitTime = Duration.ofMinutes(1); // TODO: Externalize this
+
+    public void setMaxWaitTime(Duration maxWaitTime) {
+        this.maxWaitTime = maxWaitTime;
+    }
 
     public ClusterManager() {
         executorService.scheduleAtFixedRate(this::checkClusterWaitTimes, 1, 1, TimeUnit.MINUTES);
     }
 
-    public void add(@NotNull Disposal disposal) {
+    public Cluster add(@NotNull Disposal disposal) {
         Location location = disposal.getLocation();
-        if (contains(location)) return;
+        if (contains(location)) return null;
 
-        String cluster = String.format("%s-%d", location.getCity(), location.getId());
+        Cluster cluster = find(location);
+        cluster.add(disposal);
 
-        Cluster disposalRequests = clusterQueueMap.computeIfAbsent(cluster, Cluster::new);
-        disposalRequests.add(disposal);
-        clusterStartTimeMap.putIfAbsent(cluster, Instant.now());
+        clusterMap.put(cluster.getName(), cluster);
+        clusterStartTimeMap.putIfAbsent(cluster.getName(), Instant.now());
+        return cluster;
     }
 
-    public Cluster get(@NotNull String cluster) {
-        return clusterQueueMap.get(cluster);
+    public Collection<Cluster> activeClusters() {
+        return List.copyOf(clusterMap.values());
     }
 
     /**
@@ -65,7 +74,7 @@ public class ClusterManager {
      * @return true if a location is in a cluster otherwise false
      */
     public boolean contains(@NotNull Location location) {
-        return clusterQueueMap.values().stream()
+        return clusterMap.values().stream()
                 .flatMap(c -> c.getRequestQueue().stream())
                 .map(Disposal::getLocation)
                 .anyMatch(e -> e.getId().equals(location.getId()));
@@ -73,23 +82,33 @@ public class ClusterManager {
 
     private void checkClusterWaitTimes() {
         Instant now = Instant.now();
-        for (Map.Entry<String, Instant> entry : clusterStartTimeMap.entrySet()) {
-            String cluster = entry.getKey();
-            Instant startTime = entry.getValue();
-            Duration elapsedTime = Duration.between(startTime, now);
+        clusterStartTimeMap.forEach(
+                (cluster, startTime) -> {
+                    Duration elapsedTime = Duration.between(startTime, now);
 
-            if (elapsedTime.compareTo(maxWaitTime) >= 0) {
-                LOG.infof("Cluster %s wait-time expired", cluster);
-                dispatchCluster(cluster);
-                clusterStartTimeMap.remove(cluster);
-            }
-        }
+                    if (elapsedTime.compareTo(maxWaitTime) >= 0) {
+                        LOG.infof("Cluster %s wait-time expired", cluster);
+                        dispatchCluster(cluster);
+                        clusterStartTimeMap.remove(cluster);
+                    }
+                });
     }
 
     private void dispatchCluster(String clusterKey) {
-        Cluster cluster = clusterQueueMap.remove(clusterKey);
+        Cluster cluster = clusterMap.remove(clusterKey);
         LOG.infof("Dispatching cluster %s", clusterKey);
         dispatchHandler.dispatch(cluster);
+    }
+
+    public Cluster find(Location location) {
+        var cluster =
+                activeClusters().stream()
+                        .filter(
+                                c ->
+                                        Haversine.distance(c.getOrigin(), location)
+                                                < MAX_CLUSTER_DISTANCE)
+                        .findFirst();
+        return cluster.orElseGet(() -> new Cluster(location));
     }
 
     @PreDestroy

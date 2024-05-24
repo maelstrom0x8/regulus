@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.model;
+package io.ceze.regulus.core.control.model;
 
 import io.ceze.regulus.commons.data.BaseEntity;
 import io.ceze.regulus.commons.data.Location;

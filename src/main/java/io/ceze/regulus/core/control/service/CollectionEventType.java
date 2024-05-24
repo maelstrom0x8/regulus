@@ -13,23 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.generator.service;
+package io.ceze.regulus.core.control.service;
 
-import io.ceze.regulus.core.control.service.CollectionService;
-import jakarta.inject.Inject;
-import jakarta.security.enterprise.SecurityContext;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-
-class DefaultWasteServiceTest {
-
-    @InjectMocks private CollectionService collectionService;
-
-    @Inject private SecurityContext securityContext;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+public enum CollectionEventType {
+    PROCESSED,
+    PENDING,
+    CANCELLED
 }

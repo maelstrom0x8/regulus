@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.repository;
+package io.ceze.regulus.core.control.repository;
 
 import io.ceze.regulus.commons.data.JpaRepository;
-import io.ceze.regulus.control.model.Collector;
+import io.ceze.regulus.core.control.model.Collector;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;

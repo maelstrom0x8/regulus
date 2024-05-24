@@ -13,11 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service;
 
-import io.ceze.regulus.control.service.cluster.Cluster;
+import io.ceze.regulus.core.control.service.cluster.ClusterManager;
+import io.ceze.regulus.generator.model.Disposal;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
-public interface DispatchHandler {
+@ApplicationScoped
+public class CollectionService {
 
-    void dispatch(Cluster cluster);
+    @Inject private ClusterManager clusterManager;
+
+    public void handleDisposal(Disposal disposal) {
+        clusterManager.add(disposal);
+        /*
+         * TODO: Support notification for users in close proximity
+         *  with the disposal request
+         */
+    }
 }

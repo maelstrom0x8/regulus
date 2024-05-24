@@ -15,6 +15,7 @@
  */
 package io.ceze.regulus.commons.data;
 
+import com.google.maps.model.LatLng;
 import io.ceze.regulus.account.web.LocationData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -146,5 +147,9 @@ public class Location implements Serializable {
 
     public void setId(long l) {
         this.id = l;
+    }
+
+    public LatLng latLng() {
+        return null;
     }
 }

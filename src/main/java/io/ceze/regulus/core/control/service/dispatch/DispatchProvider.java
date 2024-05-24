@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.dispatch;
 
 import jakarta.inject.Qualifier;
 import java.lang.annotation.ElementType;

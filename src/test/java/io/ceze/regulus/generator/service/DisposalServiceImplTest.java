@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 import io.ceze.regulus.account.service.AccountService;
 import io.ceze.regulus.commons.data.Location;
 import io.ceze.regulus.commons.data.LocationRepository;
-import io.ceze.regulus.control.service.CollectionService;
+import io.ceze.regulus.core.control.service.CollectionService;
 import io.ceze.regulus.generator.DuplicateRequestException;
 import io.ceze.regulus.generator.model.Disposal;
 import io.ceze.regulus.generator.model.Label;

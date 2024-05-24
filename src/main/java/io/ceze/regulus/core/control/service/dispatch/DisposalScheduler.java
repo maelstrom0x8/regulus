@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.control.service;
+package io.ceze.regulus.core.control.service.dispatch;
 
-public enum CollectionEventType {
-    PROCESSED,
-    PENDING,
-    CANCELLED
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+class DisposalScheduler {
+
+    void biWeeklyCollectorDispatch() {}
 }
