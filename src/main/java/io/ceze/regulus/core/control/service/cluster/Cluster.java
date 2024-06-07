@@ -17,12 +17,11 @@ package io.ceze.regulus.core.control.service.cluster;
 
 import io.ceze.regulus.commons.data.Location;
 import io.ceze.regulus.generator.model.Disposal;
-import org.jboss.logging.Logger;
-
 import java.util.Comparator;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.PriorityBlockingQueue;
+import org.jboss.logging.Logger;
 
 public class Cluster {
 

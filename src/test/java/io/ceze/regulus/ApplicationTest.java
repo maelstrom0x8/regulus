@@ -15,4 +15,9 @@
  */
 package io.ceze.regulus;
 
-public class AbstractIT {}
+
+public class ApplicationTest extends PayaraTest {
+
+
+
+}

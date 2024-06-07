@@ -15,10 +15,24 @@
  */
 package io.ceze.regulus.config;
 
+import io.ceze.regulus.core.control.service.dispatch.DispatchHandler;
+import io.ceze.regulus.core.control.service.dispatch.NoopDispatchHandler;
+import io.ceze.regulus.core.control.service.dispatch.RegulusDispatchHandler;
 import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationPath("api")
 @BasicAuthenticationMechanismDefinition(realmName = "regulus")
-public class JAXRSConfiguration extends Application {}
+public class RegulusConfiguration extends Application {
+
+    @ConfigProperty(name = "dispatchEnabled", defaultValue = "false")
+    String enableDispatchHandling;
+
+    public DispatchHandler dispatchHandler() {
+        return Boolean.getBoolean(enableDispatchHandling)
+                ? new RegulusDispatchHandler()
+                : new NoopDispatchHandler();
+    }
+}

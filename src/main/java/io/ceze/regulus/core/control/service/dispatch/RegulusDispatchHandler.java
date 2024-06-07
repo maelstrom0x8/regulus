@@ -24,6 +24,7 @@ import io.ceze.regulus.integration.geo.GeoData;
 import io.ceze.regulus.integration.geo.PointToPoint;
 import io.ceze.regulus.integration.geo.Route;
 import io.ceze.regulus.integration.geo.RouteFinder;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -33,11 +34,15 @@ import java.util.stream.Collectors;
 /**
  * Handles the dispatching of collector agents within a cluster.
  */
-class RegulusDispatchHandler {
+@DispatchProvider
+@Alternative
+public class RegulusDispatchHandler implements DispatchHandler {
 
     @Inject CollectorRepository collectorRepository;
 
     @Inject RouteFinder routeFinder;
+
+    public RegulusDispatchHandler() {}
 
     /**
      * Dispatches tasks to collector agents within the given cluster.

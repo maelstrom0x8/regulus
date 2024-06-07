@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 import io.ceze.regulus.commons.data.Location;
 import io.ceze.regulus.core.control.service.dispatch.DispatchHandler;
+import io.ceze.regulus.core.control.service.dispatch.NoopDispatchHandler;
 import io.ceze.regulus.generator.model.Disposal;
 import io.ceze.regulus.generator.model.DisposalInfo;
 import io.ceze.regulus.generator.model.Label;
@@ -39,10 +40,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ClusterManagerTest {
 
+    private final MockedStatic<Haversine> haversine = mockStatic(Haversine.class);
     @InjectMocks private ClusterManager clusterManager;
 
-    private final DispatchHandler dispatchHandler = mock(DispatchHandler.class);
-    private final MockedStatic<Haversine> haversine = mockStatic(Haversine.class);
+    private final DispatchHandler dispatchHandler = mock(NoopDispatchHandler.class);
 
     @BeforeEach
     void setUp() {

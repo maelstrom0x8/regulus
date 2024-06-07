@@ -21,9 +21,10 @@ import io.ceze.regulus.core.control.service.cluster.Cluster;
 import io.ceze.regulus.generator.service.DisposalStatus;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import org.jboss.logging.Logger;
 
-class NoopDispatchHandler {
+public class NoopDispatchHandler implements DispatchHandler {
 
     private static final Logger LOG = Logger.getLogger(NoopDispatchHandler.class);
 
@@ -33,7 +34,8 @@ class NoopDispatchHandler {
         LOG.warn("Dispatching provider by {noop}");
     }
 
-    public void dispatch(Cluster cluster) {
+    @Override
+    public void dispatch(@NotNull Cluster cluster) {
         LOG.infof("Dispatch agents candidate cluster %s", cluster.getRequestQueue());
         cluster.getRequestQueue()
                 .forEach(
