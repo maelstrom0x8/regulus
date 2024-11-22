@@ -1,0 +1,31 @@
+
+services:
+  postgres:
+    container_name: postgres-regulus
+    image: 'postgres:16'
+    environment:
+      POSTGRES_DB: ${DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '${DB_PORT}:5432'
+    networks:
+      - regulus-net
+
+  flyway:
+    container_name: flyway-regulus
+    image: flyway/flyway
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres-regulus:5432/${DATABASE}
+      FLYWAY_USER: ${DB_USERNAME}
+      FLYWAY_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+    networks:
+      - regulus-net
+    depends_on:
+      - postgres
+    command: [ "migrate"]
+
+networks:
+  regulus-net:

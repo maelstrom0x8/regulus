@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: regulus
+  flyway:
+    enabled: true
+    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user
+    password: user
+    user: user
+  datasource:
+    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user
+    username: user
+    password: user
+  jpa:
+    defer-datasource-initialization: false
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  cloud:
+    discovery:
+      enabled: false
+    eureka:
+      client:
+        enabled: false
+logging:
+  level:
+    com:
+      zaxxer: WARN
+    org:
+      hibernate: WARN
+      testcontainers: OFF
+      springframework: WARN
+      apache: WARN
+    tc: OFF
