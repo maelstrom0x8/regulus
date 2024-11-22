@@ -19,6 +19,8 @@ import com.google.maps.GeoApiContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class RegulusConfiguration {
@@ -26,8 +28,22 @@ public class RegulusConfiguration {
     @Value("${regulus.providers.geocode.api-key}")
     private String geoCodeApiKey;
 
+    @Value("${spring.mail.host}")
+    private String mailHost;
+
+    @Value("${spring.mail.port}")
+    private String mailPort;
+
     @Bean
     public GeoApiContext geoApiContext() {
         return new GeoApiContext.Builder().apiKey(geoCodeApiKey).build();
+    }
+
+    @Bean
+    JavaMailSender mailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(mailHost);
+        mailSender.setPort(Integer.parseInt(mailPort));
+        return mailSender;
     }
 }

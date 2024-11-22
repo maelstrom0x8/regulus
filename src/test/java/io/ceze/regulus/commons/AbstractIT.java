@@ -32,4 +32,8 @@ import org.springframework.test.web.servlet.MockMvc;
 public abstract class AbstractIT {
 
     @Autowired protected MockMvc mvc;
+
+    static {
+        TestContainersConfig.init();
+    }
 }

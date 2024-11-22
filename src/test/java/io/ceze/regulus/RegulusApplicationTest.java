@@ -29,7 +29,6 @@ import io.ceze.regulus.core.generator.model.Label;
 import io.ceze.regulus.core.generator.web.DisposalRequest;
 import io.ceze.regulus.core.generator.web.Priority;
 import io.ceze.regulus.user.domain.model.Role;
-import io.ceze.regulus.user.domain.repository.TokenStore;
 import io.ceze.regulus.user.dto.NewUserRequest;
 import io.ceze.regulus.user.dto.ProfileRequest;
 import java.time.LocalDate;
@@ -45,9 +44,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegulusApplicationTest extends AbstractIT {
 
     @Autowired private ObjectMapper objectMapper;
-
-    @Autowired private TokenStore tokenStore;
-
     @Autowired private RegulusProperties regulusProperties;
 
     @BeforeEach
@@ -95,9 +91,6 @@ public class RegulusApplicationTest extends AbstractIT {
                                 .content(objectMapper.writeValueAsString(profileRequest))
                                 .with(jwt().jwt(j -> j.subject("ena@foo.com"))))
                 .andExpect(status().is2xxSuccessful());
-
-        //        mvc.perform(post("/v1/users/verify")
-        //            .queryParam("token"))
     }
 
     @Test

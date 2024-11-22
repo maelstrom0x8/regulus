@@ -20,7 +20,9 @@ import java.util.Collections;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
 public class TestContainersConfig {
@@ -35,5 +37,14 @@ public class TestContainersConfig {
     @Bean
     ObjectMapper objectMapper() {
         return new ObjectMapper();
+    }
+
+    public static void init() {
+        GenericContainer<?> mailHog =
+                new GenericContainer<>(DockerImageName.parse("mailhog/mailhog:v1.0.1"))
+                        .withExposedPorts(1025, 8025);
+        mailHog.start();
+        System.setProperty("spring.mail.host", mailHog.getHost());
+        System.setProperty("spring.mail.port", String.valueOf(mailHog.getMappedPort(1025)));
     }
 }

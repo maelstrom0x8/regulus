@@ -51,6 +51,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public void create(NewUserRequest userRequest) throws DuplicateAccountException {
         if (userRepository.existsByEmail(userRequest.email())) {
             log.error("Duplicates not allowed. User already exists.");
