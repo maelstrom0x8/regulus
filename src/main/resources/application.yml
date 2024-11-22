@@ -28,6 +28,7 @@ spring:
 regulus:
   providers:
     geocode:
+      name: googlemaps
       api-key: test
 #server:
 #  ssl:

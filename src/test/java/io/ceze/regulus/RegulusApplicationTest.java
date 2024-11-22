@@ -15,6 +15,7 @@
  */
 package io.ceze.regulus;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.ceze.config.RegulusProperties;
 import io.ceze.regulus.commons.AbstractIT;
 import io.ceze.regulus.core.generator.model.Label;
 import io.ceze.regulus.core.generator.web.DisposalRequest;
@@ -31,17 +33,22 @@ import io.ceze.regulus.user.domain.repository.TokenStore;
 import io.ceze.regulus.user.dto.NewUserRequest;
 import io.ceze.regulus.user.dto.ProfileRequest;
 import java.time.LocalDate;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
+@TestPropertySource(properties = "regulus.providers.geocode.api-key=test")
 public class RegulusApplicationTest extends AbstractIT {
 
     @Autowired private ObjectMapper objectMapper;
 
     @Autowired private TokenStore tokenStore;
+
+    @Autowired private RegulusProperties regulusProperties;
 
     @BeforeEach
     void setUp() {
@@ -105,5 +112,16 @@ public class RegulusApplicationTest extends AbstractIT {
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    void containsTheExpectedProperty() {
+        Map<String, RegulusProperties.Provider> providers = regulusProperties.getProviders();
+
+        RegulusProperties.Provider geocode = providers.get("geocode");
+
+        assertThat(providers).isNotEmpty();
+        assertThat(geocode.getName()).isEqualTo("googlemaps");
+        assertThat(geocode.getApiKey()).isEqualTo("test");
     }
 }
