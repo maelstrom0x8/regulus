@@ -19,10 +19,7 @@ import io.ceze.regulus.core.control.model.CollectorAgent;
 import io.ceze.regulus.core.control.model.CollectorAgents;
 import io.ceze.regulus.core.control.repository.CollectorRepository;
 import io.ceze.regulus.core.control.service.cluster.Cluster;
-import io.ceze.regulus.integration.geo.GeoData;
-import io.ceze.regulus.integration.geo.PointToPoint;
-import io.ceze.regulus.integration.geo.Route;
-import io.ceze.regulus.integration.geo.RouteFinder;
+import io.ceze.regulus.integration.geo.*;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.service.ProfileService;
 import java.util.ArrayDeque;
@@ -93,12 +90,23 @@ class RegulusDispatchHandler implements DispatchHandler {
 
     /**
      * Gets the nearest collector agent to the given location from a collection of agents.
-     * @param agents The collection of collector agents.
+     *
+     * @param agents   The collection of collector agents.
      * @param location The location for which the nearest agent is sought.
      * @return The nearest collector agent to the given location.
      */
     CollectorAgent getNearestAgent(Collection<CollectorAgent> agents, Location location) {
-        // Implementation is missing. It should calculate the nearest agent based on location.
-        return null;
+        return agents.stream()
+                .min(
+                        (a1, a2) ->
+                                Double.compare(
+                                        calculateDistance(a1.getLocation(), location),
+                                        calculateDistance(a2.getLocation(), location)))
+                .orElse(null);
+    }
+
+    private double calculateDistance(Location loc1, Location loc2) {
+        // Get lat and lngs from the locations respectively
+        return GeoUtils.calculateDistance(0, 0, 0, 0);
     }
 }

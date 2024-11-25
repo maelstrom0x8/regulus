@@ -13,17 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.integration.geo.geocode.client;
+package io.ceze.regulus.integration.geo;
 
-import io.ceze.regulus.integration.geo.GeoData;
-import io.ceze.regulus.integration.geo.geocode.GeoCoderClient;
-import io.ceze.regulus.user.domain.model.Location;
-import org.springframework.web.service.annotation.GetExchange;
-import org.springframework.web.service.annotation.HttpExchange;
+/**
+ * GeoApiContext is a configuration class for setting up API keys
+ * and other parameters required to make requests to geographic APIs.
+ */
+public class GeoApiContext {
+    private String apiKey;
 
-@HttpExchange("https://maps.googleapis.com/maps/api/")
-public interface GoogleMapClient extends GeoCoderClient {
+    public static class Builder {
+        private GeoApiContext context;
 
-    @GetExchange("/geocode")
-    GeoData fetchLocationGeoData(Location location);
+        public Builder apiKey(String apiKey) {
+            context.apiKey = apiKey;
+            return this;
+        }
+
+        public GeoApiContext build() {
+            return this.context;
+        }
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
 }

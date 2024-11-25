@@ -15,6 +15,7 @@
  */
 package io.ceze.regulus.user.dto;
 
+import io.ceze.regulus.user.domain.model.Location;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
@@ -24,4 +25,15 @@ public record LocationData(
         @NotBlank String city,
         @NotBlank String street,
         @NotBlank String zipCode,
-        @Positive int number) {}
+        @Positive String number) {
+
+    public static LocationData from(Location location) {
+        return new LocationData(
+                location.getCountry(),
+                location.getState(),
+                location.getCity(),
+                location.getStreet(),
+                location.getPostalCode(),
+                location.getStreetNumber());
+    }
+}
