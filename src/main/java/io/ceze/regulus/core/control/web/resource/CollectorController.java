@@ -13,8 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.event;
+package io.ceze.regulus.core.control.web.resource;
 
-import io.ceze.regulus.user.domain.model.projection.UserId;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.web.bind.annotation.*;
 
-public record AccountVerification(UserId userId, String token) {}
+@RestController
+@RequestMapping("/v1/collectors")
+public class CollectorController {
+
+    @GetMapping("/agents/{agent_id}")
+    public JsonNode getClusterRoute(
+            @PathVariable("agent_id") Long agentId, @RequestParam("cluster") String cluster) {
+        return null;
+    }
+}

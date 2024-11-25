@@ -13,18 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.core.control.web.resource;
+package io.ceze.mailing;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("v1/collectors")
-public class CollectorResource {
-
-    @GetMapping("/agents/{agent_id}")
-    public JsonNode getClusterRoute(
-            @PathVariable("agent_id") Long agentId, @RequestParam("cluster") String cluster) {
-        return null;
-    }
+public interface MailService {
+    void send(Message message);
 }

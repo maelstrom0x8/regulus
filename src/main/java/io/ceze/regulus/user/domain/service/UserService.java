@@ -16,13 +16,12 @@
 package io.ceze.regulus.user.domain.service;
 
 import io.ceze.regulus.core.control.model.Collector;
-import io.ceze.regulus.event.AccountVerification;
 import io.ceze.regulus.event.UserCreated;
-import io.ceze.regulus.user.domain.model.Token;
 import io.ceze.regulus.user.domain.model.User;
 import io.ceze.regulus.user.domain.model.projection.UserId;
 import io.ceze.regulus.user.domain.repository.UserRepository;
 import io.ceze.regulus.user.domain.service.token.TokenManager;
+import io.ceze.regulus.user.domain.service.token.TokenVerification;
 import io.ceze.regulus.user.dto.NewUserRequest;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -66,7 +65,7 @@ public class UserService {
             userRepository.save(user);
             log.info("User account for {} created successfully", user.getEmail());
             var token = tokenManager.generateToken(user);
-            eventPublisher.publishEvent(new UserCreated(user.getEmail(), token.getValue()));
+            eventPublisher.publishEvent(new UserCreated(user));
 
         } catch (DuplicateAccountException e) {
             throw e;
@@ -93,12 +92,12 @@ public class UserService {
     }
 
     public void verifyUser(UserId userId, String token) {
-        AccountVerification verification = new AccountVerification(userId, token);
+        TokenVerification verification = new TokenVerification(userId, token);
         tokenManager.verify(verification);
     }
 
-    public void getNewToken(UserId userId) {
+    public void resendToken(UserId userId) {
         User user = getUserById(userId.id());
-        Token token = tokenManager.generateToken(user);
+        eventPublisher.publishEvent(new UserCreated(user));
     }
 }

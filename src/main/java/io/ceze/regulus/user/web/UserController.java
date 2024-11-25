@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping("/resend-verification-token")
     public void tokenResend(@Authenticated UserId userId) {
         log.info("Requesting new verification token");
-        userService.getNewToken(userId);
+        userService.resendToken(userId);
     }
 
     @PostMapping("/profile/{profile_id}")

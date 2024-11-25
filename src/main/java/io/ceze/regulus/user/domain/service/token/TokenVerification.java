@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.event;
+package io.ceze.regulus.user.domain.service.token;
 
-import io.ceze.regulus.user.domain.model.User;
+import io.ceze.regulus.user.domain.model.projection.UserId;
 
-public record UserCreated(User user) {}
+public record TokenVerification(UserId userId, String token) {}

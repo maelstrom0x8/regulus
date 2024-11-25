@@ -15,6 +15,6 @@
  */
 package io.ceze.regulus.event;
 
-import io.ceze.regulus.user.domain.model.User;
+import io.ceze.regulus.user.domain.model.projection.UserId;
 
-public record UserCreated(User user) {}
+public record TokenVerification(UserId userId, String token) {}
