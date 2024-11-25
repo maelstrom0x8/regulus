@@ -11,6 +11,14 @@ services:
       - '${DB_PORT}:5432'
     networks:
       - regulus-net
+  mailhog:
+    container_name: mailing_regulus
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - regulus-net
 
   flyway:
     container_name: flyway-regulus

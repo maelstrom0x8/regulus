@@ -1,4 +1,7 @@
 spring:
+  docker:
+    compose:
+      enabled: false
   application:
     name: regulus
   flyway:
@@ -13,6 +16,7 @@ spring:
   jpa:
     defer-datasource-initialization: false
     show-sql: true
+    open-in-view: false
     hibernate:
       ddl-auto: validate
   cloud:
@@ -21,6 +25,12 @@ spring:
     eureka:
       client:
         enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer_uri: http://localhost:9000
+          jwk_set_uri: http://localhost:9000/oauth/jwks
 logging:
   level:
     com:

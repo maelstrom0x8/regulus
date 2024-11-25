@@ -15,9 +15,20 @@
  */
 package io.ceze.regulus;
 
+import io.ceze.regulus.commons.AbstractIT;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
-public class TestApplication {
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@ActiveProfiles("test")
+@TestPropertySource(
+        locations = "classpath:application-test.yml",
+        inheritProperties = false,
+        inheritLocations = false)
+public class TestApplication extends AbstractIT {
 
     public static void main(String... args) {
         SpringApplication.from(RegulusApplication::main).with(TestContainersConfig.class).run(args);
