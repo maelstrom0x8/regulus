@@ -23,7 +23,8 @@ CREATE TABLE locations (
     postal_code VARCHAR(8) NOT NULL,
     country VARCHAR(2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_modified TIMESTAMP NOT NULL
+    last_modified TIMESTAMP NOT NULL,
+    geolocation geography(Point, 4326)
 );
 
 CREATE TABLE profiles (
@@ -38,32 +39,6 @@ CREATE TABLE profiles (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 );
---
---CREATE TABLE tokens (
---    token_id BIGINT DEFAULT nextval('tokens_id_seq') PRIMARY KEY,
---    tvalue VARCHAR(32) NOT NULL,
---    duration INTERVAL NOT NULL,
---    expires_at TIMESTAMP,
---    expired BOOLEAN,
---    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---    user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE
---);
---
---CREATE OR REPLACE FUNCTION update_expiration()
---RETURNS TRIGGER AS $$
---BEGIN
---    NEW.expires_at := NEW.created_at + NEW.duration;
---    NEW.expired := NEW.expires_at <= NOW();
---    RETURN NEW;
---END;
---$$ LANGUAGE plpgsql;
---
---
---CREATE TRIGGER before_insert_update
---BEFORE INSERT OR UPDATE ON tokens
---FOR EACH ROW
---EXECUTE FUNCTION update_expiration();
-
 
 CREATE TABLE disposers (
     user_id BIGINT REFERENCES users(user_id)

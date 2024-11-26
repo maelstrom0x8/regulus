@@ -15,12 +15,14 @@
  */
 package io.ceze.config;
 
-import com.google.maps.GeoApiContext;
+import io.ceze.regulus.integration.geo.GeoApiContext;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RegulusConfiguration {
@@ -45,5 +47,10 @@ public class RegulusConfiguration {
         mailSender.setHost(mailHost);
         mailSender.setPort(Integer.parseInt(mailPort));
         return mailSender;
+    }
+
+    @Bean
+    RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
     }
 }

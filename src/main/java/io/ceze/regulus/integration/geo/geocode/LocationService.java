@@ -21,8 +21,10 @@ import io.ceze.regulus.user.dto.LocationData;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Service
 public class LocationService {
@@ -34,13 +36,14 @@ public class LocationService {
         this.geoService = geoService;
     }
 
-    @Transactional
-    public Location createLocation(Location location) {
+    @Async
+    @TransactionalEventListener
+    public Location getGeolocation(Location location) {
         var latLng = geoService.getCoordinates(LocationData.from(location));
-        Point point =
-                geometryFactory.createPoint(new Coordinate(latLng.latitude(), latLng.longitude()));
-        //        location.setCoordinates(point);
 
+        GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
+        Point point = factory.createPoint(new Coordinate(latLng.latitude(), latLng.longitude()));
+        location.setGeolocation(point);
         return location;
     }
 }

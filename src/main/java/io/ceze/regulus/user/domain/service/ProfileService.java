@@ -22,19 +22,23 @@ import io.ceze.regulus.user.domain.model.projection.UserId;
 import io.ceze.regulus.user.domain.repository.LocationRepository;
 import io.ceze.regulus.user.domain.repository.ProfileRepository;
 import io.ceze.regulus.user.dto.ProfileRequest;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProfileService {
 
+    private final ApplicationEventPublisher eventPublisher;
     private final UserService userService;
     private final ProfileRepository profileRepository;
     private final LocationRepository locationRepository;
 
     public ProfileService(
+            ApplicationEventPublisher eventPublisher,
             UserService userService,
             ProfileRepository profileRepository,
             LocationRepository locationRepository) {
+        this.eventPublisher = eventPublisher;
         this.userService = userService;
         this.profileRepository = profileRepository;
         this.locationRepository = locationRepository;
@@ -60,6 +64,7 @@ public class ProfileService {
         profileRequest.emplace(profile);
         locationRepository.save(location);
         profileRepository.save(profile);
+        eventPublisher.publishEvent(location);
     }
 
     public void updateProfile(UserId userId, ProfileRequest request) {

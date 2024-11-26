@@ -19,6 +19,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Table(name = "locations")
@@ -55,6 +56,9 @@ public class Location {
     @CreationTimestamp private LocalDateTime createdAt;
 
     @UpdateTimestamp private LocalDateTime lastModified;
+
+    @Column(columnDefinition = "geography(Point, 4326)")
+    private Point geolocation;
 
     public Location() {}
 
@@ -131,6 +135,14 @@ public class Location {
 
     public LocalDateTime getLastModified() {
         return lastModified;
+    }
+
+    public Point getGeolocation() {
+        return geolocation;
+    }
+
+    public void setGeolocation(Point geolocation) {
+        this.geolocation = geolocation;
     }
 
     @Override

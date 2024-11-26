@@ -22,8 +22,10 @@ package io.ceze.regulus.integration.geo;
 public class GeoApiContext {
     private String apiKey;
 
+    private GeoApiContext() {}
+
     public static class Builder {
-        private GeoApiContext context;
+        private final GeoApiContext context = new GeoApiContext();
 
         public Builder apiKey(String apiKey) {
             context.apiKey = apiKey;
@@ -31,6 +33,9 @@ public class GeoApiContext {
         }
 
         public GeoApiContext build() {
+            if (context.apiKey.isBlank()) {
+                throw new RuntimeException("Cannot use blank key in the context");
+            }
             return this.context;
         }
     }

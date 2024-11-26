@@ -85,7 +85,7 @@ public class ClusterManager {
     }
 
     private void dispatchCluster(Cluster cluster) {
-        log.info("Dispatching cluster {}", cluster.getName());
+        log.debug("Dispatching cluster {}", cluster.getName());
         if (dispatchHandler.dispatch(cluster)) {
             clusters.remove(cluster);
             cluster.setWaitTime(maxWaitTime.plus(Duration.ofMinutes(10L)).toSeconds());

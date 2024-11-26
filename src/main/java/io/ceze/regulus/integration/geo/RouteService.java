@@ -19,7 +19,7 @@ import java.util.Collection;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RouteFinderImpl implements RouteFinder {
+public class RouteService implements RouteFinder {
 
     @Override
     public Route find(GeoData g1, GeoData g2) {
