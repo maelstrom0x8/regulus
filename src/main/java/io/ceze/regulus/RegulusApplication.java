@@ -21,9 +21,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(scanBasePackages = "io.ceze")
 @EnableScheduling
-public class RegulusApplication {
+public class RegulusApplication
+{
 
-    public static void main(String[] args) {
-        SpringApplication.run(RegulusApplication.class, args);
-    }
+	public static void main(String[] args)
+	{
+		SpringApplication.run(RegulusApplication.class, args);
+	}
 }

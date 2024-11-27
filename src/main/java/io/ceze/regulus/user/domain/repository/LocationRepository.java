@@ -18,4 +18,6 @@ package io.ceze.regulus.user.domain.repository;
 import io.ceze.regulus.user.domain.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LocationRepository extends JpaRepository<Location, Long> {}
+public interface LocationRepository extends JpaRepository<Location, Long>
+{
+}

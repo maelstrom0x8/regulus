@@ -15,4 +15,6 @@
  */
 package io.ceze.gis;
 
-public record PointToPoint(GeoData origin, GeoData destination) implements Route {}
+public record PointToPoint(GeoData origin, GeoData destination) implements Route
+{
+}

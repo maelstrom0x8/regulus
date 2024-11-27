@@ -16,7 +16,6 @@
 package io.ceze.config.security;
 
 import io.ceze.regulus.user.domain.repository.UserRepository;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -24,22 +23,27 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
-public class AuthenticationService {
+public class AuthenticationService
+{
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
-    private final UserRepository accountRepository;
+	private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
+	private final UserRepository accountRepository;
 
-    public AuthenticationService(UserRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+	public AuthenticationService(UserRepository accountRepository)
+	{
+		this.accountRepository = accountRepository;
+	}
 
-    public AuthenticatedUser authenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	public AuthenticatedUser authenticated()
+	{
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Jwt principal = (Jwt) authentication.getPrincipal();
+		Jwt principal = (Jwt) authentication.getPrincipal();
 
-        Map<String, Object> claims = principal.getClaims();
-        return new AuthenticatedUser(principal.getSubject(), claims);
-    }
+		Map<String, Object> claims = principal.getClaims();
+		return new AuthenticatedUser(principal.getSubject(), claims);
+	}
 }

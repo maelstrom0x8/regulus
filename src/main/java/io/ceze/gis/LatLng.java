@@ -15,4 +15,6 @@
  */
 package io.ceze.gis;
 
-public record LatLng(double latitude, double longitude) implements GeoData {}
+public record LatLng(double latitude, double longitude) implements GeoData
+{
+}

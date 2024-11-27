@@ -24,26 +24,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-class DefaultMailService implements MailService {
-    private static final Logger log = LoggerFactory.getLogger(DefaultMailService.class);
+class DefaultMailService implements MailService
+{
+	private static final Logger log = LoggerFactory.getLogger(DefaultMailService.class);
 
-    private final JavaMailSender mailSender;
+	private final JavaMailSender mailSender;
 
-    DefaultMailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+	DefaultMailService(JavaMailSender mailSender)
+	{
+		this.mailSender = mailSender;
+	}
 
-    @Override
-    @Transactional
-    public void send(Message message) throws MailException {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(message.getSender());
-        String[] recipients =
-                message.getRecipients().toArray(new String[message.getRecipients().size()]);
-        mailMessage.setTo(recipients);
-        mailMessage.setText(message.getContent());
+	@Override
+	@Transactional
+	public void send(Message message) throws MailException
+	{
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setFrom(message.getSender());
+		String[] recipients =
+			message.getRecipients().toArray(new String[message.getRecipients().size()]);
+		mailMessage.setTo(recipients);
+		mailMessage.setText(message.getContent());
 
-        log.info("Sending message to {}", message.getRecipients());
-        mailSender.send(mailMessage);
-    }
+		log.info("Sending message to {}", message.getRecipients());
+		mailSender.send(mailMessage);
+	}
 }

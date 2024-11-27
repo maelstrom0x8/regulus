@@ -15,72 +15,89 @@
  */
 package io.ceze.notification;
 
-import java.util.*;
-import java.util.stream.Collectors;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
-public class Message {
+import java.util.*;
+import java.util.stream.Collectors;
 
-    private final Set<Email> recipients = new HashSet<>();
-    private UUID id;
-    private Email from;
-    private String content;
+public class Message
+{
 
-    private Message() {}
+	private final Set<Email> recipients = new HashSet<>();
+	private UUID id;
+	private Email from;
+	private String content;
 
-    public Set<String> getRecipients() {
-        return recipients.stream().map(Email::address).collect(Collectors.toSet());
-    }
+	private Message()
+	{
+	}
 
-    public UUID getId() {
-        return id;
-    }
+	public Set<String> getRecipients()
+	{
+		return recipients.stream().map(Email::address).collect(Collectors.toSet());
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public UUID getId()
+	{
+		return id;
+	}
 
-    private void setContent(String content) {
-        this.content = content;
-    }
+	public String getContent()
+	{
+		return content;
+	}
 
-    public String getSender() {
-        return from.address();
-    }
+	private void setContent(String content)
+	{
+		this.content = content;
+	}
 
-    private record Email(@jakarta.validation.constraints.Email String address) {}
+	public String getSender()
+	{
+		return from.address();
+	}
 
-    public static class MessageBuilder {
-        private final Message message = new Message();
+	private record Email(@jakarta.validation.constraints.Email String address)
+	{
+	}
 
-        public static MessageBuilder withSender(String email) {
-            MessageBuilder builder = new MessageBuilder();
-            builder.message.from = new Email(email);
-            return builder;
-        }
+	public static class MessageBuilder
+	{
+		private final Message message = new Message();
 
-        public MessageBuilder content(@NonNull String content) {
-            message.setContent(content);
-            return this;
-        }
+		public static MessageBuilder withSender(String email)
+		{
+			MessageBuilder builder = new MessageBuilder();
+			builder.message.from = new Email(email);
+			return builder;
+		}
 
-        public MessageBuilder recipient(String recipient) {
-            this.message.recipients.add(new Email(recipient));
-            return this;
-        }
+		public MessageBuilder content(@NonNull String content)
+		{
+			message.setContent(content);
+			return this;
+		}
 
-        public MessageBuilder recipients(Collection<String> recipients) {
-            List<Email> emails = recipients.stream().map(Email::new).toList();
-            this.message.recipients.addAll(emails);
-            return this;
-        }
+		public MessageBuilder recipient(String recipient)
+		{
+			this.message.recipients.add(new Email(recipient));
+			return this;
+		}
 
-        public Message build() throws IllegalArgumentException {
-            Assert.notEmpty(message.recipients, "Message should contain at least one recipient");
-            Assert.hasText(message.content, "Message should have some content");
-            message.id = UUID.nameUUIDFromBytes(message.content.getBytes());
-            return this.message;
-        }
-    }
+		public MessageBuilder recipients(Collection<String> recipients)
+		{
+			List<Email> emails = recipients.stream().map(Email::new).toList();
+			this.message.recipients.addAll(emails);
+			return this;
+		}
+
+		public Message build() throws IllegalArgumentException
+		{
+			Assert.notEmpty(message.recipients, "Message should contain at least one recipient");
+			Assert.hasText(message.content, "Message should have some content");
+			message.id = UUID.nameUUIDFromBytes(message.content.getBytes());
+			return this.message;
+		}
+	}
 }

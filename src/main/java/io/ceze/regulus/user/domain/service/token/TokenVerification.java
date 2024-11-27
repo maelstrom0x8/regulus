@@ -17,4 +17,6 @@ package io.ceze.regulus.user.domain.service.token;
 
 import io.ceze.regulus.user.domain.model.projection.UserId;
 
-public record TokenVerification(UserId userId, String token) {}
+public record TokenVerification(UserId userId, String token)
+{
+}

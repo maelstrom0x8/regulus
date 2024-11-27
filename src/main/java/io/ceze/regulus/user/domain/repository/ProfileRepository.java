@@ -16,10 +16,12 @@
 package io.ceze.regulus.user.domain.repository;
 
 import io.ceze.regulus.user.domain.model.Profile;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProfileRepository extends JpaRepository<Profile, Long> {
+import java.util.Optional;
 
-    Optional<Profile> findByUserId(Long userId);
+public interface ProfileRepository extends JpaRepository<Profile, Long>
+{
+
+	Optional<Profile> findByUserId(Long userId);
 }

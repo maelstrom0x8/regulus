@@ -26,23 +26,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Service
-public class LocationService {
+public class LocationService
+{
 
-    private final GeoService geoService;
-    private final GeometryFactory geometryFactory = new GeometryFactory();
+	private final GeoService geoService;
+	private final GeometryFactory geometryFactory = new GeometryFactory();
 
-    public LocationService(GeoService geoService) {
-        this.geoService = geoService;
-    }
+	public LocationService(GeoService geoService)
+	{
+		this.geoService = geoService;
+	}
 
-    @Async
-    @TransactionalEventListener
-    public Location getGeolocation(Location location) {
-        var latLng = geoService.getCoordinates(LocationData.from(location));
+	@Async
+	@TransactionalEventListener
+	public Location getGeolocation(Location location)
+	{
+		var latLng = geoService.getCoordinates(LocationData.from(location));
 
-        GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
-        Point point = factory.createPoint(new Coordinate(latLng.latitude(), latLng.longitude()));
-        location.setGeolocation(point);
-        return location;
-    }
+		GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
+		Point point = factory.createPoint(new Coordinate(latLng.latitude(), latLng.longitude()));
+		location.setGeolocation(point);
+		return location;
+	}
 }

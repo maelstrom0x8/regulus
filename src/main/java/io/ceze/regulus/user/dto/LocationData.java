@@ -20,20 +20,22 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 public record LocationData(
-        @NotBlank String country,
-        @NotBlank String state,
-        @NotBlank String city,
-        @NotBlank String street,
-        @NotBlank String zipCode,
-        @Positive String number) {
+	@NotBlank String country,
+	@NotBlank String state,
+	@NotBlank String city,
+	@NotBlank String street,
+	@NotBlank String zipCode,
+	@Positive String number)
+{
 
-    public static LocationData from(Location location) {
-        return new LocationData(
-                location.getCountry(),
-                location.getState(),
-                location.getCity(),
-                location.getStreet(),
-                location.getPostalCode(),
-                location.getStreetNumber());
-    }
+	public static LocationData from(Location location)
+	{
+		return new LocationData(
+			location.getCountry(),
+			location.getState(),
+			location.getCity(),
+			location.getStreet(),
+			location.getPostalCode(),
+			location.getStreetNumber());
+	}
 }

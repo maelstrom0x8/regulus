@@ -15,7 +15,7 @@
  */
 package io.ceze.regulus.user.domain.service;
 
-import io.ceze.regulus.core.control.model.Collector;
+import io.ceze.regulus.core.collector.model.Collector;
 import io.ceze.regulus.event.UserCreated;
 import io.ceze.regulus.user.domain.model.User;
 import io.ceze.regulus.user.domain.model.projection.UserId;
@@ -33,71 +33,84 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService
+{
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final ApplicationEventPublisher eventPublisher;
-    private final TokenManager tokenManager;
-    private final UserRepository userRepository;
+	private final ApplicationEventPublisher eventPublisher;
+	private final TokenManager tokenManager;
+	private final UserRepository userRepository;
 
-    public UserService(
-            ApplicationEventPublisher eventPublisher,
-            TokenManager tokenManager,
-            UserRepository userRepository) {
-        this.eventPublisher = eventPublisher;
-        this.tokenManager = tokenManager;
-        this.userRepository = userRepository;
-    }
+	public UserService(
+		ApplicationEventPublisher eventPublisher,
+		TokenManager tokenManager,
+		UserRepository userRepository)
+	{
+		this.eventPublisher = eventPublisher;
+		this.tokenManager = tokenManager;
+		this.userRepository = userRepository;
+	}
 
-    @Transactional
-    public void create(NewUserRequest userRequest) throws DuplicateAccountException {
-        if (userRepository.existsByEmail(userRequest.email())) {
-            log.error("Duplicates not allowed. User already exists.");
-            throw new DuplicateAccountException();
-        }
+	@Transactional
+	public void create(NewUserRequest userRequest) throws DuplicateAccountException
+	{
+		if (userRepository.existsByEmail(userRequest.email()))
+		{
+			log.error("Duplicates not allowed. User already exists.");
+			throw new DuplicateAccountException();
+		}
 
-        try {
-            User user = User.withRole(userRequest.role());
-            user.setEmail(userRequest.email());
-            if (user instanceof Collector u) u.setName(userRequest.name());
+		try
+		{
+			User user = User.withRole(userRequest.role());
+			user.setEmail(userRequest.email());
+			if (user instanceof Collector u) u.setName(userRequest.name());
 
-            userRepository.save(user);
-            log.info("User account for {} created successfully", user.getEmail());
-            var token = tokenManager.generateToken(user);
-            eventPublisher.publishEvent(new UserCreated(user));
+			userRepository.save(user);
+			log.info("User account for {} created successfully", user.getEmail());
+			var token = tokenManager.generateToken(user);
+			eventPublisher.publishEvent(new UserCreated(user));
 
-        } catch (DuplicateAccountException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("Unable to save user account. {}", e.getMessage());
-        }
-    }
+		} catch (DuplicateAccountException e)
+		{
+			throw e;
+		} catch (Exception e)
+		{
+			log.error("Unable to save user account. {}", e.getMessage());
+		}
+	}
 
-    /// Deletes the user account and all attached resources.
-    /// @param userId The current authenticated user
-    public void deleteAccount(UserId userId) {
-        userRepository.deleteById(userId.id());
-    }
+	/// Deletes the user account and all attached resources.
+	///
+	/// @param userId The current authenticated user
+	public void deleteAccount(UserId userId)
+	{
+		userRepository.deleteById(userId.id());
+	}
 
-    @Cacheable
-    public UserId getUserByEmail(@NotNull String email) {
-        log.info("Get user with email={}", email);
-        return userRepository.findByEmail(email).orElseThrow(AccountNotFoundException::new);
-    }
+	@Cacheable
+	public UserId getUserByEmail(@NotNull String email)
+	{
+		log.info("Get user with email={}", email);
+		return userRepository.findByEmail(email).orElseThrow(AccountNotFoundException::new);
+	}
 
-    @Cacheable
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(AccountNotFoundException::new);
-    }
+	@Cacheable
+	public User getUserById(Long userId)
+	{
+		return userRepository.findById(userId).orElseThrow(AccountNotFoundException::new);
+	}
 
-    public void verifyUser(UserId userId, String token) {
-        TokenVerification verification = new TokenVerification(userId, token);
-        tokenManager.verify(verification);
-    }
+	public void verifyUser(UserId userId, String token)
+	{
+		TokenVerification verification = new TokenVerification(userId, token);
+		tokenManager.verify(verification);
+	}
 
-    public void resendToken(UserId userId) {
-        User user = getUserById(userId.id());
-        eventPublisher.publishEvent(new UserCreated(user));
-    }
+	public void resendToken(UserId userId)
+	{
+		User user = getUserById(userId.id());
+		eventPublisher.publishEvent(new UserCreated(user));
+	}
 }

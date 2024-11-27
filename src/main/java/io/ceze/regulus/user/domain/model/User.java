@@ -15,114 +15,141 @@
  */
 package io.ceze.regulus.user.domain.model;
 
-import io.ceze.regulus.core.control.model.Collector;
-import io.ceze.regulus.core.generator.model.Recycler;
+import io.ceze.regulus.core.collector.model.Collector;
+import io.ceze.regulus.core.payload.model.Recycler;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
-public abstract class User {
+public abstract class User
+{
 
-    @Id
-    @Column(name = "user_id")
-    @SequenceGenerator(
-            name = "user_seq",
-            sequenceName = "users_id_seq",
-            initialValue = 1000,
-            allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    protected Long id;
+	@Id
+	@Column(name = "user_id")
+	@SequenceGenerator(
+		name = "user_seq",
+		sequenceName = "users_id_seq",
+		initialValue = 1000,
+		allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+	protected Long id;
 
-    @Column(nullable = false, unique = true, length = 254)
-    protected String email;
+	@Column(nullable = false, unique = true, length = 254)
+	protected String email;
 
-    protected transient Role role;
-    protected boolean verified;
-    protected boolean active;
+	protected transient Role role;
+	protected boolean verified;
+	protected boolean active;
 
-    @CreationTimestamp protected LocalDateTime createdAt;
+	@CreationTimestamp
+	protected LocalDateTime createdAt;
 
-    @UpdateTimestamp protected LocalDateTime lastModified;
+	@UpdateTimestamp
+	protected LocalDateTime lastModified;
 
-    public User() {}
+	public User()
+	{
+	}
 
-    public User(String email) {
-        this.email = email;
-    }
+	public User(String email)
+	{
+		this.email = email;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public static User withRole(Role role)
+	{
+		if (role == null)
+		{
+			throw new IllegalArgumentException("Role cannot be null");
+		}
 
-    public String getEmail() {
-        return email;
-    }
+		return switch (role)
+		{
+			case DISPOSERS -> new Disposer();
+			case COLLECTORS -> new Collector();
+			case RECYCLERS -> new Recycler();
+		};
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public Long getId()
+	{
+		return id;
+	}
 
-    public boolean getVerified() {
-        return verified;
-    }
+	public String getEmail()
+	{
+		return email;
+	}
 
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
 
-    public boolean isActive() {
-        return active;
-    }
+	public boolean getVerified()
+	{
+		return verified;
+	}
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	public void setVerified(boolean verified)
+	{
+		this.verified = verified;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public boolean isActive()
+	{
+		return active;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setActive(boolean active)
+	{
+		this.active = active;
+	}
 
-    public LocalDateTime getLastModified() {
-        return lastModified;
-    }
+	public LocalDateTime getCreatedAt()
+	{
+		return createdAt;
+	}
 
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
+	public void setCreatedAt(LocalDateTime createdAt)
+	{
+		this.createdAt = createdAt;
+	}
 
-    public static User withRole(Role role) {
-        if (role == null) {
-            throw new IllegalArgumentException("Role cannot be null");
-        }
+	public LocalDateTime getLastModified()
+	{
+		return lastModified;
+	}
 
-        return switch (role) {
-            case DISPOSERS -> new Disposer();
-            case COLLECTORS -> new Collector();
-            case RECYCLERS -> new Recycler();
-        };
-    }
+	public void setLastModified(LocalDateTime lastModified)
+	{
+		this.lastModified = lastModified;
+	}
 
-    public Role getRole() {
-        return determineRole();
-    }
+	public Role getRole()
+	{
+		return determineRole();
+	}
 
-    private Role determineRole() {
-        if (this instanceof Disposer) {
-            return Role.DISPOSERS;
-        } else if (this instanceof Collector) {
-            return Role.COLLECTORS;
-        } else if (this instanceof Recycler) {
-            return Role.RECYCLERS;
-        } else {
-            throw new IllegalStateException("Unknown role for user");
-        }
-    }
+	private Role determineRole()
+	{
+		if (this instanceof Disposer)
+		{
+			return Role.DISPOSERS;
+		} else if (this instanceof Collector)
+		{
+			return Role.COLLECTORS;
+		} else if (this instanceof Recycler)
+		{
+			return Role.RECYCLERS;
+		} else
+		{
+			throw new IllegalStateException("Unknown role for user");
+		}
+	}
 }

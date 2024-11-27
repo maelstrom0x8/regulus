@@ -15,27 +15,28 @@
  */
 package io.ceze.config.security;
 
-import io.ceze.regulus.user.domain.model.Role;
-import io.ceze.regulus.user.domain.model.User;
-import io.ceze.regulus.user.domain.model.projection.UserId;
 import io.ceze.regulus.user.domain.service.UserService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import java.util.List;
+
 public class DefaultJwtAuthenticationTokenConverter
-        implements Converter<Jwt, CustomJwtAuthenticationToken> {
+	implements Converter<Jwt, CustomJwtAuthenticationToken>
+{
 
-    @Autowired private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public CustomJwtAuthenticationToken convert(Jwt source) {
-        List<String> authorities = (List<String>) source.getClaims().get("authorities");
+	@Override
+	@SuppressWarnings("unchecked")
+	public CustomJwtAuthenticationToken convert(Jwt source)
+	{
+		List<String> authorities = (List<String>) source.getClaims().get("authorities");
 
-			return new CustomJwtAuthenticationToken(
-							source, authorities.stream().map(SimpleGrantedAuthority::new).toList());
-    }
+		return new CustomJwtAuthenticationToken(
+			source, authorities.stream().map(SimpleGrantedAuthority::new).toList());
+	}
 }

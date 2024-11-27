@@ -16,21 +16,25 @@
 package io.ceze.regulus.user.domain.repository;
 
 import io.ceze.regulus.user.domain.model.Token;
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.stereotype.Component;
 
 @Component
-public class TokenStore {
+public class TokenStore
+{
 
-    private final Map<Long, Token> tokens = new ConcurrentHashMap<>();
+	private final Map<Long, Token> tokens = new ConcurrentHashMap<>();
 
-    public void put(Long userId, Token token) {
-        tokens.put(userId, token);
-    }
+	public void put(Long userId, Token token)
+	{
+		tokens.put(userId, token);
+	}
 
-    public Optional<Token> get(Long userId) {
-        return Optional.of(tokens.get(userId));
-    }
+	public Optional<Token> get(Long userId)
+	{
+		return Optional.of(tokens.get(userId));
+	}
 }

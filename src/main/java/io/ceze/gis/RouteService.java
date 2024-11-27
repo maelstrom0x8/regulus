@@ -15,19 +15,23 @@
  */
 package io.ceze.gis;
 
-import java.util.Collection;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 @Component
-public class RouteService implements RouteFinder {
+public class RouteService implements RouteFinder
+{
 
-    @Override
-    public Route find(GeoData g1, GeoData g2) {
-        return new PointToPoint(g1, g2);
-    }
+	@Override
+	public Route find(GeoData g1, GeoData g2)
+	{
+		return new PointToPoint(g1, g2);
+	}
 
-    @Override
-    public Route find(GeoData start, Collection<GeoData> points) {
-        return null;
-    }
+	@Override
+	public Route find(GeoData start, Collection<GeoData> points)
+	{
+		return null;
+	}
 }

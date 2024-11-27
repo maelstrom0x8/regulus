@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ceze.regulus.user.domain.model.Role;
 
 public record NewUserRequest(
-        @JsonProperty(required = true) String email,
-        @JsonProperty(required = true) Role role,
-        String name) {}
+	@JsonProperty(required = true) String email,
+	@JsonProperty(required = true) Role role,
+	String name)
+{
+}

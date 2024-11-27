@@ -26,25 +26,28 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
-public class AccountEventHandler {
+public class AccountEventHandler
+{
 
-    private static final Logger log = LoggerFactory.getLogger(AccountEventHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(AccountEventHandler.class);
 
-    private final TokenManager tokenManager;
-    private final MailService mailService;
+	private final TokenManager tokenManager;
+	private final MailService mailService;
 
-    public AccountEventHandler(TokenManager tokenManager, MailService mailService) {
-        this.tokenManager = tokenManager;
-        this.mailService = mailService;
-    }
+	public AccountEventHandler(TokenManager tokenManager, MailService mailService)
+	{
+		this.tokenManager = tokenManager;
+		this.mailService = mailService;
+	}
 
-    @Async
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @TransactionalEventListener
-    public void sendVerificationToken(UserCreated user) {
-        log.info("Preparing account for user with id{}", user.user().getId());
-        var token = tokenManager.generateToken(user.user());
-        //		@formatter:off
+	@Async
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@TransactionalEventListener
+	public void sendVerificationToken(UserCreated user)
+	{
+		log.info("Preparing account for user with id{}", user.user().getId());
+		var token = tokenManager.generateToken(user.user());
+		//		@formatter:off
         Message message =
                 Message.MessageBuilder.withSender("admin@regulus.com")
                         .recipient(user.user().getEmail())
@@ -58,6 +61,6 @@ public class AccountEventHandler {
                                         token.getValue()))
                         .build();
         //		 @formatter:on
-        mailService.send(message);
-    }
+		mailService.send(message);
+	}
 }

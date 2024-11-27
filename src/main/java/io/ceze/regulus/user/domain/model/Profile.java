@@ -16,122 +16,144 @@
 package io.ceze.regulus.user.domain.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "profiles")
-public class Profile {
+public class Profile
+{
 
-    @Id
-    @Column(name = "profile_id")
-    @SequenceGenerator(
-            name = "profile_seq",
-            sequenceName = "profiles_id_seq",
-            allocationSize = 1,
-            initialValue = 1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
-    private Long id;
+	@Id
+	@Column(name = "profile_id")
+	@SequenceGenerator(
+		name = "profile_seq",
+		sequenceName = "profiles_id_seq",
+		allocationSize = 1,
+		initialValue = 1000)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
+	private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_id")
-    private User user;
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @JoinColumn(name = "location_id")
-    private Location location;
+	@ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+	@JoinColumn(name = "location_id")
+	private Location location;
 
-    @Column(length = 32, nullable = false)
-    private String firstName;
+	@Column(length = 32, nullable = false)
+	private String firstName;
 
-    @Column(length = 32, nullable = false)
-    private String lastName;
+	@Column(length = 32, nullable = false)
+	private String lastName;
 
-    @CreationTimestamp private LocalDateTime createdAt;
+	@CreationTimestamp
+	private LocalDateTime createdAt;
 
-    @UpdateTimestamp private LocalDateTime lastModified;
+	@UpdateTimestamp
+	private LocalDateTime lastModified;
 
-    private LocalDate dateOfBirth;
+	private LocalDate dateOfBirth;
 
-    public Profile() {}
+	public Profile()
+	{
+	}
 
-    public Profile(User user) {
-        this.user = user;
-    }
+	public Profile(User user)
+	{
+		this.user = user;
+	}
 
-    public Profile(
-            User user,
-            String firstName,
-            String lastName,
-            LocalDateTime createdAt,
-            LocalDateTime lastModified,
-            LocalDate dateOfBirth,
-            Location location) {
-        this.user = user;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.createdAt = createdAt;
-        this.lastModified = lastModified;
-        this.dateOfBirth = dateOfBirth;
-        this.location = location;
-    }
+	public Profile(
+		User user,
+		String firstName,
+		String lastName,
+		LocalDateTime createdAt,
+		LocalDateTime lastModified,
+		LocalDate dateOfBirth,
+		Location location)
+	{
+		this.user = user;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.createdAt = createdAt;
+		this.lastModified = lastModified;
+		this.dateOfBirth = dateOfBirth;
+		this.location = location;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId()
+	{
+		return id;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public User getUser()
+	{
+		return user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getFirstName()
+	{
+		return firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setFirstName(String firstName)
+	{
+		this.firstName = firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public String getLastName()
+	{
+		return lastName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setLastName(String lastName)
+	{
+		this.lastName = lastName;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public LocalDateTime getCreatedAt()
+	{
+		return createdAt;
+	}
 
-    public LocalDateTime getLastModified() {
-        return lastModified;
-    }
+	public LocalDateTime getLastModified()
+	{
+		return lastModified;
+	}
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
+	public LocalDate getDateOfBirth()
+	{
+		return dateOfBirth;
+	}
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+	public void setDateOfBirth(LocalDate dateOfBirth)
+	{
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    public Location getLocation() {
-        return location;
-    }
+	public Location getLocation()
+	{
+		return location;
+	}
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+	public void setLocation(Location location)
+	{
+		this.location = location;
+	}
 
-    //    @TODO: Check for profile completeness
-    private boolean isComplete() throws IllegalAccessException {
-        return !firstName.isBlank() | lastName.isBlank() | dateOfBirth != null;
-    }
+	//    @TODO: Check for profile completeness
+	private boolean isComplete() throws IllegalAccessException
+	{
+		return !firstName.isBlank() | lastName.isBlank() | dateOfBirth != null;
+	}
 }

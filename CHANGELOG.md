@@ -17,11 +17,11 @@ All notable changes to the Regulus API will be documented in this file.
   * Configuration Package:
   Handles configuration for external services.
   * Control Package:
-  Coordinates waste collection and disposal operations.
+  Coordinates waste collection and payload operations.
   Manages collector agents, collections, clusters, and dispatch handling.
   * Generator Package:
-  Generates waste disposal requests and manages disposal operations.
-  Handles disposal information, labels, and disposal requests.
+  Generates waste payload requests and manages payload operations.
+  Handles payload information, labels, and payload requests.
   * Integration Package:
   Integrates with external GeoData services for location-based functionalities.
   Provides clients and utilities for accessing GeoCoder and Google Map services.

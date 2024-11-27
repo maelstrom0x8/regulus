@@ -26,54 +26,61 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProfileService {
+public class ProfileService
+{
 
-    private final ApplicationEventPublisher eventPublisher;
-    private final UserService userService;
-    private final ProfileRepository profileRepository;
-    private final LocationRepository locationRepository;
+	private final ApplicationEventPublisher eventPublisher;
+	private final UserService userService;
+	private final ProfileRepository profileRepository;
+	private final LocationRepository locationRepository;
 
-    public ProfileService(
-            ApplicationEventPublisher eventPublisher,
-            UserService userService,
-            ProfileRepository profileRepository,
-            LocationRepository locationRepository) {
-        this.eventPublisher = eventPublisher;
-        this.userService = userService;
-        this.profileRepository = profileRepository;
-        this.locationRepository = locationRepository;
-    }
+	public ProfileService(
+		ApplicationEventPublisher eventPublisher,
+		UserService userService,
+		ProfileRepository profileRepository,
+		LocationRepository locationRepository)
+	{
+		this.eventPublisher = eventPublisher;
+		this.userService = userService;
+		this.profileRepository = profileRepository;
+		this.locationRepository = locationRepository;
+	}
 
-    public Profile getProfileById(Long profileId) {
-        return profileRepository.findById(profileId).orElseThrow(ProfileNotFoundException::new);
-    }
+	public Profile getProfileById(Long profileId)
+	{
+		return profileRepository.findById(profileId).orElseThrow(ProfileNotFoundException::new);
+	}
 
-    public Profile getProfileByUserId(Long userId) {
-        Profile profile =
-                profileRepository.findByUserId(userId).orElseThrow(ProfileNotFoundException::new);
+	public Profile getProfileByUserId(Long userId)
+	{
+		Profile profile =
+			profileRepository.findByUserId(userId).orElseThrow(ProfileNotFoundException::new);
 
-        return profile;
-    }
+		return profile;
+	}
 
-    public void create(UserId userId, ProfileRequest profileRequest) {
-        User user = userService.getUserById(userId.id());
-        Profile profile = new Profile(user);
-        Location location = new Location();
-        profile.setLocation(location);
+	public void create(UserId userId, ProfileRequest profileRequest)
+	{
+		User user = userService.getUserById(userId.id());
+		Profile profile = new Profile(user);
+		Location location = new Location();
+		profile.setLocation(location);
 
-        profileRequest.emplace(profile);
-        locationRepository.save(location);
-        profileRepository.save(profile);
-        eventPublisher.publishEvent(location);
-    }
+		profileRequest.emplace(profile);
+		locationRepository.save(location);
+		profileRepository.save(profile);
+		eventPublisher.publishEvent(location);
+	}
 
-    public void updateProfile(UserId userId, ProfileRequest request) {
-        Profile profile = getProfileByUserId(userId.id());
-        request.emplace(profile);
-    }
+	public void updateProfile(UserId userId, ProfileRequest request)
+	{
+		Profile profile = getProfileByUserId(userId.id());
+		request.emplace(profile);
+	}
 
-    public Location getUserLocation(Long userId) {
-        Profile profile = profileRepository.findByUserId(userId).orElseThrow();
-        return profile.getLocation();
-    }
+	public Location getUserLocation(Long userId)
+	{
+		Profile profile = profileRepository.findByUserId(userId).orElseThrow();
+		return profile.getLocation();
+	}
 }

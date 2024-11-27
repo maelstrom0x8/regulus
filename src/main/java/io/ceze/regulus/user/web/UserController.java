@@ -29,45 +29,52 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/users")
-public class UserController {
+public class UserController
+{
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    private final UserService userService;
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	public UserController(UserService userService)
+	{
+		this.userService = userService;
+	}
 
-    @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody NewUserRequest userRequest) {
-        userService.create(userRequest);
-        return ResponseEntity.ok().build();
-    }
+	@PostMapping("/register")
+	public ResponseEntity<Void> registerUser(@RequestBody NewUserRequest userRequest)
+	{
+		userService.create(userRequest);
+		return ResponseEntity.ok().build();
+	}
 
-    @PostMapping("/verify")
-    public void verifyToken(@Authenticated UserId userId, @RequestParam("token") String token)
-            throws ExpiredTokenException {
-        log.info("Verifying token");
-        userService.verifyUser(userId, token);
-        log.info("Verified user with id {}", userId.id());
-    }
+	@PostMapping("/verify")
+	public void verifyToken(@Authenticated UserId userId, @RequestParam("token") String token)
+		throws ExpiredTokenException
+	{
+		log.info("Verifying token");
+		userService.verifyUser(userId, token);
+		log.info("Verified user with id {}", userId.id());
+	}
 
-    @PostMapping("/resend-verification-token")
-    public void tokenResend(@Authenticated UserId userId) {
-        log.info("Requesting new verification token");
-        userService.resendToken(userId);
-    }
+	@PostMapping("/resend-verification-token")
+	public void tokenResend(@Authenticated UserId userId)
+	{
+		log.info("Requesting new verification token");
+		userService.resendToken(userId);
+	}
 
-    @PostMapping("/profile/{profile_id}")
-    public ProfileResponse updateProfile(
-            @Authenticated UserId userId,
-            @PathVariable("profile_id") Long profileId,
-            ProfileRequest request) {
-        return null;
-    }
+	@PostMapping("/profile/{profile_id}")
+	public ProfileResponse updateProfile(
+		@Authenticated UserId userId,
+		@PathVariable("profile_id") Long profileId,
+		ProfileRequest request)
+	{
+		return null;
+	}
 
-    @DeleteMapping
-    public void deleteAccount(@Authenticated UserId userId) {
-        userService.deleteAccount(userId);
-    }
+	@DeleteMapping
+	public void deleteAccount(@Authenticated UserId userId)
+	{
+		userService.deleteAccount(userId);
+	}
 }

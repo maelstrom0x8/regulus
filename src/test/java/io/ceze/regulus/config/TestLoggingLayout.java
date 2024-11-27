@@ -17,36 +17,41 @@ package io.ceze.regulus.config;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.LayoutBase;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class TestLoggingLayout extends LayoutBase<ILoggingEvent> {
-    String prefix = null;
-    boolean printThreadName = true;
-    private final String applicationName = "regulus";
+public class TestLoggingLayout extends LayoutBase<ILoggingEvent>
+{
+	private final String applicationName = "regulus";
+	String prefix = null;
+	boolean printThreadName = true;
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
+	public void setPrefix(String prefix)
+	{
+		this.prefix = prefix;
+	}
 
-    public void setPrintThreadName(boolean printThreadName) {
-        this.printThreadName = printThreadName;
-    }
+	public void setPrintThreadName(boolean printThreadName)
+	{
+		this.printThreadName = printThreadName;
+	}
 
-    public String doLayout(ILoggingEvent event) {
-        StringBuffer sbuf = new StringBuffer(128);
+	public String doLayout(ILoggingEvent event)
+	{
+		StringBuffer sbuf = new StringBuffer(128);
 
-        sbuf.append(LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        sbuf.append(" ");
-        sbuf.append(event.getLevel());
-        sbuf.append(" ");
-        sbuf.append(ProcessHandle.current().pid());
-        sbuf.append(" --- [").append(applicationName).append("] ");
-        sbuf.append("[\t\t").append(event.getThreadName()).append("] ");
-        sbuf.append(event.getLoggerName());
-        sbuf.append(" : ");
-        sbuf.append(event.getFormattedMessage());
-        sbuf.append("\n");
-        return sbuf.toString();
-    }
+		sbuf.append(LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+		sbuf.append(" ");
+		sbuf.append(event.getLevel());
+		sbuf.append(" ");
+		sbuf.append(ProcessHandle.current().pid());
+		sbuf.append(" --- [").append(applicationName).append("] ");
+		sbuf.append("[\t\t").append(event.getThreadName()).append("] ");
+		sbuf.append(event.getLoggerName());
+		sbuf.append(" : ");
+		sbuf.append(event.getFormattedMessage());
+		sbuf.append("\n");
+		return sbuf.toString();
+	}
 }

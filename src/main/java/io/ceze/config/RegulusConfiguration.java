@@ -25,32 +25,36 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class RegulusConfiguration {
+public class RegulusConfiguration
+{
 
-    @Value("${regulus.providers.gis.api-key}")
-    private String geoCodeApiKey;
+	@Value("${regulus.providers.gis.api-key}")
+	private String geoCodeApiKey;
 
-    @Value("${spring.mail.host}")
-    private String mailHost;
+	@Value("${spring.mail.host}")
+	private String mailHost;
 
-    @Value("${spring.mail.port}")
-    private String mailPort;
+	@Value("${spring.mail.port}")
+	private String mailPort;
 
-    @Bean
-    public GeoApiContext geoApiContext() {
-        return new GeoApiContext.Builder().apiKey(geoCodeApiKey).build();
-    }
+	@Bean
+	public GeoApiContext geoApiContext()
+	{
+		return new GeoApiContext.Builder().apiKey(geoCodeApiKey).build();
+	}
 
-    @Bean
-    JavaMailSender mailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(mailHost);
-        mailSender.setPort(Integer.parseInt(mailPort));
-        return mailSender;
-    }
+	@Bean
+	JavaMailSender mailSender()
+	{
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost(mailHost);
+		mailSender.setPort(Integer.parseInt(mailPort));
+		return mailSender;
+	}
 
-    @Bean
-    RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
+	@Bean
+	RestTemplate restTemplate(RestTemplateBuilder builder)
+	{
+		return builder.build();
+	}
 }

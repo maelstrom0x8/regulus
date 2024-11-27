@@ -15,8 +15,9 @@
  */
 package io.ceze.regulus.user.domain.model;
 
-public enum Role {
-    DISPOSERS,
-    COLLECTORS,
-    RECYCLERS
+public enum Role
+{
+	DISPOSERS,
+	COLLECTORS,
+	RECYCLERS
 }

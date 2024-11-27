@@ -17,4 +17,6 @@ package io.ceze.regulus.event;
 
 import io.ceze.regulus.user.domain.model.User;
 
-public record UserCreated(User user) {}
+public record UserCreated(User user)
+{
+}

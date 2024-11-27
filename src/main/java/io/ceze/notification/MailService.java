@@ -15,6 +15,7 @@
  */
 package io.ceze.notification;
 
-public interface MailService {
-    void send(Message message);
+public interface MailService
+{
+	void send(Message message);
 }

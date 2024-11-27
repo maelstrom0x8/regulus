@@ -17,9 +17,10 @@ package io.ceze.gis;
 
 import java.util.Collection;
 
-public interface RouteFinder {
+public interface RouteFinder
+{
 
-    Route find(GeoData g1, GeoData g2);
+	Route find(GeoData g1, GeoData g2);
 
-    Route find(GeoData start, Collection<GeoData> points);
+	Route find(GeoData start, Collection<GeoData> points);
 }

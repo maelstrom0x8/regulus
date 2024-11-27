@@ -18,12 +18,14 @@ package io.ceze.regulus.user.domain.repository;
 import io.ceze.regulus.user.domain.model.User;
 import io.ceze.regulus.user.domain.model.projection.UserId;
 import jakarta.validation.constraints.NotNull;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
-    boolean existsByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long>
+{
 
-    Optional<UserId> findByEmail(@NotNull String email);
+	boolean existsByEmail(String email);
+
+	Optional<UserId> findByEmail(@NotNull String email);
 }

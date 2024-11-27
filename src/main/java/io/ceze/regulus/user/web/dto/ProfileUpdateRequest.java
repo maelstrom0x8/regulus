@@ -17,4 +17,6 @@ package io.ceze.regulus.user.web.dto;
 
 import java.time.LocalDateTime;
 
-public record ProfileUpdateRequest(String firstName, String lastName, LocalDateTime dateOfBirth) {}
+public record ProfileUpdateRequest(String firstName, String lastName, LocalDateTime dateOfBirth)
+{
+}

@@ -15,7 +15,8 @@
  */
 package io.ceze.regulus.user.dto;
 
-public enum UserRole {
-    CLIENT,
-    PROVIDER
+public enum UserRole
+{
+	CLIENT,
+	PROVIDER
 }

@@ -28,32 +28,37 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/profiles")
-public class ProfileController {
+public class ProfileController
+{
 
-    private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
-    private final ProfileService profileService;
+	private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
+	private final ProfileService profileService;
 
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
+	public ProfileController(ProfileService profileService)
+	{
+		this.profileService = profileService;
+	}
 
-    @PostMapping
-    public void createProfile(@Authenticated UserId userId, @RequestBody ProfileRequest request) {
-        log.info("Creating profile for user with id {}", userId.id());
-        profileService.create(userId, request);
-        log.info("Profile created successfully");
-    }
+	@PostMapping
+	public void createProfile(@Authenticated UserId userId, @RequestBody ProfileRequest request)
+	{
+		log.info("Creating profile for user with id {}", userId.id());
+		profileService.create(userId, request);
+		log.info("Profile created successfully");
+	}
 
-    @GetMapping
-    public ResponseEntity<ProfileResponse> fetchUserProfile(@Authenticated UserId userId) {
-        log.info("Fetching profile for user {}", userId.id());
-        Profile profile = profileService.getProfileByUserId(userId.id());
-        ProfileResponse response = ProfileResponse.from(profile);
-        return ResponseEntity.ok(response);
-    }
+	@GetMapping
+	public ResponseEntity<ProfileResponse> fetchUserProfile(@Authenticated UserId userId)
+	{
+		log.info("Fetching profile for user {}", userId.id());
+		Profile profile = profileService.getProfileByUserId(userId.id());
+		ProfileResponse response = ProfileResponse.from(profile);
+		return ResponseEntity.ok(response);
+	}
 
-    @PutMapping
-    public void updateProfile(@Authenticated UserId userId, @RequestBody ProfileRequest request) {
-        profileService.updateProfile(userId, request);
-    }
+	@PutMapping
+	public void updateProfile(@Authenticated UserId userId, @RequestBody ProfileRequest request)
+	{
+		profileService.updateProfile(userId, request);
+	}
 }

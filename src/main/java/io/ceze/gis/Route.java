@@ -15,4 +15,6 @@
  */
 package io.ceze.gis;
 
-public interface Route {}
+public interface Route
+{
+}

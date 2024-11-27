@@ -15,15 +15,20 @@
  */
 package io.ceze.regulus.user.domain.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "disposers")
-public class Disposer extends User {
+public class Disposer extends User
+{
 
-    public Disposer() {}
+	public Disposer()
+	{
+	}
 
-    public Disposer(String email) {
-        super(email);
-    }
+	public Disposer(String email)
+	{
+		super(email);
+	}
 }

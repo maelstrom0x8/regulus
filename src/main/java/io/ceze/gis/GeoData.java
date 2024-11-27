@@ -17,9 +17,11 @@ package io.ceze.gis;
 
 import io.ceze.regulus.user.domain.model.Location;
 
-public interface GeoData {
+public interface GeoData
+{
 
-    static GeoData from(Location location) {
-        return null;
-    }
+	static GeoData from(Location location)
+	{
+		return null;
+	}
 }

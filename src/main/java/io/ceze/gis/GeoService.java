@@ -24,41 +24,45 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class GeoService {
-    private static final Logger log = LoggerFactory.getLogger(GeoService.class);
-    private final GeoApiContext context;
-    private final RestTemplate restTemplate;
+public class GeoService
+{
+	private static final Logger log = LoggerFactory.getLogger(GeoService.class);
+	private final GeoApiContext context;
+	private final RestTemplate restTemplate;
 
-    public GeoService(GeoApiContext context, RestTemplate restTemplate) {
-        this.context = context;
-        this.restTemplate = restTemplate;
-    }
+	public GeoService(GeoApiContext context, RestTemplate restTemplate)
+	{
+		this.context = context;
+		this.restTemplate = restTemplate;
+	}
 
-    public LatLng getCoordinates(LocationData locationData) {
-        final String apiKey = context.getApiKey();
-        // @fixme fix url construction
-        UriComponents components =
-                UriComponentsBuilder.fromHttpUrl("https://api.tomtom.com")
-                        .path("/search/2/structuredGeocode.json")
-                        .queryParam("key", apiKey)
-                        .queryParam("streetName", locationData.street())
-                        .queryParam("streetNumber", locationData.number())
-                        .queryParam("postalCode", locationData.zipCode())
-                        .queryParam("municipality", locationData.city())
-                        .queryParam("countryCode", locationData.country())
-                        .build();
+	public LatLng getCoordinates(LocationData locationData)
+	{
+		final String apiKey = context.getApiKey();
+		// @fixme fix url construction
+		UriComponents components =
+			UriComponentsBuilder.fromHttpUrl("https://api.tomtom.com")
+				.path("/search/2/structuredGeocode.json")
+				.queryParam("key", apiKey)
+				.queryParam("streetName", locationData.street())
+				.queryParam("streetNumber", locationData.number())
+				.queryParam("postalCode", locationData.zipCode())
+				.queryParam("municipality", locationData.city())
+				.queryParam("countryCode", locationData.country())
+				.build();
 
-        var response = restTemplate.getForObject(components.toUri(), GeocodeResponse.class);
+		var response = restTemplate.getForObject(components.toUri(), GeocodeResponse.class);
 
-        var sortedResults =
-                response.results().stream()
-                        .sorted((r1, r2) -> Double.compare(r2.score(), r1.score()))
-                        .toList();
+		var sortedResults =
+			response.results().stream()
+				.sorted((r1, r2) -> Double.compare(r2.score(), r1.score()))
+				.toList();
 
-        if (!sortedResults.isEmpty()) {
-            var bestResult = sortedResults.get(0);
-            return new LatLng(bestResult.position().lat(), bestResult.position().lon());
-        }
-        return null;
-    }
+		if (!sortedResults.isEmpty())
+		{
+			var bestResult = sortedResults.get(0);
+			return new LatLng(bestResult.position().lat(), bestResult.position().lon());
+		}
+		return null;
+	}
 }

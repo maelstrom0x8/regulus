@@ -15,52 +15,63 @@
  */
 package io.ceze.config;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @ConfigurationProperties(prefix = "regulus")
-public class RegulusProperties {
+public class RegulusProperties
+{
 
-    private Map<String, Provider> providers = new HashMap<>();
+	private Map<String, Provider> providers = new HashMap<>();
 
-    public Map<String, Provider> getProviders() {
-        return providers;
-    }
+	public Map<String, Provider> getProviders()
+	{
+		return providers;
+	}
 
-    public void setProviders(Map<String, Provider> providers) {
-        this.providers = providers;
-    }
+	public void setProviders(Map<String, Provider> providers)
+	{
+		this.providers = providers;
+	}
 
-    public static class Provider {
-        private String name;
-        private String apiKey;
-        private String baseUrl;
+	public static class Provider
+	{
+		private String name;
+		private String apiKey;
+		private String baseUrl;
 
-        public String getName() {
-            return name;
-        }
+		public String getName()
+		{
+			return name;
+		}
 
-        public void setName(String name) {
-            this.name = name;
-        }
+		public void setName(String name)
+		{
+			this.name = name;
+		}
 
-        public String getApiKey() {
-            return apiKey;
-        }
+		public String getApiKey()
+		{
+			return apiKey;
+		}
 
-        public void setApiKey(String apiKey) {
-            this.apiKey = apiKey;
-        }
+		public void setApiKey(String apiKey)
+		{
+			this.apiKey = apiKey;
+		}
 
-        public String getBaseUrl() {
-            return baseUrl;
-        }
+		public String getBaseUrl()
+		{
+			return baseUrl;
+		}
 
-        public void setBaseUrl(String baseUrl) {
-            this.baseUrl = baseUrl;
-        }
-    }
+		public void setBaseUrl(String baseUrl)
+		{
+			this.baseUrl = baseUrl;
+		}
+	}
 }

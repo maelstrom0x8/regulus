@@ -3,10 +3,10 @@ Regulus Waste Management System is a comprehensive Java EE application designed 
 
 ## Features
 ### Cluster Management
-Regulus automatically groups waste disposal requests into clusters based on geographical proximity and time constraints. By intelligently organizing disposal requests, Regulus ensures efficient allocation of resources and minimizes response times for waste collection operations.
+Regulus automatically groups waste payload requests into clusters based on geographical proximity and time constraints. By intelligently organizing payload requests, Regulus ensures efficient allocation of resources and minimizes response times for waste collection operations.
 
 ### Dispatch Handling
-Efficient dispatch handling is essential for timely waste collection and disposal. Regulus utilizes advanced algorithms to dispatch collection agents to clusters, taking into account factors such as traffic conditions, agent availability, and waste disposal site capacity. By optimizing dispatch routes, Regulus maximizes resource utilization and minimizes operational costs.
+Efficient dispatch handling is essential for timely waste collection and payload. Regulus utilizes advanced algorithms to dispatch collection agents to clusters, taking into account factors such as traffic conditions, agent availability, and waste payload site capacity. By optimizing dispatch routes, Regulus maximizes resource utilization and minimizes operational costs.
 
 ### Dynamic Routing
 Regulus leverages dynamic routing algorithms to calculate optimal routes for collection agents, adapting to real-time traffic conditions and environmental factors. By continuously optimizing routes based on live data, Regulus ensures efficient waste collection operations and reduces carbon emissions associated with transportation.
@@ -15,13 +15,13 @@ Regulus leverages dynamic routing algorithms to calculate optimal routes for col
 Seamless integration with external GeoData services allows Regulus to retrieve accurate location information and calculate optimal routes for waste collection operations. By leveraging GeoData APIs, Regulus provides precise location data and ensures reliable routing for collection agents, even in remote or dynamically changing environments.
 
 ### Configurable Wait Time
-Regulus offers configurable wait times for waste disposal clusters, allowing organizations to define maximum wait durations before dispatching collection agents. By setting wait time thresholds, organizations can ensure timely response to disposal requests and prevent unnecessary delays in waste collection operations.
+Regulus offers configurable wait times for waste payload clusters, allowing organizations to define maximum wait durations before dispatching collection agents. By setting wait time thresholds, organizations can ensure timely response to payload requests and prevent unnecessary delays in waste collection operations.
 
 ## Usage
 ### Installation
 - Clone the repository to your local machine:
 ```shell
-git clone https://github.com/your-username/regulus-waste-management.git
+git clone https://github.com/maelstrom0x8/regulus.git
 ```
 - Import the project into your preferred Java IDE (e.g., IntelliJ IDEA, Eclipse, VSCode).
 
@@ -29,7 +29,8 @@ git clone https://github.com/your-username/regulus-waste-management.git
 
 - Build and deploy the application to your Payara Server.
 ```shell
-java -jar payara-micro-<version>.jar --deploy regulus/target/regulus.war 
+docker compose up -d
+./mvnw spring-boot:run -q 
 ```
 
 ## Getting Started
@@ -37,7 +38,7 @@ Ensure that the application is up and running on your application server.
 
 Create a new user to access other endpoints in the application
 
-Submit waste disposal requests through the provided user interface or API endpoints.
+Submit waste payload requests through the provided user interface or API endpoints.
 
 Monitor the cluster management and dispatch handling processes to track the status of waste collection operations.
 

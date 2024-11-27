@@ -17,68 +17,99 @@ package io.ceze.gis;
 
 import java.util.List;
 
-public record GeocodeResponse(Summary summary, List<Result> results) {
+public record GeocodeResponse(Summary summary, List<Result> results)
+{
 
-    public record Summary(
-            String query,
-            String queryType,
-            int queryTime,
-            int numResults,
-            int offset,
-            int totalResults,
-            int fuzzyLevel) {}
+	public record Summary(
+		String query,
+		String queryType,
+		int queryTime,
+		int numResults,
+		int offset,
+		int totalResults,
+		int fuzzyLevel)
+	{
+	}
 
-    public record Result(
-            String type,
-            String id,
-            double score,
-            MatchConfidence matchConfidence,
-            Address address,
-            Position position,
-            List<Mapcode> mapcodes,
-            Viewport viewport,
-            List<EntryPoint> entryPoints,
-            AddressRanges addressRanges,
-            DataSources dataSources) {}
+	public record Result(
+		String type,
+		String id,
+		double score,
+		MatchConfidence matchConfidence,
+		Address address,
+		Position position,
+		List<Mapcode> mapcodes,
+		Viewport viewport,
+		List<EntryPoint> entryPoints,
+		AddressRanges addressRanges,
+		DataSources dataSources)
+	{
+	}
 
-    public record MatchConfidence(int score) {}
+	public record MatchConfidence(int score)
+	{
+	}
 
-    public record Address(
-            String streetNumber,
-            String streetName,
-            String municipalitySubdivision,
-            String municipality,
-            String countrySecondarySubdivision,
-            String countryTertiarySubdivision,
-            String countrySubdivision,
-            String postalCode,
-            String extendedPostalCode,
-            String countryCode,
-            String country,
-            String countryCodeISO3,
-            String freeformAddress,
-            String countrySubdivisionName,
-            String localName) {}
+	public record Address(
+		String streetNumber,
+		String streetName,
+		String municipalitySubdivision,
+		String municipality,
+		String countrySecondarySubdivision,
+		String countryTertiarySubdivision,
+		String countrySubdivision,
+		String postalCode,
+		String extendedPostalCode,
+		String countryCode,
+		String country,
+		String countryCodeISO3,
+		String freeformAddress,
+		String countrySubdivisionName,
+		String localName)
+	{
+	}
 
-    public record Position(double lat, double lon) {}
+	public record Position(double lat, double lon)
+	{
+	}
 
-    public record Mapcode(String type, String fullMapcode, String territory, String code) {}
+	public record Mapcode(String type, String fullMapcode, String territory, String code)
+	{
+	}
 
-    public record Viewport(TopLeftPoint topLeftPoint, BtmRightPoint btmRightPoint) {}
+	public record Viewport(TopLeftPoint topLeftPoint, BtmRightPoint btmRightPoint)
+	{
+	}
 
-    public record TopLeftPoint(double lat, double lon) {}
+	public record TopLeftPoint(double lat, double lon)
+	{
+	}
 
-    public record BtmRightPoint(double lat, double lon) {}
+	public record BtmRightPoint(double lat, double lon)
+	{
+	}
 
-    public record EntryPoint(String type, Position position) {}
+	public record EntryPoint(String type, Position position)
+	{
+	}
 
-    public record AddressRanges(String rangeLeft, String rangeRight, From from, To to) {}
+	public record AddressRanges(String rangeLeft, String rangeRight, From from, To to)
+	{
+	}
 
-    public record From(double lat, double lon) {}
+	public record From(double lat, double lon)
+	{
+	}
 
-    public record To(double lat, double lon) {}
+	public record To(double lat, double lon)
+	{
+	}
 
-    public record DataSources(Geometry geometry) {}
+	public record DataSources(Geometry geometry)
+	{
+	}
 
-    public record Geometry(String id) {}
+	public record Geometry(String id)
+	{
+	}
 }

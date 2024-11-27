@@ -30,41 +30,46 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-public class AuthenticatedUserResolver implements HandlerMethodArgumentResolver {
+public class AuthenticatedUserResolver implements HandlerMethodArgumentResolver
+{
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticatedUserResolver.class);
-    private final AuthenticationService authenticationService;
-    private final UserService userService;
+	private static final Logger log = LoggerFactory.getLogger(AuthenticatedUserResolver.class);
+	private final AuthenticationService authenticationService;
+	private final UserService userService;
 
-    public AuthenticatedUserResolver(
-            AuthenticationService authenticationService, UserService userService) {
-        this.authenticationService = authenticationService;
-        this.userService = userService;
-    }
+	public AuthenticatedUserResolver(
+		AuthenticationService authenticationService, UserService userService)
+	{
+		this.authenticationService = authenticationService;
+		this.userService = userService;
+	}
 
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(Authenticated.class)
-                && parameter.getParameterType().equals(UserId.class);
-    }
+	@Override
+	public boolean supportsParameter(MethodParameter parameter)
+	{
+		return parameter.hasParameterAnnotation(Authenticated.class)
+			&& parameter.getParameterType().equals(UserId.class);
+	}
 
-    @Override
-    public Object resolveArgument(
-            MethodParameter parameter,
-            ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest,
-            WebDataBinderFactory binderFactory)
-            throws Exception {
-        AuthenticatedUser authenticated = authenticationService.authenticated();
-        var user = userService.getUserByEmail(authenticated.subject());
-        if (user == null) {
-            log.warn("User account does not exist");
-            HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
-            if (response != null)
-                response.setHeader("Location", webRequest.getContextPath() + "/v1/users/register");
-            throw new BadCredentialsException("Account does not exist");
-        }
+	@Override
+	public Object resolveArgument(
+		MethodParameter parameter,
+		ModelAndViewContainer mavContainer,
+		NativeWebRequest webRequest,
+		WebDataBinderFactory binderFactory)
+		throws Exception
+	{
+		AuthenticatedUser authenticated = authenticationService.authenticated();
+		var user = userService.getUserByEmail(authenticated.subject());
+		if (user == null)
+		{
+			log.warn("User account does not exist");
+			HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
+			if (response != null)
+				response.setHeader("Location", webRequest.getContextPath() + "/v1/users/register");
+			throw new BadCredentialsException("Account does not exist");
+		}
 
-        return user;
-    }
+		return user;
+	}
 }

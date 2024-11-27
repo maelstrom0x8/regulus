@@ -18,33 +18,38 @@ package io.ceze.regulus.user.dto;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public record ProfileRequest(
-        String firstName, String lastName, LocalDate dateOfBirth, LocationInfo locationInfo) {
+	String firstName, String lastName, LocalDate dateOfBirth, LocationInfo locationInfo)
+{
 
-    public record LocationInfo(
-            String streetNumber,
-            String streetName,
-            String city,
-            String state,
-            String postalCode,
-            String country) {
+	public void emplace(@NotNull Profile profile)
+	{
+		profile.setFirstName(firstName);
+		profile.setLastName(lastName);
+		profile.setDateOfBirth(dateOfBirth);
+		locationInfo.emplace(profile.getLocation());
+	}
 
-        public void emplace(@NotNull Location location) {
-            location.setStreetNumber(streetNumber);
-            location.setCity(city);
-            location.setStreet(streetName);
-            location.setState(state);
-            location.setPostalCode(postalCode);
-            location.setCountry(country);
-        }
-    }
+	public record LocationInfo(
+		String streetNumber,
+		String streetName,
+		String city,
+		String state,
+		String postalCode,
+		String country)
+	{
 
-    public void emplace(@NotNull Profile profile) {
-        profile.setFirstName(firstName);
-        profile.setLastName(lastName);
-        profile.setDateOfBirth(dateOfBirth);
-        locationInfo.emplace(profile.getLocation());
-    }
+		public void emplace(@NotNull Location location)
+		{
+			location.setStreetNumber(streetNumber);
+			location.setCity(city);
+			location.setStreet(streetName);
+			location.setState(state);
+			location.setPostalCode(postalCode);
+			location.setCountry(country);
+		}
+	}
 }

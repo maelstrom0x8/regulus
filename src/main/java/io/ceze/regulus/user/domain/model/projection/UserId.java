@@ -15,4 +15,6 @@
  */
 package io.ceze.regulus.user.domain.model.projection;
 
-public record UserId(Long id, String email) {}
+public record UserId(Long id, String email)
+{
+}

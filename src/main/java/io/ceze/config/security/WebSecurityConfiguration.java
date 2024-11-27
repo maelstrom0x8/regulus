@@ -17,7 +17,6 @@ package io.ceze.config.security;
 
 import io.ceze.config.web.resolvers.AuthenticatedUserResolver;
 import io.ceze.regulus.user.domain.service.UserService;
-import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,41 +27,46 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
 @Configuration
 @EnableMethodSecurity
-public class WebSecurityConfiguration implements WebMvcConfigurer {
+public class WebSecurityConfiguration implements WebMvcConfigurer
+{
 
-    private final AuthenticationService authenticationService;
-    private final UserService userService;
+	private static final String[] ALLOWED_ENDPOINTS = {"/actuator/health", "/v1/users/register"};
+	private final AuthenticationService authenticationService;
+	private final UserService userService;
 
-    private static final String[] ALLOWED_ENDPOINTS = {"/actuator/health", "/v1/users/register"};
+	public WebSecurityConfiguration(
+		AuthenticationService authenticationService, UserService userService)
+	{
+		this.authenticationService = authenticationService;
+		this.userService = userService;
+	}
 
-    public WebSecurityConfiguration(
-            AuthenticationService authenticationService, UserService userService) {
-        this.authenticationService = authenticationService;
-        this.userService = userService;
-    }
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers)
+	{
+		resolvers.add(new AuthenticatedUserResolver(authenticationService, userService));
+	}
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthenticatedUserResolver(authenticationService, userService));
-    }
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
+	{
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(CsrfConfigurer::disable).cors(CorsConfigurer::disable);
+		http.authorizeHttpRequests(
+			requests -> requests.requestMatchers(ALLOWED_ENDPOINTS).permitAll());
+		http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
 
-        http.csrf(CsrfConfigurer::disable).cors(CorsConfigurer::disable);
-        http.authorizeHttpRequests(
-                requests -> requests.requestMatchers(ALLOWED_ENDPOINTS).permitAll());
-        http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
+		http.oauth2ResourceServer(
+			server ->
+				server.jwt(
+					jwt ->
+						jwt.jwtAuthenticationConverter(
+							new DefaultJwtAuthenticationTokenConverter())));
 
-        http.oauth2ResourceServer(
-                server ->
-                        server.jwt(
-                                jwt ->
-                                        jwt.jwtAuthenticationConverter(
-                                                new DefaultJwtAuthenticationTokenConverter())));
-
-        return http.build();
-    }
+		return http.build();
+	}
 }

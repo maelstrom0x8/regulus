@@ -44,7 +44,7 @@ CREATE TABLE disposers (
     user_id BIGINT REFERENCES users(user_id)
 );
 
-CREATE TYPE disposal_status AS ENUM (
+CREATE TYPE payload_status AS ENUM (
     'PENDING',
     'DISPOSED',
     'CANCELLED',
@@ -67,10 +67,10 @@ CREATE TYPE priority AS ENUM (
 );
 
 
-CREATE TABLE disposals (
-    disposal_id BIGSERIAL PRIMARY KEY,
+CREATE TABLE payloads (
+    payload_id BIGSERIAL PRIMARY KEY,
     lbl label NOT NULL,
-    status disposal_status NOT NULL DEFAULT 'PENDING',
+    status payload_status NOT NULL DEFAULT 'PENDING',
     weight INTEGER NOT NULL,
     pty priority DEFAULT 'MEDIUM',
     initiated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

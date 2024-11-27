@@ -19,28 +19,36 @@ package io.ceze.gis;
  * GeoApiContext is a configuration class for setting up API keys
  * and other parameters required to make requests to geographic APIs.
  */
-public class GeoApiContext {
-    private String apiKey;
+public class GeoApiContext
+{
+	private String apiKey;
 
-    private GeoApiContext() {}
+	private GeoApiContext()
+	{
+	}
 
-    public static class Builder {
-        private final GeoApiContext context = new GeoApiContext();
+	public String getApiKey()
+	{
+		return apiKey;
+	}
 
-        public Builder apiKey(String apiKey) {
-            context.apiKey = apiKey;
-            return this;
-        }
+	public static class Builder
+	{
+		private final GeoApiContext context = new GeoApiContext();
 
-        public GeoApiContext build() {
-            if (context.apiKey.isBlank()) {
-                throw new RuntimeException("Cannot use blank key in the context");
-            }
-            return this.context;
-        }
-    }
+		public Builder apiKey(String apiKey)
+		{
+			context.apiKey = apiKey;
+			return this;
+		}
 
-    public String getApiKey() {
-        return apiKey;
-    }
+		public GeoApiContext build()
+		{
+			if (context.apiKey.isBlank())
+			{
+				throw new RuntimeException("Cannot use blank key in the context");
+			}
+			return this.context;
+		}
+	}
 }
