@@ -10,7 +10,7 @@ services:
     ports:
       - '${DB_PORT}:5432'
     networks:
-      - regulus-net
+      - regulus
   mailhog:
     container_name: mailing_regulus
     image: mailhog/mailhog:v1.0.1
@@ -18,7 +18,7 @@ services:
       - 1025:1025
       - 8025:8025
     networks:
-      - regulus-net
+      - regulus
 
   flyway:
     container_name: flyway-regulus
@@ -30,10 +30,10 @@ services:
     volumes:
       - ./src/main/resources/db/migration:/flyway/sql
     networks:
-      - regulus-net
+      - regulus
     depends_on:
       - postgres
     command: [ "migrate"]
 
 networks:
-  regulus-net:
+  regulus:

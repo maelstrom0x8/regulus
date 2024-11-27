@@ -28,8 +28,8 @@ spring:
 regulus:
   providers:
     gis:
-      name: 'TomTom Maps'
-      api-key: ${TOMTOM_API_KEY}
+      name: 'GisProvider'
+      api-key: ${GIS_API_KEY}
       base-url: https://api.tomtom.com
 #server:
 #  ssl:
