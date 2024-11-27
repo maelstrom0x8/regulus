@@ -40,6 +40,7 @@ public abstract class User {
     @Column(nullable = false, unique = true, length = 254)
     protected String email;
 
+    protected Role role;
     protected boolean verified;
     protected boolean active;
 
@@ -107,5 +108,21 @@ public abstract class User {
             case COLLECTORS -> new Collector();
             case RECYCLERS -> new Recycler();
         };
+    }
+
+    public Role getRole() {
+        return determineRole();
+    }
+
+    private Role determineRole() {
+        if (this instanceof Disposer) {
+            return Role.DISPOSERS;
+        } else if (this instanceof Collector) {
+            return Role.COLLECTORS;
+        } else if (this instanceof Recycler) {
+            return Role.RECYCLERS;
+        } else {
+            throw new IllegalStateException("Unknown role for user");
+        }
     }
 }

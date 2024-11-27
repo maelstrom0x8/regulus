@@ -46,13 +46,13 @@ public class AccountEventHandler {
         var token = tokenManager.generateToken(user.user());
         //		@formatter:off
         Message message =
-                Message.MessageBuilder.withSender("admin@bridge.com")
+                Message.MessageBuilder.withSender("admin@regulus.com")
                         .recipient(user.user().getEmail())
                         .content(
                                 String.format(
                                         """
 											Click the token to verify your account.
-												http://bridge.com/accounts/verification?token=%s
+												http://regulus.com/accounts/verify?token=%s
 											Token will expire in one minute.
 											""",
                                         token.getValue()))

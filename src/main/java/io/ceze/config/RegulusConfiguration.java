@@ -27,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RegulusConfiguration {
 
-    @Value("${regulus.providers.geocode.api-key}")
+    @Value("${regulus.providers.gis.api-key}")
     private String geoCodeApiKey;
 
     @Value("${spring.mail.host}")

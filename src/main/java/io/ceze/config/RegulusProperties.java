@@ -24,19 +24,20 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "regulus")
 public class RegulusProperties {
 
-    Map<String, Provider> providers = new HashMap<>();
+    private Map<String, Provider> providers = new HashMap<>();
 
     public Map<String, Provider> getProviders() {
         return providers;
     }
 
     public void setProviders(Map<String, Provider> providers) {
-        this.providers.putAll(providers);
+        this.providers = providers;
     }
 
     public static class Provider {
         private String name;
         private String apiKey;
+        private String baseUrl;
 
         public String getName() {
             return name;
@@ -52,6 +53,14 @@ public class RegulusProperties {
 
         public void setApiKey(String apiKey) {
             this.apiKey = apiKey;
+        }
+
+        public String getBaseUrl() {
+            return baseUrl;
+        }
+
+        public void setBaseUrl(String baseUrl) {
+            this.baseUrl = baseUrl;
         }
     }
 }
