@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.integration.geo;
+package io.ceze.gis;
 
 /**
  * GeoApiContext is a configuration class for setting up API keys

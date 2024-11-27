@@ -13,6 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.integration.geo;
+package io.ceze.gis;
 
-public record LatLng(double latitude, double longitude) implements GeoData {}
+import java.util.Collection;
+
+public interface RouteFinder {
+
+    Route find(GeoData g1, GeoData g2);
+
+    Route find(GeoData start, Collection<GeoData> points);
+}

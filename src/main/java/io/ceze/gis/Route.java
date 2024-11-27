@@ -13,6 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.integration.geo;
+package io.ceze.gis;
 
-public record PointToPoint(GeoData origin, GeoData destination) implements Route {}
+public interface Route {}

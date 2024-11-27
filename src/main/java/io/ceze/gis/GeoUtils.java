@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.integration.geo;
+package io.ceze.gis;
 
 public class GeoUtils {
     public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
