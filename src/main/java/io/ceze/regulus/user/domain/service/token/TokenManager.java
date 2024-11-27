@@ -15,7 +15,7 @@
  */
 package io.ceze.regulus.user.domain.service.token;
 
-import io.ceze.mailing.MailService;
+import io.ceze.notification.MailService;
 import io.ceze.regulus.user.domain.model.Token;
 import io.ceze.regulus.user.domain.model.User;
 import io.ceze.regulus.user.domain.repository.TokenStore;

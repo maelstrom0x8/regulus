@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.mailing;
+package io.ceze.notification;
 
 import io.ceze.regulus.event.UserCreated;
 import io.ceze.regulus.user.domain.service.token.TokenManager;
