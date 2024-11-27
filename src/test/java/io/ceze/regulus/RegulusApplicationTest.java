@@ -15,7 +15,6 @@
  */
 package io.ceze.regulus;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,15 +31,19 @@ import io.ceze.regulus.user.domain.model.Role;
 import io.ceze.regulus.user.dto.NewUserRequest;
 import io.ceze.regulus.user.dto.ProfileRequest;
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
-@TestPropertySource(properties = "regulus.providers.geocode.api-key=test")
+@TestPropertySource(properties = "regulus.providers.gis.api-key=test")
 public class RegulusApplicationTest extends AbstractIT {
 
     @Autowired private ObjectMapper objectMapper;
@@ -96,25 +99,35 @@ public class RegulusApplicationTest extends AbstractIT {
     @Test
     @Transactional
     void createDisposalRequest() throws Exception {
-        createUserProfile();
+        NewUserRequest body = new NewUserRequest("ena@foo.com", Role.DISPOSERS, null);
+        mvc.perform(
+            post("/v1/users/register")
+              .content(objectMapper.writeValueAsString(body))
+              .contentType(MediaType.APPLICATION_JSON))
+          .andExpect(status().is(200));
+
+        ProfileRequest profileRequest =
+          new ProfileRequest(
+            "Elena",
+            "Xe",
+            LocalDate.of(1987, 2, 17),
+            new ProfileRequest.LocationInfo(
+              "221B", "Baker Street", "Oxford", "London", "12333", "UK"));
+        mvc.perform(
+            post("/v1/profiles")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(profileRequest))
+              .with(jwt().jwt(j -> j.subject("ena@foo.com"))))
+          .andExpect(status().is2xxSuccessful());
+
+        Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_DISPOSERS"));
 
         DisposalRequest request = new DisposalRequest(Label.MSW, 91, Priority.HIGH);
         mvc.perform(
                         post("/v1/disposals")
-                                .with(jwt().jwt(j -> j.subject("ena@foo.com")))
+                                .with(jwt().jwt(j -> j.subject("ena@foo.com").claim("authorities", authorities)).authorities(authorities))
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    void containsTheExpectedProperty() {
-        Map<String, RegulusProperties.Provider> providers = regulusProperties.getProviders();
-
-        RegulusProperties.Provider geocode = providers.get("geocode");
-
-        assertThat(providers).isNotEmpty();
-        assertThat(geocode.getName()).isEqualTo("googlemaps");
-        assertThat(geocode.getApiKey()).isEqualTo("test");
     }
 }

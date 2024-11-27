@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.ceze.regulus.integration.geo.geocode;
+package io.ceze.gis;
 
-import io.ceze.regulus.integration.geo.GeoService;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.dto.LocationData;
 import org.locationtech.jts.geom.Coordinate;

@@ -6,7 +6,7 @@ spring:
   application:
     name: regulus
   datasource:
-    url: ${JDBC_URL}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DATABASE}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -18,14 +18,19 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+#    security:
+#      oauth2:
+#        resourceserver:
+#          jwt:
+#            issuer-uri: https://accounts.google.com
+#            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
 
 regulus:
   providers:
     gis:
-      name: 'GISProvider'
-      api-key: ${GIS_API_KEY}
-      base-url: ${GIS_API_BASE_URL}
-
+      name: 'TomTom Maps'
+      api-key: ${TOMTOM_API_KEY}
+      base-url: https://api.tomtom.com
 #server:
 #  ssl:
 #    key-store: ${SSL_KEY_STORE}

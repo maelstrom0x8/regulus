@@ -1,31 +1,31 @@
 spring:
+  docker:
+    compose:
+      stop:
+        command: down
   application:
     name: regulus
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DATABASE}
+    url: ${JDBC_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     defer-datasource-initialization: false
-    open-in-view: false
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    security:
-      oauth2:
-        resourceserver:
-          jwt:
-            issuer_uri: ${OAUTH2_ISSUER_URI}
 
 regulus:
   providers:
-    tomtom:
-      name: 'TomTom Maps'
-      api-key: ${TOMTOM_API_KEY}
-      base-url: https://api.tomtom.com
+    gis:
+      name: 'GISProvider'
+      api-key: ${GIS_API_KEY}
+      base-url: ${GIS_API_BASE_URL}
+
 #server:
 #  ssl:
 #    key-store: ${SSL_KEY_STORE}

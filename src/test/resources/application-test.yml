@@ -41,3 +41,10 @@ logging:
       springframework: WARN
       apache: WARN
     tc: OFF
+
+regulus:
+  providers:
+    gis:
+      name: 'GisProvider'
+      api-key: test
+      base-url: https://api.gis.com

@@ -15,7 +15,7 @@
  */
 package io.ceze.regulus.core.control.model;
 
-import io.ceze.regulus.integration.geo.Route;
+import io.ceze.gis.Route;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.HashSet;

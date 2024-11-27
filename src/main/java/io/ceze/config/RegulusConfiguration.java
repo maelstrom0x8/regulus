@@ -15,7 +15,7 @@
  */
 package io.ceze.config;
 
-import io.ceze.regulus.integration.geo.GeoApiContext;
+import io.ceze.gis.GeoApiContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

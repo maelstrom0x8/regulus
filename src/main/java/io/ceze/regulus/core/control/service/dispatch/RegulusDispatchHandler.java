@@ -15,11 +15,11 @@
  */
 package io.ceze.regulus.core.control.service.dispatch;
 
+import io.ceze.gis.*;
 import io.ceze.regulus.core.control.model.CollectorAgent;
 import io.ceze.regulus.core.control.model.CollectorAgents;
 import io.ceze.regulus.core.control.repository.CollectorRepository;
 import io.ceze.regulus.core.control.service.cluster.Cluster;
-import io.ceze.regulus.integration.geo.*;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.service.ProfileService;
 import java.util.ArrayDeque;

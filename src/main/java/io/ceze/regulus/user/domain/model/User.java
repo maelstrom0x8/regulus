@@ -40,7 +40,7 @@ public abstract class User {
     @Column(nullable = false, unique = true, length = 254)
     protected String email;
 
-    protected Role role;
+    protected transient Role role;
     protected boolean verified;
     protected boolean active;
 

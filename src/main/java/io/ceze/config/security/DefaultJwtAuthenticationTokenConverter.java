@@ -33,12 +33,9 @@ public class DefaultJwtAuthenticationTokenConverter
     @Override
     @SuppressWarnings("unchecked")
     public CustomJwtAuthenticationToken convert(Jwt source) {
-        UserId id = userService.getUserByEmail(source.getClaimAsString("email"));
-        User user = userService.getUserById(id.id());
-        Role roles = user.getRole();
         List<String> authorities = (List<String>) source.getClaims().get("authorities");
-        if (authorities.isEmpty()) authorities.add(roles.name());
-        return new CustomJwtAuthenticationToken(
-                source, authorities.stream().map(SimpleGrantedAuthority::new).toList());
+
+			return new CustomJwtAuthenticationToken(
+							source, authorities.stream().map(SimpleGrantedAuthority::new).toList());
     }
 }
