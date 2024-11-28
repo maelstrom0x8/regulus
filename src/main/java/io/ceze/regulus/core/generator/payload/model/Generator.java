@@ -18,7 +18,6 @@
 package io.ceze.regulus.core.generator.payload.model;
 
 import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -26,20 +25,5 @@ import jakarta.persistence.Table;
 @Table(name = "generators")
 public class Generator extends User
 {
-	@Column(name = "full_name")
-	private String name;
 
-	public Generator()
-	{
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
 }

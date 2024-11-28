@@ -39,7 +39,7 @@ CREATE TABLE profiles (
 );
 
 CREATE TABLE generators (
-    user_id BIGINT REFERENCES users(user_id),
+    user_id BIGINT REFERENCES users(user_id)
 );
 
 CREATE TABLE landfill_operators (

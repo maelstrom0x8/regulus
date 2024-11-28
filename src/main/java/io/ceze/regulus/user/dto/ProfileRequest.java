@@ -19,17 +19,14 @@ import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.util.Map;
 
-public record ProfileRequest(
-	String firstName, String lastName, LocalDate dateOfBirth, LocationInfo locationInfo)
+public record ProfileRequest(LocationInfo locationInfo, Map<String, String> attributes)
 {
 
 	public void emplace(@NotNull Profile profile)
 	{
-		profile.setFirstName(firstName);
-		profile.setLastName(lastName);
-		profile.setDateOfBirth(dateOfBirth);
+		profile.addAttributes(attributes);
 		locationInfo.emplace(profile.getLocation());
 	}
 

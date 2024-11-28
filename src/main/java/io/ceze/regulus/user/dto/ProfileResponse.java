@@ -18,15 +18,11 @@ package io.ceze.regulus.user.dto;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record ProfileResponse(
 	Long profileId,
-	String firstName,
-	String lastName,
 	String email,
-	LocalDate dateOfBirth,
 	LocalDateTime created,
 	LocalDateTime lastModified,
 	ProfileRequest.LocationInfo locationInfo)
@@ -37,10 +33,7 @@ public record ProfileResponse(
 		Location location = profile.getLocation();
 		return new ProfileResponse(
 			profile.getId(),
-			profile.getFirstName(),
-			profile.getLastName(),
 			profile.getUser().getEmail(),
-			profile.getDateOfBirth(),
 			profile.getCreatedAt(),
 			profile.getLastModified(),
 			new ProfileRequest.LocationInfo(

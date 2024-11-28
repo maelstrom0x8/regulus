@@ -19,8 +19,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "profiles")
@@ -45,11 +46,11 @@ public class Profile
 	@JoinColumn(name = "location_id")
 	private Location location;
 
-	@Column(length = 32, nullable = false)
-	private String firstName;
-
-	@Column(length = 32, nullable = false)
-	private String lastName;
+	@ElementCollection
+	@CollectionTable(name = "profile_attributes", joinColumns = @JoinColumn(name = "profile_id"))
+	@MapKeyColumn(name = "attr_key")
+	@Column(name = "attr_value")
+	private final Map<String, String> attributes = new HashMap<>();
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -57,33 +58,14 @@ public class Profile
 	@UpdateTimestamp
 	private LocalDateTime lastModified;
 
-	private LocalDate dateOfBirth;
+	@Column(name = "full_name", length = 100)
+	private String name;
 
-	public Profile()
-	{
-	}
+	public Profile() {}
 
 	public Profile(User user)
 	{
 		this.user = user;
-	}
-
-	public Profile(
-		User user,
-		String firstName,
-		String lastName,
-		LocalDateTime createdAt,
-		LocalDateTime lastModified,
-		LocalDate dateOfBirth,
-		Location location)
-	{
-		this.user = user;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.createdAt = createdAt;
-		this.lastModified = lastModified;
-		this.dateOfBirth = dateOfBirth;
-		this.location = location;
 	}
 
 	public Long getId()
@@ -101,26 +83,6 @@ public class Profile
 		this.user = user;
 	}
 
-	public String getFirstName()
-	{
-		return firstName;
-	}
-
-	public void setFirstName(String firstName)
-	{
-		this.firstName = firstName;
-	}
-
-	public String getLastName()
-	{
-		return lastName;
-	}
-
-	public void setLastName(String lastName)
-	{
-		this.lastName = lastName;
-	}
-
 	public LocalDateTime getCreatedAt()
 	{
 		return createdAt;
@@ -129,16 +91,6 @@ public class Profile
 	public LocalDateTime getLastModified()
 	{
 		return lastModified;
-	}
-
-	public LocalDate getDateOfBirth()
-	{
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(LocalDate dateOfBirth)
-	{
-		this.dateOfBirth = dateOfBirth;
 	}
 
 	public Location getLocation()
@@ -151,9 +103,24 @@ public class Profile
 		this.location = location;
 	}
 
-	//    @TODO: Check for profile completeness
-	private boolean isComplete() throws IllegalAccessException
+	public Map<String, String> getAttributes()
 	{
-		return !firstName.isBlank() | lastName.isBlank() | dateOfBirth != null;
+		return attributes;
+	}
+
+	public String getAttribute(String key)
+	{
+		return attributes.values()
+			.stream().filter(e -> e.equals(key)).findFirst().orElse(null);
+	}
+
+	public void addAttribute(String name, String value)
+	{
+		attributes.put(name, value);
+	}
+
+	public void addAttributes(Map<String, String> attrs)
+	{
+		attributes.putAll(attrs);
 	}
 }
