@@ -14,17 +14,15 @@
  * limitations under the License.
  *
  */
-package io.ceze.regulus.core.payload.service;
 
-import io.ceze.regulus.core.collector.service.CollectorService;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
+package io.ceze.regulus.core.collector.web;
 
-@ExtendWith(MockitoExtension.class)
-class DefaultWasteServiceTest
+import io.ceze.regulus.core.collector.model.CollectorAgent;
+
+public record CollectorAgentResponse()
 {
-
-	@InjectMocks
-	private CollectorService collectorService;
+	public static CollectorAgentResponse from(CollectorAgent collectorAgent)
+	{
+		return null;
+	}
 }

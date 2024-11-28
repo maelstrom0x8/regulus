@@ -27,7 +27,6 @@ import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 import io.ceze.regulus.user.domain.model.projection.UserId;
 import io.ceze.regulus.user.domain.service.ProfileService;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -139,7 +138,7 @@ public class PayloadService
 				.build());
 	}
 
-	@PostConstruct
+//	@PostConstruct
 	public void loadPendingRequests()
 	{
 		Payload probe = new Payload();

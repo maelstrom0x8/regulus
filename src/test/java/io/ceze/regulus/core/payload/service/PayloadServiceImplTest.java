@@ -16,9 +16,8 @@
  */
 package io.ceze.regulus.core.payload.service;
 
-import io.ceze.regulus.core.collector.service.CollectionService;
+import io.ceze.regulus.core.collector.service.CollectorService;
 import io.ceze.regulus.core.payload.repository.PayloadRepository;
-import io.ceze.regulus.core.payload.service.PayloadService;
 import io.ceze.regulus.user.domain.repository.LocationRepository;
 import io.ceze.regulus.user.domain.service.UserService;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +38,7 @@ class PayloadServiceImplTest
 	@Mock
 	private UserService userService;
 	@Mock
-	private CollectionService collectionService;
+	private CollectorService collectorService;
 	@Mock
 	private PayloadRepository payloadRepository;
 	@Mock
@@ -87,7 +86,7 @@ class PayloadServiceImplTest
         PayloadResponse response = payloadService.newDisposalRequest(request);
 
         verify(payloadRepository, times(1)).save(any(Payload.class));
-        verify(collectionService, times(1)).handleDisposal(any(Payload.class));
+        verify(collectorService, times(1)).handleDisposal(any(Payload.class));
 
         assertNotNull(response);
     }

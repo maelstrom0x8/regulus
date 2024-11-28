@@ -56,4 +56,21 @@ public class Collector extends User
 	{
 		this.collectorAgents.addAll(agents);
 	}
+
+	public void addAgent(@NotNull CollectorAgent agent)
+	{
+		collectorAgents.add(agent);
+	}
+
+	public void removeAgent(@NotNull AgentId agentId)
+	{
+		collectorAgents.removeIf(agent ->
+		{
+			if (agentId.collectorId().equals(id))
+			{
+				return collectorAgents.stream().anyMatch(e -> e.getId().equals(agentId.agentId()));
+			}
+			return false;
+		});
+	}
 }

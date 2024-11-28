@@ -96,7 +96,7 @@ class RegulusDispatchHandler implements DispatchHandler
 
 	private Set<CollectorAgent> checkAvailableAgents(String city)
 	{
-		// @TODO Move this to the CollectionService
+		// @TODO Move this to the CollectorService
 		return collectorRepository.findAllByLocationCity(city).stream()
 			.filter(e -> profileService.getUserLocation(e.getId()).getCity().equals(city))
 			.flatMap(e -> e.getCollectorAgents().stream())
