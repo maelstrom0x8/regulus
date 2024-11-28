@@ -17,7 +17,7 @@
 package io.ceze.regulus.core.cluster;
 
 import io.ceze.regulus.core.dispatch.DispatchHandler;
-import io.ceze.regulus.core.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.model.Payload;
 import io.ceze.regulus.user.domain.model.Location;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;

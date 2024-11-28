@@ -16,7 +16,7 @@
  */
 package io.ceze.regulus.event;
 
-import io.ceze.regulus.core.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.model.Payload;
 
 public record CancelledPayloadEvent(Payload payload)
 {

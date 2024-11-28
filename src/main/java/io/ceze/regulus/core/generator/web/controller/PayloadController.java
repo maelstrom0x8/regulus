@@ -12,12 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package io.ceze.regulus.core.payload.web.controller;
+package io.ceze.regulus.core.generator.web.controller;
 
 import io.ceze.config.security.Authenticated;
-import io.ceze.regulus.core.payload.model.Payload;
-import io.ceze.regulus.core.payload.service.*;
+import io.ceze.regulus.core.generator.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.service.DuplicateRequestException;
+import io.ceze.regulus.core.generator.payload.service.PayloadId;
+import io.ceze.regulus.core.generator.payload.service.PayloadRequest;
+import io.ceze.regulus.core.generator.payload.service.PayloadResponse;
+import io.ceze.regulus.core.generator.payload.service.PayloadService;
 import io.ceze.regulus.user.domain.model.projection.UserId;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

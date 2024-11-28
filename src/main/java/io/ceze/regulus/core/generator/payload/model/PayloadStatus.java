@@ -12,13 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package io.ceze.regulus.core.payload.service;
+package io.ceze.regulus.core.generator.payload.model;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class PayloadNotFoundException extends RuntimeException
+public enum PayloadStatus
 {
+	PENDING,
+	DISPOSED,
+	CANCELLED,
+	NO_AVAILABLE_AGENTS;
 }

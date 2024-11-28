@@ -22,7 +22,7 @@ import io.ceze.regulus.core.collector.model.Collector;
 import io.ceze.regulus.core.collector.model.CollectorAgent;
 import io.ceze.regulus.core.collector.repository.CollectorRepository;
 import io.ceze.regulus.core.collector.web.CollectorAgentRequest;
-import io.ceze.regulus.core.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.model.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;

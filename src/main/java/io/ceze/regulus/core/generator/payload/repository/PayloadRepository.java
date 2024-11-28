@@ -12,11 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package io.ceze.regulus.core.payload.repository;
+package io.ceze.regulus.core.generator.payload.repository;
 
-import io.ceze.regulus.core.payload.model.Payload;
-import io.ceze.regulus.core.payload.service.PayloadId;
+import io.ceze.regulus.core.generator.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.service.PayloadId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

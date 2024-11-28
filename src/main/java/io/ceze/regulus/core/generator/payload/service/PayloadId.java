@@ -12,8 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package io.ceze.regulus.core.payload.service;
+package io.ceze.regulus.core.generator.payload.service;
 
 public record PayloadId(Long userId, Long disposalId)
 {

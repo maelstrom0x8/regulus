@@ -14,12 +14,11 @@
  * limitations under the License.
  *
  */
-package io.ceze.regulus.core.payload.model;
+package io.ceze.regulus.core.generator.payload.service;
 
-public enum PayloadStatus
+import io.ceze.regulus.core.generator.payload.model.Label;
+import io.ceze.regulus.core.generator.payload.model.Priority;
+
+public record PayloadRequest(Label label, int weight, Priority priority)
 {
-	PENDING,
-	DISPOSED,
-	CANCELLED,
-	NO_AVAILABLE_AGENTS;
 }

@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.ceze.config.RegulusProperties;
 import io.ceze.commons.AbstractIT;
-import io.ceze.regulus.core.payload.model.Label;
-import io.ceze.regulus.core.payload.model.Priority;
-import io.ceze.regulus.core.payload.service.PayloadRequest;
+import io.ceze.regulus.core.generator.payload.model.Label;
+import io.ceze.regulus.core.generator.payload.model.Priority;
+import io.ceze.regulus.core.generator.payload.service.PayloadRequest;
 import io.ceze.regulus.user.domain.model.Role;
 import io.ceze.regulus.user.dto.NewUserRequest;
 import io.ceze.regulus.user.dto.ProfileRequest;
@@ -69,7 +69,7 @@ public class RegulusApplicationTest extends AbstractIT
 	void canCreateUserAccount() throws Exception
 	{
 
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.DISPOSERS, null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR , null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))
@@ -81,7 +81,7 @@ public class RegulusApplicationTest extends AbstractIT
 	@Transactional
 	void createUserProfile() throws Exception
 	{
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.DISPOSERS, null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))
@@ -107,7 +107,7 @@ public class RegulusApplicationTest extends AbstractIT
 	@Transactional
 	void createDisposalRequest() throws Exception
 	{
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.DISPOSERS, null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))

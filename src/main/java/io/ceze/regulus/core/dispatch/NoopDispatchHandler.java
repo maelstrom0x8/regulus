@@ -17,7 +17,7 @@
 package io.ceze.regulus.core.dispatch;
 
 import io.ceze.regulus.core.cluster.Cluster;
-import io.ceze.regulus.core.payload.model.PayloadStatus;
+import io.ceze.regulus.core.generator.payload.model.PayloadStatus;
 import io.ceze.regulus.event.CollectionEvent;
 import io.ceze.regulus.event.CollectionEventType;
 import org.slf4j.Logger;

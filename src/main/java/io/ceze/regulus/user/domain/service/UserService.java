@@ -15,7 +15,6 @@
  */
 package io.ceze.regulus.user.domain.service;
 
-import io.ceze.regulus.core.collector.model.Collector;
 import io.ceze.regulus.event.UserCreated;
 import io.ceze.regulus.user.domain.model.User;
 import io.ceze.regulus.user.domain.model.projection.UserId;
@@ -65,11 +64,9 @@ public class UserService
 		{
 			User user = User.withRole(userRequest.role());
 			user.setEmail(userRequest.email());
-			if (user instanceof Collector u) u.setName(userRequest.name());
 
 			userRepository.save(user);
 			log.info("User account for {} created successfully", user.getEmail());
-			var token = tokenManager.generateToken(user);
 			eventPublisher.publishEvent(new UserCreated(user));
 
 		} catch (DuplicateAccountException e)

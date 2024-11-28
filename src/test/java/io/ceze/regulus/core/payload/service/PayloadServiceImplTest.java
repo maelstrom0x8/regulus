@@ -17,7 +17,8 @@
 package io.ceze.regulus.core.payload.service;
 
 import io.ceze.regulus.core.collector.service.CollectorService;
-import io.ceze.regulus.core.payload.repository.PayloadRepository;
+import io.ceze.regulus.core.generator.payload.repository.PayloadRepository;
+import io.ceze.regulus.core.generator.payload.service.PayloadService;
 import io.ceze.regulus.user.domain.repository.LocationRepository;
 import io.ceze.regulus.user.domain.service.UserService;
 import org.junit.jupiter.api.extension.ExtendWith;

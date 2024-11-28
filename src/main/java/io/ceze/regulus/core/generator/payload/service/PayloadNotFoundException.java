@@ -12,23 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package io.ceze.regulus.user.domain.model;
+package io.ceze.regulus.core.generator.payload.service;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Entity
-@Table(name = "disposers")
-public class Disposer extends User
+@ResponseStatus(code = HttpStatus.NOT_FOUND)
+public class PayloadNotFoundException extends RuntimeException
 {
-
-	public Disposer()
-	{
-	}
-
-	public Disposer(String email)
-	{
-		super(email);
-	}
 }

@@ -31,18 +31,25 @@ CREATE TABLE profiles (
     profile_id BIGINT DEFAULT nextval('profiles_id_seq') PRIMARY KEY,
     user_id BIGINT NOT NULL,
     location_id BIGINT,
-    first_name VARCHAR(32) NOT NULL,
-    last_name VARCHAR(32) NOT NULL,
-    date_of_birth DATE,
+    full_name VARCHAR(100),
     created_at TIMESTAMP DEFAULT now(),
     last_modified TIMESTAMP NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 );
 
-CREATE TABLE disposers (
+CREATE TABLE generators (
+    user_id BIGINT REFERENCES users(user_id),
+);
+
+CREATE TABLE landfill_operators (
     user_id BIGINT REFERENCES users(user_id)
 );
+
+CREATE TABLE recyclers (
+    user_id BIGINT REFERENCES users(user_id)
+);
+
 
 CREATE TYPE payload_status AS ENUM (
     'PENDING',

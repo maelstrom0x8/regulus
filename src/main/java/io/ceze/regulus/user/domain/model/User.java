@@ -16,7 +16,9 @@
 package io.ceze.regulus.user.domain.model;
 
 import io.ceze.regulus.core.collector.model.Collector;
-import io.ceze.regulus.core.payload.model.Recycler;
+import io.ceze.regulus.core.generator.payload.model.Generator;
+import io.ceze.regulus.core.processing.model.LandfillOperator;
+import io.ceze.regulus.core.processing.model.Recycler;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -70,9 +72,10 @@ public abstract class User
 
 		return switch (role)
 		{
-			case DISPOSERS -> new Disposer();
-			case COLLECTORS -> new Collector();
-			case RECYCLERS -> new Recycler();
+			case GENERATOR -> new Generator();
+			case COLLECTOR -> new Collector();
+			case RECYCLER -> new Recycler();
+			case LANDFILL_OPERATOR -> new LandfillOperator();
 		};
 	}
 
@@ -138,16 +141,19 @@ public abstract class User
 
 	private Role determineRole()
 	{
-		if (this instanceof Disposer)
+		if (this instanceof Generator)
 		{
-			return Role.DISPOSERS;
+			return Role.GENERATOR;
 		} else if (this instanceof Collector)
 		{
-			return Role.COLLECTORS;
+			return Role.COLLECTOR;
 		} else if (this instanceof Recycler)
 		{
-			return Role.RECYCLERS;
-		} else
+			return Role.RECYCLER;
+		} else if (this instanceof LandfillOperator)
+		{
+			return Role.LANDFILL_OPERATOR;
+		}else
 		{
 			throw new IllegalStateException("Unknown role for user");
 		}

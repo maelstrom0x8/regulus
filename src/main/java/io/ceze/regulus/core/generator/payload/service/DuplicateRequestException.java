@@ -12,11 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package io.ceze.regulus.core.payload.model;
+package io.ceze.regulus.core.generator.payload.service;
 
-import io.ceze.regulus.user.domain.model.User;
-
-public class Recycler extends User
+public class DuplicateRequestException extends RuntimeException
 {
+
+	public DuplicateRequestException()
+	{
+		super();
+	}
+
+	public DuplicateRequestException(String msg)
+	{
+		super(msg);
+	}
 }

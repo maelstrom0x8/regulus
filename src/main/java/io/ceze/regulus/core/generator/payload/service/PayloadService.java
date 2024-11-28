@@ -15,18 +15,19 @@
  *
  */
 
-package io.ceze.regulus.core.payload.service;
+package io.ceze.regulus.core.generator.payload.service;
 
 import io.ceze.gis.LocationNotFoundException;
-import io.ceze.regulus.core.payload.model.Payload;
-import io.ceze.regulus.core.payload.model.PayloadInfo;
-import io.ceze.regulus.core.payload.model.PayloadStatus;
-import io.ceze.regulus.core.payload.repository.PayloadRepository;
+import io.ceze.regulus.core.generator.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.model.PayloadInfo;
+import io.ceze.regulus.core.generator.payload.model.PayloadStatus;
+import io.ceze.regulus.core.generator.payload.repository.PayloadRepository;
 import io.ceze.regulus.event.CancelledPayloadEvent;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 import io.ceze.regulus.user.domain.model.projection.UserId;
 import io.ceze.regulus.user.domain.service.ProfileService;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -138,13 +139,13 @@ public class PayloadService
 				.build());
 	}
 
-//	@PostConstruct
+	@PostConstruct
 	public void loadPendingRequests()
 	{
 		Payload probe = new Payload();
 		probe.setStatus(PayloadStatus.PENDING);
 		List<Payload> payloads = payloadRepository.findAll(Example.of(probe));
-		LOG.info("Found {} pending requests. Adding to cluster.", payloads.size());
+		LOG.info("Found {} pending requests.{}", payloads.size(), !payloads.isEmpty() ? " Adding to cluster." : "");
 		for (Payload payload : payloads)
 		{
 			eventPublisher.publishEvent(payload);

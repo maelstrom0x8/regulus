@@ -16,7 +16,7 @@
  */
 package io.ceze.regulus.core.cluster;
 
-import io.ceze.regulus.core.payload.model.Payload;
+import io.ceze.regulus.core.generator.payload.model.Payload;
 import io.ceze.regulus.user.domain.model.Location;
 import org.slf4j.LoggerFactory;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package io.ceze.regulus.core.payload.model;
+package io.ceze.regulus.core.generator.payload.model;
 
 public enum Priority
 {
