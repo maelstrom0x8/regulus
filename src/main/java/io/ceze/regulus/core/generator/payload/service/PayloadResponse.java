@@ -38,7 +38,7 @@ public record PayloadResponse(
 			payload.getId(),
 			payload.getLabel(),
 			payload.getStatus(),
-			payload.getDisposalInfo(),
+			payload.getPayloadInfo(),
 			payload.getInitiatedAt(),
 			payload.getLastModified(),
 			payload.getLocation().getId());

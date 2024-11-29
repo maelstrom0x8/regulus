@@ -53,7 +53,7 @@ class NoopDispatchHandler implements DispatchHandler
 			.forEach(
 				e ->
 				{
-					e.setStatus(PayloadStatus.DISPOSED);
+					e.setStatus(PayloadStatus.PROCESSED);
 					eventPublisher.publishEvent(
 						new CollectionEvent(CollectionEventType.PROCESSED, e));
 				});

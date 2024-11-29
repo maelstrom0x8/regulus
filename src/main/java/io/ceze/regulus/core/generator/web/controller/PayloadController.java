@@ -55,7 +55,7 @@ public class PayloadController
 		PayloadResponse response;
 		try
 		{
-			response = payloadService.newDisposalRequest(userId, request);
+			response = payloadService.initiatePayloadRequest(userId, request);
 		} catch (DuplicateRequestException e)
 		{
 			return ResponseEntity.badRequest()
@@ -66,9 +66,10 @@ public class PayloadController
 	}
 
 	@DeleteMapping("/cancel/{id}")
-	public void cancelPayloadRequest(@Authenticated UserId userId, @PathVariable("id") Long disposalId)
+	public void cancelPayloadRequest(@Authenticated UserId userId, @PathVariable("id") Long payloadId)
 	{
-		PayloadId id = new PayloadId(userId.id(), disposalId);
+		LOG.info("Process payload cancellation");
+		PayloadId id = new PayloadId(userId.id(), payloadId);
 		payloadService.cancelPayloadRequest(id);
 	}
 
@@ -79,5 +80,13 @@ public class PayloadController
 		Payload payload =
 			payloadService.getPayloadById(new PayloadId(userId.id(), disposalId));
 		return ResponseEntity.ok(PayloadResponse.from(payload));
+	}
+
+	@PutMapping("/{id}")
+	public void updatePayload (@Authenticated UserId userId, @PathVariable("id") Long id,
+		@RequestBody PayloadRequest request)
+	{
+		PayloadId payloadId = new PayloadId(userId.id(), id);
+		payloadService.updatePayload(payloadId, request);
 	}
 }

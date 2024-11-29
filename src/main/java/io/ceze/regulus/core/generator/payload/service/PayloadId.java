@@ -16,6 +16,6 @@
  */
 package io.ceze.regulus.core.generator.payload.service;
 
-public record PayloadId(Long userId, Long disposalId)
+public record PayloadId(Long userId, Long id)
 {
 }

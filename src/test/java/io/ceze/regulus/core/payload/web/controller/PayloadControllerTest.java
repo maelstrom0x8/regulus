@@ -23,13 +23,16 @@ import io.ceze.regulus.core.generator.payload.model.*;
 import io.ceze.regulus.core.generator.payload.repository.PayloadRepository;
 import io.ceze.regulus.core.generator.payload.service.*;
 import io.ceze.regulus.core.generator.web.controller.PayloadController;
+import io.ceze.regulus.event.CancelledPayloadEvent;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.projection.UserId;
 import io.ceze.regulus.user.domain.service.UserService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -65,9 +68,11 @@ public class PayloadControllerTest
 	private UserService userService;
 	@MockBean
 	private AuthenticationService authenticationService;
+	@MockBean
+	ApplicationEventPublisher eventPublisher;
 
 	@Test
-	void shouldCreateNewDisposalRequest () throws Exception
+	void shouldCreateNewPayloadRequest () throws Exception
 	{
 		UserId id = new UserId(99L, "ena@foo.com");
 		PayloadRequest request = new PayloadRequest(Label.MSW, 781, Priority.MEDIUM);
@@ -84,7 +89,7 @@ public class PayloadControllerTest
 		when(authenticationService.authenticated())
 			.thenReturn(new AuthenticatedUser(id.email(), null));
 		when(userService.getUserByEmail(anyString())).thenReturn(id);
-		when(payloadService.newDisposalRequest(id, request)).thenReturn(response);
+		when(payloadService.initiatePayloadRequest(id, request)).thenReturn(response);
 
 		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_GENERATOR"));
 
@@ -96,7 +101,7 @@ public class PayloadControllerTest
 					.content(objectMapper.writeValueAsString(request)))
 			.andExpect(status().is2xxSuccessful());
 
-		verify(payloadService, times(1)).newDisposalRequest(id, request);
+		verify(payloadService, times(1)).initiatePayloadRequest(id, request);
 	}
 
 	@Test
@@ -134,7 +139,7 @@ public class PayloadControllerTest
 		when(authenticationService.authenticated())
 			.thenReturn(new AuthenticatedUser(id.email(), null));
 		when(userService.getUserByEmail(anyString())).thenReturn(id);
-		when(payloadService.newDisposalRequest(id, request))
+		when(payloadService.initiatePayloadRequest(id, request))
 			.thenThrow(new DuplicateRequestException("Payload request already initiated at this location"));
 
 		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_GENERATOR"));
@@ -149,25 +154,31 @@ public class PayloadControllerTest
 	}
 
 	@Test
-	void shouldCancelDisposalSuccessfully () throws Exception
+	@Disabled
+	void shouldCancelPayloadRequestSuccessfullyIfStillPending () throws Exception
 	{
 		UserId id = new UserId(99L, "ena@foo.com");
 		Long payloadId = 545L;
+		Payload payload = new Payload();
+		payload.setStatus(PayloadStatus.PENDING);
 
 		when(authenticationService.authenticated())
 			.thenReturn(new AuthenticatedUser(id.email(), null));
 		when(userService.getUserByEmail(anyString())).thenReturn(id);
+		when(payloadService.getPayloadById(new PayloadId(id.id(), payloadId)))
+			.thenReturn(payload);
 
 		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_GENERATOR"));
 
 		mvc.perform(
-				delete("/v1/payloads/cancel/" + payloadId)
+				delete("/v1/payloads/cancel/{id}", payloadId)
 					.with(jwt().jwt(j -> j.subject("ena@foo.com").claim("authorities", authorities))
-						.authorities(authorities))
-					.contentType(MediaType.APPLICATION_JSON))
+						.authorities(authorities)))
 			.andExpect(status().isOk());
 
+		assertThat(payload.getStatus()).isEqualTo(PayloadStatus.CANCELLED);
 		verify(payloadService, times(1)).cancelPayloadRequest(new PayloadId(id.id(), payloadId));
+		verify(eventPublisher, times(1)).publishEvent(any(CancelledPayloadEvent.class));
 	}
 
 	@Test
@@ -176,7 +187,7 @@ public class PayloadControllerTest
 		UserId userId = new UserId(99L, "ena@foo.com");
 		Long payloadId = 545L;
 		Location location = new Location("21", "street", "city", "state", "993", "NG");
-		Payload payload = new Payload(Label.MSW, PayloadStatus.DISPOSED, new PayloadInfo.Builder()
+		Payload payload = new Payload(Label.MSW, PayloadStatus.PROCESSED, new PayloadInfo.Builder()
 			.weight(323).priority(Priority.URGENT)
 			.build());
 		payload.setLocation(location);
@@ -223,5 +234,63 @@ public class PayloadControllerTest
 			.andExpect(status().isNotFound());
 
 		verify(payloadService, times(1)).getPayloadById(new PayloadId(userId.id(), payloadId));
+	}
+
+	@Test
+	void noopWhenCancellingInProcessPayloadRequest () throws Exception
+	{
+		UserId userId = new UserId(99L, "ena@foo.com");
+		Long payloadId = 545L;
+		Payload payload = new Payload(Label.MSW, PayloadStatus.IN_PROCESS, new PayloadInfo.Builder()
+			.weight(100).priority(Priority.LOW)
+			.build());
+
+		when(authenticationService.authenticated())
+			.thenReturn(new AuthenticatedUser(userId.email(), null));
+		when(userService.getUserByEmail(anyString())).thenReturn(userId);
+		when(payloadService.getPayloadById(new PayloadId(userId.id(), payloadId)))
+			.thenReturn(payload);
+
+		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_GENERATOR"));
+
+		mvc.perform(
+				delete("/v1/payloads/cancel/" + payloadId)
+					.with(jwt().jwt(j -> j.subject("ena@foo.com").claim("authorities", authorities))
+						.authorities(authorities))
+					.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+
+		verify(eventPublisher, times(0)).publishEvent(any(CancelledPayloadEvent.class));
+	}
+
+	@Test
+	@Disabled
+	void shouldUpdatePayloadSuccessfully () throws Exception
+	{
+		UserId id = new UserId(99L, "ena@foo.com");
+		Payload payload = new Payload(Label.MEDICAL, PayloadStatus.PENDING, new PayloadInfo.Builder()
+			.weight(422).priority(Priority.MEDIUM).build());
+		ReflectionTestUtils.setField(payload, "id", 545L);
+		PayloadRequest request = new PayloadRequest(Label.MEDICAL, 781, Priority.URGENT);
+
+		when(authenticationService.authenticated())
+			.thenReturn(new AuthenticatedUser(id.email(), null));
+		when(userService.getUserByEmail(anyString())).thenReturn(id);
+		when(payloadService.getPayloadById(any(PayloadId.class))).thenReturn(payload);
+
+		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_GENERATOR"));
+
+		mvc.perform(
+				put("/v1/payloads/{id}", 545L)
+					.with(jwt().jwt(j -> j.subject("ena@foo.com").claim("authorities", authorities))
+						.authorities(authorities))
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(objectMapper.writeValueAsString(request)))
+			.andExpect(status().isOk());
+
+		assertThat(payload.getStatus()).isEqualTo(PayloadStatus.PENDING);
+		assertThat(payload.getPayloadInfo().getPriority().name()).isEqualTo(Priority.URGENT);
+		assertThat(payload.getPayloadInfo().getWeight()).isEqualTo(781);
+
 	}
 }

@@ -72,7 +72,7 @@ public class PayloadService
 	 * @throws NullPointerException if the user associated with the current security context is not
 	 *                              found or if the user's location is null
 	 */
-	public PayloadResponse newDisposalRequest(UserId userId, PayloadRequest request)
+	public PayloadResponse initiatePayloadRequest (UserId userId, PayloadRequest request)
 		throws DuplicateRequestException
 	{
 
@@ -105,17 +105,18 @@ public class PayloadService
 	@Cacheable
 	public Payload getPayloadById (PayloadId payloadId) throws PayloadNotFoundException
 	{
-		var disposal =
+		var payload =
 			payloadRepository
 				.findByPayloadId(payloadId)
 				.orElseThrow(PayloadNotFoundException::new);
 
-		return disposal;
+		return payload;
 	}
 
 	public void cancelPayloadRequest (PayloadId payloadId)
 	{
 		Payload payload = getPayloadById(payloadId);
+		LOG.info("Found payload with id {}, status={}", payloadId.id(), payload.getStatus());
 		if (payload.getStatus().equals(PayloadStatus.PENDING))
 		{
 			payload.setStatus(PayloadStatus.CANCELLED);
@@ -130,11 +131,13 @@ public class PayloadService
 		Payload payload = getPayloadById(payloadId);
 		if (!payload.getStatus().equals(PayloadStatus.PENDING)) return;
 		payload.setLabel(request.label());
-		payload.setDisposalInfo(
+		payload.setPayloadInfo(
 			new PayloadInfo.Builder()
 				.weight(request.weight())
 				.priority(request.priority())
 				.build());
+
+		LOG.info("Updated payload with id {}", payload.getId());
 	}
 
 	@PostConstruct

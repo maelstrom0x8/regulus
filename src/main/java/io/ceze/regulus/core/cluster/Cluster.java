@@ -34,7 +34,7 @@ public class Cluster
 	private static final org.slf4j.Logger log = LoggerFactory.getLogger(Cluster.class);
 	// TODO: Fix this. Label priority has higher precedence over request priority
 	private final Comparator<Payload> priorityComparator =
-		Comparator.comparingInt(e -> e.getDisposalInfo().getPriority().getLevel());
+		Comparator.comparingInt(e -> e.getPayloadInfo().getPriority().getLevel());
 
 	private final Queue<Payload> requestQueue =
 		new PriorityBlockingQueue<>(11, priorityComparator);

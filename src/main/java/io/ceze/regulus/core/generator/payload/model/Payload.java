@@ -61,11 +61,11 @@ public class Payload
 	{
 	}
 
-	public Payload(Label label, PayloadStatus status, PayloadInfo disposerInfo)
+	public Payload(Label label, PayloadStatus status, PayloadInfo payloadInfo)
 	{
 		this.label = label;
 		this.status = status;
-		this.payloadInfo = disposerInfo;
+		this.payloadInfo = payloadInfo;
 	}
 
 	public Long getId()
@@ -98,12 +98,12 @@ public class Payload
 		this.status = status;
 	}
 
-	public PayloadInfo getDisposalInfo()
+	public PayloadInfo getPayloadInfo ()
 	{
 		return payloadInfo;
 	}
 
-	public void setDisposalInfo(PayloadInfo payloadInfo)
+	public void setPayloadInfo (PayloadInfo payloadInfo)
 	{
 		this.payloadInfo = payloadInfo;
 	}

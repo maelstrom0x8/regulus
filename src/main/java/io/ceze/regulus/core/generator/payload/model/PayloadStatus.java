@@ -19,7 +19,8 @@ package io.ceze.regulus.core.generator.payload.model;
 public enum PayloadStatus
 {
 	PENDING,
-	DISPOSED,
+	PROCESSED,
+	IN_PROCESS,
 	CANCELLED,
 	NO_AVAILABLE_AGENTS;
 }
