@@ -17,8 +17,8 @@ package io.ceze.regulus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.ceze.config.RegulusProperties;
 import io.ceze.commons.AbstractIT;
+import io.ceze.config.RegulusProperties;
 import io.ceze.regulus.core.generator.payload.model.Label;
 import io.ceze.regulus.core.generator.payload.model.Priority;
 import io.ceze.regulus.core.generator.payload.service.PayloadRequest;
@@ -37,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,23 +54,23 @@ public class RegulusApplicationTest extends AbstractIT
 	private RegulusProperties regulusProperties;
 
 	@BeforeEach
-	void setUp()
+	void setUp ()
 	{
 		objectMapper.registerModule(new JavaTimeModule());
 	}
 
 	@Test
-	void contextLoads() throws Exception
+	void contextLoads () throws Exception
 	{
 		mvc.perform(get("/actuator/health")).andExpect(status().is2xxSuccessful());
 	}
 
 	@Transactional
 	@Test
-	void canCreateUserAccount() throws Exception
+	void canCreateUserAccount () throws Exception
 	{
 
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR , null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))
@@ -79,7 +80,7 @@ public class RegulusApplicationTest extends AbstractIT
 
 	@Test
 	@Transactional
-	void createUserProfile() throws Exception
+	void createUserProfile () throws Exception
 	{
 		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
 		mvc.perform(
@@ -90,11 +91,12 @@ public class RegulusApplicationTest extends AbstractIT
 
 		ProfileRequest profileRequest =
 			new ProfileRequest(
-				"Elena",
-				"Xe",
-				LocalDate.of(1987, 2, 17),
 				new ProfileRequest.LocationInfo(
-					"221B", "Baker Street", "Oxford", "London", "12333", "UK"));
+					"221B", "Baker Street", "Oxford", "London", "12333", "UK"),
+				Map.of("first_name", "Elena",
+					"last_name", "Xe",
+					"date_of_birth", LocalDate.of(1987, 2, 17).toString())
+			);
 		mvc.perform(
 				post("/v1/profiles")
 					.contentType(MediaType.APPLICATION_JSON)
@@ -105,7 +107,7 @@ public class RegulusApplicationTest extends AbstractIT
 
 	@Test
 	@Transactional
-	void createDisposalRequest() throws Exception
+	void createDisposalRequest () throws Exception
 	{
 		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
 		mvc.perform(
@@ -116,11 +118,12 @@ public class RegulusApplicationTest extends AbstractIT
 
 		ProfileRequest profileRequest =
 			new ProfileRequest(
-				"Elena",
-				"Xe",
-				LocalDate.of(1987, 2, 17),
 				new ProfileRequest.LocationInfo(
-					"221B", "Baker Street", "Oxford", "London", "12333", "UK"));
+					"221B", "Baker Street", "Oxford", "London", "12333", "UK"),
+				Map.of("first_name", "Elena",
+					"last_name", "Xe",
+					"date_of_birth", LocalDate.of(1987, 2, 17).toString())
+			);
 		mvc.perform(
 				post("/v1/profiles")
 					.contentType(MediaType.APPLICATION_JSON)
@@ -128,7 +131,7 @@ public class RegulusApplicationTest extends AbstractIT
 					.with(jwt().jwt(j -> j.subject("ena@foo.com"))))
 			.andExpect(status().is2xxSuccessful());
 
-		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_DISPOSERS"));
+		Collection<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_GENERATOR"));
 
 		PayloadRequest request = new PayloadRequest(Label.MSW, 91, Priority.HIGH);
 		mvc.perform(

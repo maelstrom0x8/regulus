@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Example;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,7 +72,6 @@ public class PayloadService
 	 * @throws NullPointerException if the user associated with the current security context is not
 	 *                              found or if the user's location is null
 	 */
-	@PreAuthorize("hasRole('DISPOSERS')")
 	public PayloadResponse newDisposalRequest(UserId userId, PayloadRequest request)
 		throws DuplicateRequestException
 	{

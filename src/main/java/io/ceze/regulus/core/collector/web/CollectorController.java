@@ -32,7 +32,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/collectors")
-@PreAuthorize("hasRole('COLLECTORS')")
+@PreAuthorize("hasRole('COLLECTOR')")
 public class CollectorController
 {
 

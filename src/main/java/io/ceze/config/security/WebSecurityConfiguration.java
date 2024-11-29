@@ -23,6 +23,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -34,7 +36,7 @@ import java.util.List;
 public class WebSecurityConfiguration implements WebMvcConfigurer
 {
 
-	private static final String[] ALLOWED_ENDPOINTS = {"/actuator/health", "/v1/users/register"};
+	private static final String[] ALLOWED_ENDPOINTS = {"/actuator/health", "/v1/users/register", "/v1/profiles/inf"};
 	private final AuthenticationService authenticationService;
 	private final UserService userService;
 
@@ -68,5 +70,12 @@ public class WebSecurityConfiguration implements WebMvcConfigurer
 							new DefaultJwtAuthenticationTokenConverter())));
 
 		return http.build();
+	}
+
+
+	@Bean
+	public JwtDecoder jwtDecoder ()
+	{
+		return NimbusJwtDecoder.withJwkSetUri("https://www.googleapis.com/oauth2/v3/certs").build();
 	}
 }
