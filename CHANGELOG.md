@@ -1,29 +1,52 @@
-### **Changelog**
+# Changelog
 
 All notable changes to the Regulus API will be documented in this file.
 
-### **[Unreleased]**
-* Add support for real-time tracking of waste collection vehicles.
-* Introduce enhanced reporting capabilities for waste management organizations.
-* Improve routing algorithms to optimize collection routes based on live traffic data.
-* Enhance integration with external GeoData services for more accurate location information.
-* Refactor code structure to follow a modular architecture:
+## [Unreleased]
 
-  * Account Module:
-  Manages user accounts and profiles.
-  Includes repositories, services, and resources for account management.
-  * Commons Package:
-  Contains common data entities and utilities shared across modules.
-  * Configuration Package:
-  Handles configuration for external services.
-  * Control Package:
-  Coordinates waste collection and payload operations.
-  Manages collector agents, collections, clusters, and dispatch handling.
-  * Generator Package:
-  Generates waste payload requests and manages payload operations.
-  Handles payload information, labels, and payload requests.
-  * Integration Package:
-  Integrates with external GeoData services for location-based functionalities.
-  Provides clients and utilities for accessing GeoCoder and Google Map services.
-  * Security Package:
-  Handles user authentication, authorization, and role management.
+### New Features
+- **Real-Time Tracking**:  
+  Add support for real-time tracking of waste collection vehicles.
+
+- **Enhanced Reporting**:  
+  Introduce advanced reporting capabilities for waste management organizations.
+
+- **Optimized Routing**:  
+  Improve routing algorithms to optimize collection routes based on live traffic data.
+
+- **GIS Integration**:  
+  Enhance integration with external GIS for more accurate location-based information.
+
+---
+
+### Refactor and Modularization
+Refactor the code structure to align with a modular architecture for improved maintainability and scalability:
+
+- **Account Module (`regulus/user`)**:  
+  Manages user accounts, roles, and profiles.  
+  Contains services, repositories, DTOs, and web controllers for account management.
+
+- **Commons Module (`regulus/core`)**:  
+  Includes shared data entities, utility classes, and commonly used components.
+
+- **Configuration Module (`config`)**:  
+  Manages external service configurations such as GIS services, payment gateways, and mailing.
+
+- **Control Module (`regulus/core/dispatch`)**:  
+  Handles waste collection coordination and payload operations.  
+  Manages collector agents, collection clusters, and dispatch handling.
+
+- **Generator Module (`regulus/core/generator`)**:  
+  Manages the creation and processing of waste payloads.  
+  Handles payload information, labels, and requests.
+
+- **Integration Module (`gis`)**:  
+  Facilitates external service integration for location-based functionalities.  
+  Provides geolocation and routing clients and utilities.
+
+- **Security Module (`config/security`)**:  
+  Implements user authentication, authorization, and role-based access management.
+- 
+- **Subscription Module (`regulus/core/subscription`)**:  
+  Manages organizational subscriptions, including standard and premium pricing models.  
+  Handles subscription plans, billing cycles, and feature access management. 
