@@ -47,7 +47,7 @@ public class PayloadController
 	}
 
 	@PostMapping
-	public ResponseEntity<?> requestDisposal(
+	public ResponseEntity<?> createPayloadRequest (
 		@Authenticated UserId userId, @NotNull @Valid @RequestBody PayloadRequest request)
 	{
 
@@ -66,18 +66,18 @@ public class PayloadController
 	}
 
 	@DeleteMapping("/cancel/{id}")
-	public void cancelDisposal(@Authenticated UserId userId, @PathVariable("id") Long disposalId)
+	public void cancelPayloadRequest(@Authenticated UserId userId, @PathVariable("id") Long disposalId)
 	{
 		PayloadId id = new PayloadId(userId.id(), disposalId);
-		payloadService.cancelDisposalRequest(id);
+		payloadService.cancelPayloadRequest(id);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<PayloadResponse> fetchDisposalById(
+	public ResponseEntity<PayloadResponse> fetchPayloadById(
 		@Authenticated UserId userId, @PathVariable("id") Long disposalId)
 	{
 		Payload payload =
-			payloadService.getDisposalById(new PayloadId(userId.id(), disposalId));
+			payloadService.getPayloadById(new PayloadId(userId.id(), disposalId));
 		return ResponseEntity.ok(PayloadResponse.from(payload));
 	}
 }

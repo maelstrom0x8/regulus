@@ -103,7 +103,7 @@ public class PayloadService
 	}
 
 	@Cacheable
-	public Payload getDisposalById(PayloadId payloadId) throws PayloadNotFoundException
+	public Payload getPayloadById (PayloadId payloadId) throws PayloadNotFoundException
 	{
 		var disposal =
 			payloadRepository
@@ -113,9 +113,9 @@ public class PayloadService
 		return disposal;
 	}
 
-	public void cancelDisposalRequest(PayloadId payloadId)
+	public void cancelPayloadRequest (PayloadId payloadId)
 	{
-		Payload payload = getDisposalById(payloadId);
+		Payload payload = getPayloadById(payloadId);
 		if (payload.getStatus().equals(PayloadStatus.PENDING))
 		{
 			payload.setStatus(PayloadStatus.CANCELLED);
@@ -124,10 +124,10 @@ public class PayloadService
 		}
 	}
 
-	public void updateDisposal(PayloadId payloadId, PayloadRequest request)
+	public void updatePayload(PayloadId payloadId, PayloadRequest request)
 	{
 		LOG.info("Updating payload with id {}", payloadId);
-		Payload payload = getDisposalById(payloadId);
+		Payload payload = getPayloadById(payloadId);
 		if (!payload.getStatus().equals(PayloadStatus.PENDING)) return;
 		payload.setLabel(request.label());
 		payload.setDisposalInfo(
