@@ -110,7 +110,7 @@ public class Profile
 		return attributes;
 	}
 
-	public Object getAttribute(String key)
+	public ProfileAttribute getAttribute(String key)
 	{
 		return attributes
 			.stream().filter(e -> e.getKey().equals(key)).findFirst().orElse(null);
@@ -118,7 +118,15 @@ public class Profile
 
 	public void addAttribute(String name, Object value)
 	{
-		attributes.add(new ProfileAttribute(name, value));
+		ProfileAttribute attribute = getAttribute(name);
+		if (attribute == null)
+		{
+			attribute = new ProfileAttribute(name, value);
+			attributes.add(attribute);
+		} else
+		{
+			attribute.setValue(value);
+		}
 	}
 
 	public void addAttributes(Map<String, Object> attrs)
