@@ -15,14 +15,15 @@
  *
  */
 
-package io.ceze.regulus.core.processing.model;
+package io.ceze.regulus.core.processing.service;
 
-import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import io.ceze.regulus.core.generator.payload.model.Label;
+import io.ceze.regulus.core.processing.model.Operable;
 
-@Entity
-@Table(name = "landfill_operators")
-public class LandfillOperator extends User
+import java.util.List;
+
+public interface ProcessingService
 {
+
+	List<Operable> retrieveOperatorsByLabel (Label label);
 }

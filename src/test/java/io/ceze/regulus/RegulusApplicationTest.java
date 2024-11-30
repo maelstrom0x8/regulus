@@ -22,6 +22,8 @@ import io.ceze.config.RegulusProperties;
 import io.ceze.regulus.core.generator.payload.model.Label;
 import io.ceze.regulus.core.generator.payload.model.Priority;
 import io.ceze.regulus.core.generator.payload.service.PayloadRequest;
+import io.ceze.regulus.core.processing.model.PayloadType;
+import io.ceze.regulus.core.processing.repository.OperatorRepository;
 import io.ceze.regulus.user.domain.model.Role;
 import io.ceze.regulus.user.dto.NewUserRequest;
 import io.ceze.regulus.user.dto.ProfileRequest;
@@ -53,6 +55,9 @@ public class RegulusApplicationTest extends AbstractIT
 	@Autowired
 	private RegulusProperties regulusProperties;
 
+	@Autowired
+	OperatorRepository operatorRepository;
+
 	@BeforeEach
 	void setUp ()
 	{
@@ -70,7 +75,7 @@ public class RegulusApplicationTest extends AbstractIT
 	void canCreateUserAccount () throws Exception
 	{
 
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null, null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))
@@ -82,7 +87,7 @@ public class RegulusApplicationTest extends AbstractIT
 	@Transactional
 	void createUserProfile () throws Exception
 	{
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null, null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))
@@ -107,23 +112,24 @@ public class RegulusApplicationTest extends AbstractIT
 
 	@Test
 	@Transactional
-	void createDisposalRequest () throws Exception
+	void newPayloadRequest () throws Exception
 	{
-		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null);
+		NewUserRequest body = new NewUserRequest("ena@foo.com", Role.GENERATOR, null, null);
 		mvc.perform(
 				post("/v1/users/register")
 					.content(objectMapper.writeValueAsString(body))
 					.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().is(200));
 
+		Map<String, Object> profileAttributes = Map.of("first_name", "Elena",
+			"last_name", "Xe",
+			"date_of_birth", LocalDate.of(1987, 2, 17).toString());
+
 		ProfileRequest profileRequest =
 			new ProfileRequest(
 				new ProfileRequest.LocationInfo(
 					"221B", "Baker Street", "Oxford", "London", "12333", "UK"),
-				Map.of("first_name", "Elena",
-					"last_name", "Xe",
-					"date_of_birth", LocalDate.of(1987, 2, 17).toString())
-			);
+				profileAttributes );
 		mvc.perform(
 				post("/v1/profiles")
 					.contentType(MediaType.APPLICATION_JSON)
@@ -140,5 +146,19 @@ public class RegulusApplicationTest extends AbstractIT
 					.content(objectMapper.writeValueAsString(request))
 					.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().is2xxSuccessful());
+	}
+
+	@Test
+	void registeringANewCollectorCreatesAnOperator() throws Exception {
+		Map<String, Object> properties = Map.of("name", "Nuevo Company", "capacity", 24233,
+			"payloadType", Collections.singleton(PayloadType.RECYCLABLE), "type", "collector");
+		NewUserRequest body = new NewUserRequest("nuevo@foo.com", Role.COLLECTOR, "Nuevo Company", properties);
+		mvc.perform(
+				post("/v1/users/register")
+					.content(objectMapper.writeValueAsString(body))
+					.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().is(200));
+
+
 	}
 }

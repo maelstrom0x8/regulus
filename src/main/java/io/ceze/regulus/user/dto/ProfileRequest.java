@@ -21,7 +21,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Map;
 
-public record ProfileRequest(LocationInfo locationInfo, Map<String, String> attributes)
+public record ProfileRequest(LocationInfo locationInfo, Map<String, Object> attributes)
 {
 
 	public void emplace(@NotNull Profile profile)

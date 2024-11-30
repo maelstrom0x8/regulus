@@ -20,7 +20,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -47,10 +48,11 @@ public class Profile
 	private Location location;
 
 	@ElementCollection
-	@CollectionTable(name = "profile_attributes", joinColumns = @JoinColumn(name = "profile_id"))
-	@MapKeyColumn(name = "attr_key")
-	@Column(name = "attr_value")
-	private final Map<String, String> attributes = new HashMap<>();
+	@CollectionTable(
+		name = "profile_attributes",
+		joinColumns = @JoinColumn(name = "profile_id")
+	)
+	private final List<ProfileAttribute> attributes = new ArrayList<>();
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -103,24 +105,25 @@ public class Profile
 		this.location = location;
 	}
 
-	public Map<String, String> getAttributes()
+	public List<ProfileAttribute> getAttributes()
 	{
 		return attributes;
 	}
 
-	public String getAttribute(String key)
+	public Object getAttribute(String key)
 	{
-		return attributes.values()
-			.stream().filter(e -> e.equals(key)).findFirst().orElse(null);
+		return attributes
+			.stream().filter(e -> e.getKey().equals(key)).findFirst().orElse(null);
 	}
 
-	public void addAttribute(String name, String value)
+	public void addAttribute(String name, Object value)
 	{
-		attributes.put(name, value);
+		attributes.add(new ProfileAttribute(name, value));
 	}
 
-	public void addAttributes(Map<String, String> attrs)
+	public void addAttributes(Map<String, Object> attrs)
 	{
-		attributes.putAll(attrs);
+		attrs.forEach(this::addAttribute);
+		System.out.println("Added attributes: " + attrs );
 	}
 }

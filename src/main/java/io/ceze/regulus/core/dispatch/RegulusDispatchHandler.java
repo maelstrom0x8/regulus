@@ -124,7 +124,6 @@ class RegulusDispatchHandler implements DispatchHandler
 
 	private double calculateDistance(Location loc1, Location loc2)
 	{
-		// Get lat and lngs from the locations respectively
 		return GeoUtils.calculateDistance(0, 0, 0, 0);
 	}
 }

@@ -23,6 +23,9 @@ import io.ceze.regulus.core.collector.model.CollectorAgent;
 import io.ceze.regulus.core.collector.repository.CollectorRepository;
 import io.ceze.regulus.core.collector.web.CollectorAgentRequest;
 import io.ceze.regulus.core.generator.payload.model.Payload;
+import io.ceze.regulus.event.CollectionEvent;
+import io.ceze.regulus.event.CollectionEventType;
+import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -39,10 +42,13 @@ public class CollectorService
 	private final CollectorRepository collectorRepository;
 	private final ClusterManager clusterManager;
 
-	public CollectorService(CollectorRepository collectorRepository, ClusterManager clusterManager)
+	private final EntityManager em;
+
+	public CollectorService(CollectorRepository collectorRepository, ClusterManager clusterManager, EntityManager em)
 	{
 		this.collectorRepository = collectorRepository;
 		this.clusterManager = clusterManager;
+		this.em = em;
 	}
 
 	public void addCollectorAgent(Long collectorId, CollectorAgentRequest request)
@@ -101,5 +107,16 @@ public class CollectorService
 		 * TODO: Support notification for users in close proximity
 		 *  with the payload request
 		 */
+	}
+
+	@Async
+	@TransactionalEventListener
+	public void payloadCollectionHandler(CollectionEvent collectionEvent)
+	{
+		if(collectionEvent.type().equals(CollectionEventType.PROCESSED))
+		{
+			log.info("Payload processed: {}, status={}", collectionEvent.payload().getId(), collectionEvent.payload().getStatus());
+			em.merge(collectionEvent.payload());
+		}
 	}
 }

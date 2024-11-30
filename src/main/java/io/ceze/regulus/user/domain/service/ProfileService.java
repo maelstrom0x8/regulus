@@ -15,6 +15,9 @@
  */
 package io.ceze.regulus.user.domain.service;
 
+import io.ceze.regulus.core.processing.model.Landfill;
+import io.ceze.regulus.core.processing.model.Recycler;
+import io.ceze.regulus.event.OperatorCreated;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 import io.ceze.regulus.user.domain.model.User;
@@ -24,6 +27,7 @@ import io.ceze.regulus.user.domain.repository.ProfileRepository;
 import io.ceze.regulus.user.dto.ProfileRequest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProfileService
@@ -59,7 +63,8 @@ public class ProfileService
 		return profile;
 	}
 
-	public void create(UserId userId, ProfileRequest profileRequest)
+	@Transactional
+	public void create (UserId userId, ProfileRequest profileRequest)
 	{
 		User user = userService.getUserById(userId.id());
 		Profile profile = new Profile(user);
@@ -70,6 +75,8 @@ public class ProfileService
 		locationRepository.save(location);
 		profileRepository.save(profile);
 		eventPublisher.publishEvent(location);
+		if (user instanceof Recycler || user instanceof Landfill)
+			eventPublisher.publishEvent(new OperatorCreated(user, profileRequest.attributes()));
 	}
 
 	public void updateProfile(UserId userId, ProfileRequest request)

@@ -15,15 +15,25 @@
  *
  */
 
-package io.ceze.regulus.core.processing.model;
+package io.ceze.regulus.core.processing.service;
 
-import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
+
+@ExtendWith(MockitoExtension.class)
+class ProcessingServiceTest
 {
+	@InjectMocks
+	DefaultProcessingService processingService;
+
+	@Test
+	void contextLoads ()
+	{
+
+	}
+
 
 }

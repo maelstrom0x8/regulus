@@ -17,7 +17,7 @@ package io.ceze.regulus.user.domain.model;
 
 import io.ceze.regulus.core.collector.model.Collector;
 import io.ceze.regulus.core.generator.payload.model.Generator;
-import io.ceze.regulus.core.processing.model.LandfillOperator;
+import io.ceze.regulus.core.processing.model.Landfill;
 import io.ceze.regulus.core.processing.model.Recycler;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -75,7 +75,7 @@ public abstract class User
 			case GENERATOR -> new Generator();
 			case COLLECTOR -> new Collector();
 			case RECYCLER -> new Recycler();
-			case LANDFILL_OPERATOR -> new LandfillOperator();
+			case LANDFILL_OPERATOR -> new Landfill();
 		};
 	}
 
@@ -150,7 +150,7 @@ public abstract class User
 		} else if (this instanceof Recycler)
 		{
 			return Role.RECYCLER;
-		} else if (this instanceof LandfillOperator)
+		} else if (this instanceof Landfill)
 		{
 			return Role.LANDFILL_OPERATOR;
 		}else

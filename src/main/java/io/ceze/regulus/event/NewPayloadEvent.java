@@ -15,15 +15,10 @@
  *
  */
 
-package io.ceze.regulus.core.processing.model;
+package io.ceze.regulus.event;
 
-import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import io.ceze.regulus.core.generator.payload.model.Payload;
 
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
+public record NewPayloadEvent(Payload payload)
 {
-
 }

@@ -18,9 +18,11 @@ package io.ceze.regulus.user.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ceze.regulus.user.domain.model.Role;
 
+import java.util.Map;
+
 public record NewUserRequest(
 	@JsonProperty(required = true) String email,
 	@JsonProperty(required = true) Role role,
-	String name)
+	String name, Map<String, Object> properties)
 {
 }

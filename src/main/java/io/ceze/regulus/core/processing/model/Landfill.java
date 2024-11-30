@@ -22,8 +22,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
+@Table(name = "landfill_operators")
+public class Landfill extends User implements Operable
 {
-
 }

@@ -15,15 +15,11 @@
  *
  */
 
-package io.ceze.regulus.core.processing.model;
+package io.ceze.regulus.core.processing.repository;
 
-import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import io.ceze.regulus.core.processing.model.Operator;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
+public interface OperatorRepository extends JpaRepository<Operator, Integer>
 {
-
 }

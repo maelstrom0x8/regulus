@@ -15,15 +15,12 @@
  *
  */
 
-package io.ceze.regulus.core.processing.model;
+package io.ceze.regulus.event;
 
 import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
+import java.util.Map;
+
+public record OperatorCreated(User user, Map<String, Object> properties)
 {
-
 }

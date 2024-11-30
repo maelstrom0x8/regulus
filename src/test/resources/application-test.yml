@@ -6,11 +6,11 @@ spring:
     name: regulus
   flyway:
     enabled: true
-    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user
+    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user&stringtype=unspecified
     password: user
     user: user
   datasource:
-    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user
+    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user&stringtype=unspecified
     username: user
     password: user
   jpa:

@@ -17,13 +17,8 @@
 
 package io.ceze.regulus.core.processing.model;
 
-import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
+public enum PayloadType
 {
-
+	NON_RECYCLABLE,
+	RECYCLABLE
 }

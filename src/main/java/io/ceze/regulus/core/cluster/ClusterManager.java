@@ -18,12 +18,15 @@ package io.ceze.regulus.core.cluster;
 
 import io.ceze.regulus.core.dispatch.DispatchHandler;
 import io.ceze.regulus.core.generator.payload.model.Payload;
+import io.ceze.regulus.event.NewPayloadEvent;
 import io.ceze.regulus.user.domain.model.Location;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -64,8 +67,10 @@ public class ClusterManager
 		}
 
 		Cluster cluster = find(location);
+		long secs = maxWaitTime.toSeconds();
+		log.info("Adding payload with id {} to the cluster {} for {}s", payload.getId(), cluster.getName(), secs);
 		cluster.add(payload);
-		cluster.setWaitTime(maxWaitTime.toSeconds());
+		cluster.setWaitTime(secs);
 
 		clusters.add(cluster);
 		return cluster;
@@ -91,17 +96,17 @@ public class ClusterManager
 	@Scheduled(initialDelay = 1L, fixedRate = 1L, timeUnit = TimeUnit.MINUTES)
 	public void checkClusterWaitTimes()
 	{
-		log.debug("Fetching expired clusters");
+		log.info("Fetching expired clusters");
+		log.info("Clusters: {}", clusters);
 		clusters.stream().filter(Cluster::waitIsExpired).forEach(this::dispatchCluster);
 	}
 
 	private void dispatchCluster(Cluster cluster)
 	{
-		log.debug("Dispatching cluster {}", cluster.getName());
+		log.info("Dispatching cluster {}", cluster.getName());
 		if (dispatchHandler.dispatch(cluster))
 		{
 			clusters.remove(cluster);
-			cluster.setWaitTime(maxWaitTime.plus(Duration.ofMinutes(10L)).toSeconds());
 		}
 	}
 
@@ -121,5 +126,13 @@ public class ClusterManager
 							< MAX_CLUSTER_DISTANCE)
 				.findFirst();
 		return cluster.orElseGet(() -> new Cluster(location));
+	}
+
+	@Async
+	@TransactionalEventListener
+	public void newPayloadHandler(NewPayloadEvent event)
+	{
+		log.warn("New payload received {}", event.payload().getId());
+		add(event.payload());
 	}
 }

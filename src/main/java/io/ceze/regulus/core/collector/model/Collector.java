@@ -27,25 +27,10 @@ import java.util.Set;
 public class Collector extends User
 {
 
-	@Column(name = "name", length = 100)
-	private String name;
-
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "collector")
 	private Set<CollectorAgent> collectorAgents;
 
-	public Collector()
-	{
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+	public Collector() {}
 
 	public Set<CollectorAgent> getCollectorAgents()
 	{

@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Component;
  * This handler is a no-operation implementation used for dispatching operations
  * within a cluster.
  */
+@Profile(value = {"default", "test"})
 @Component
 class NoopDispatchHandler implements DispatchHandler
 {

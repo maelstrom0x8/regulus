@@ -15,6 +15,8 @@
  */
 package io.ceze.regulus.user.domain.service;
 
+import io.ceze.regulus.core.generator.payload.model.Generator;
+import io.ceze.regulus.event.OperatorCreated;
 import io.ceze.regulus.event.UserCreated;
 import io.ceze.regulus.user.domain.model.User;
 import io.ceze.regulus.user.domain.model.projection.UserId;
@@ -51,7 +53,7 @@ public class UserService
 		this.userRepository = userRepository;
 	}
 
-	@Transactional
+	@Transactional()
 	public void create(NewUserRequest userRequest) throws DuplicateAccountException
 	{
 		if (userRepository.existsByEmail(userRequest.email()))
@@ -64,8 +66,9 @@ public class UserService
 		{
 			User user = User.withRole(userRequest.role());
 			user.setEmail(userRequest.email());
-
 			userRepository.save(user);
+			if(!(user instanceof Generator))
+				eventPublisher.publishEvent(new OperatorCreated(user, userRequest.properties()));
 			log.info("User account for {} created successfully", user.getEmail());
 			eventPublisher.publishEvent(new UserCreated(user));
 
@@ -110,4 +113,5 @@ public class UserService
 		User user = getUserById(userId.id());
 		eventPublisher.publishEvent(new UserCreated(user));
 	}
+
 }

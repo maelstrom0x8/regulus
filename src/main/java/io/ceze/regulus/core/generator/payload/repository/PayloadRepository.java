@@ -17,7 +17,6 @@
 package io.ceze.regulus.core.generator.payload.repository;
 
 import io.ceze.regulus.core.generator.payload.model.Payload;
-import io.ceze.regulus.core.generator.payload.service.PayloadId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,6 +31,6 @@ public interface PayloadRepository extends JpaRepository<Payload, Long>
 
 	@Query(
 		nativeQuery = true,
-		value = "SELECT * FROM disposals d WHERE d.disposal_id = :id.payloadId")
-	Optional<Payload> findByPayloadId(@Param("id") PayloadId payloadId);
+		value = "SELECT * FROM payloads p WHERE p.payload_id = :id")
+	Optional<Payload> findByPayloadId(@Param("id") Long payloadId);
 }

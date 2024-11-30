@@ -17,6 +17,7 @@ package io.ceze.config.security;
 
 import io.ceze.config.web.resolvers.AuthenticatedUserResolver;
 import io.ceze.regulus.user.domain.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -39,6 +40,9 @@ public class WebSecurityConfiguration implements WebMvcConfigurer
 	private static final String[] ALLOWED_ENDPOINTS = {"/actuator/health", "/v1/users/register", "/v1/profiles/inf"};
 	private final AuthenticationService authenticationService;
 	private final UserService userService;
+
+	@Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+	private String jwkSetUri;
 
 	public WebSecurityConfiguration(
 		AuthenticationService authenticationService, UserService userService)
@@ -76,6 +80,6 @@ public class WebSecurityConfiguration implements WebMvcConfigurer
 	@Bean
 	public JwtDecoder jwtDecoder ()
 	{
-		return NimbusJwtDecoder.withJwkSetUri("https://www.googleapis.com/oauth2/v3/certs").build();
+		return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
 	}
 }

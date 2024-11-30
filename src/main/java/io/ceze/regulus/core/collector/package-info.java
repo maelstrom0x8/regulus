@@ -15,15 +15,7 @@
  *
  */
 
-package io.ceze.regulus.core.processing.model;
+@ApplicationModule(displayName = "Collector", type = ApplicationModule.Type.OPEN)
+package io.ceze.regulus.core.collector;
 
-import io.ceze.regulus.user.domain.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "recyclers")
-public class Recycler extends User implements Operable
-{
-
-}
+import org.springframework.modulith.ApplicationModule;

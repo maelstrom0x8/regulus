@@ -23,6 +23,7 @@ import io.ceze.regulus.core.generator.payload.model.PayloadInfo;
 import io.ceze.regulus.core.generator.payload.model.PayloadStatus;
 import io.ceze.regulus.core.generator.payload.repository.PayloadRepository;
 import io.ceze.regulus.event.CancelledPayloadEvent;
+import io.ceze.regulus.event.NewPayloadEvent;
 import io.ceze.regulus.user.domain.model.Location;
 import io.ceze.regulus.user.domain.model.Profile;
 import io.ceze.regulus.user.domain.model.projection.UserId;
@@ -34,6 +35,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +74,7 @@ public class PayloadService
 	 * @throws NullPointerException if the user associated with the current security context is not
 	 *                              found or if the user's location is null
 	 */
+	@Transactional
 	public PayloadResponse initiatePayloadRequest (UserId userId, PayloadRequest request)
 		throws DuplicateRequestException
 	{
@@ -97,7 +100,7 @@ public class PayloadService
 					.build());
 		payload.setLocation(location);
 		payload = payloadRepository.save(payload);
-		eventPublisher.publishEvent(payload);
+		eventPublisher.publishEvent(new NewPayloadEvent(payload));
 		LOG.info("Processing payload request {}", payload.getId());
 		return PayloadResponse.from(payload);
 	}
@@ -107,7 +110,7 @@ public class PayloadService
 	{
 		var payload =
 			payloadRepository
-				.findByPayloadId(payloadId)
+				.findByPayloadId(payloadId.id())
 				.orElseThrow(PayloadNotFoundException::new);
 
 		return payload;
@@ -121,6 +124,7 @@ public class PayloadService
 		{
 			payload.setStatus(PayloadStatus.CANCELLED);
 			LOG.info("Cancelled payload request with id {}", payload.getId());
+			payloadRepository.delete(payload);
 			eventPublisher.publishEvent(new CancelledPayloadEvent(payload));
 		}
 	}

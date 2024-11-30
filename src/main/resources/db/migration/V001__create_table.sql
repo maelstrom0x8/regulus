@@ -3,6 +3,7 @@ CREATE SEQUENCE agents_id_seq START WITH 1000 INCREMENT BY 1;
 CREATE SEQUENCE profiles_id_seq START WITH 1000 INCREMENT BY 1;
 CREATE SEQUENCE tokens_id_seq START WITH 1000 INCREMENT BY 1;
 CREATE SEQUENCE locations_id_seq START WITH 1000 INCREMENT BY 1;
+CREATE SEQUENCE operators_id_seq START WITH 1000 INCREMENT BY 1;
 
 
 CREATE TABLE users (
@@ -37,6 +38,14 @@ CREATE TABLE profiles (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 );
+
+CREATE TABLE profile_attributes (
+    profile_id BIGINT REFERENCES profiles(profile_id) ON DELETE CASCADE,
+    attr_key VARCHAR(50),
+    attr_value JSONB,
+    PRIMARY KEY(profile_id, attr_key)
+);
+
 
 CREATE TABLE generators (
     user_id BIGINT REFERENCES users(user_id)
@@ -85,10 +94,31 @@ CREATE TABLE payloads (
     location_id BIGINT REFERENCES locations(location_id)
 );
 
+CREATE TABLE operators (
+    operator_id INTEGER DEFAULT nextval('operators_id_seq') PRIMARY KEY,
+    user_id BIGINT REFERENCES users(user_id) ON DELETE CASCADE,
+    capacity INTEGER,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+CREATE TYPE payload_type AS ENUM (
+    'RECYCLABLE',
+    'NON_RECYCLABLE'
+);
+
+CREATE TABLE operator_payload_types (
+    operator_id INTEGER NOT NULL,
+    p_type payload_type NOT NULL,
+    PRIMARY KEY (operator_id, p_type),
+    FOREIGN KEY (operator_id) REFERENCES operators(operator_id) ON DELETE CASCADE
+);
+
+
 CREATE TABLE collectors (
     collector_id SERIAL NOT NULL,
+    name VARCHAR(100),
     user_id BIGINT REFERENCES users(user_id),
-    name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY(collector_id)
 );
 

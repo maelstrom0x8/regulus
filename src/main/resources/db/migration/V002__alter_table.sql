@@ -6,12 +6,6 @@
 --ALTER TABLE users
 --ADD COLUMN role_id INT REFERENCES roles(role_id);
 
-CREATE TABLE profile_attributes (
-    profile_id BIGINT REFERENCES profiles(profile_id) ON DELETE CASCADE,
-    attr_key VARCHAR(50),
-    attr_value TEXT,
-    PRIMARY KEY(profile_id, attr_key)
-);
 
 --CREATE TABLE payload_status_logs (
 --    log_id BIGSERIAL PRIMARY KEY,
@@ -35,3 +29,5 @@ CREATE TABLE profile_attributes (
 --
 --ALTER TABLE collectors
 --ADD COLUMN region_id BIGINT REFERENCES regions(region_id);
+
+
