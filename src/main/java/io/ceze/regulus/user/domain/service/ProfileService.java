@@ -27,6 +27,7 @@ import io.ceze.regulus.user.domain.repository.ProfileRepository;
 import io.ceze.regulus.user.dto.ProfileRequest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -79,12 +80,16 @@ public class ProfileService
 			eventPublisher.publishEvent(new OperatorCreated(user, profileRequest.attributes()));
 	}
 
-	public void updateProfile(UserId userId, ProfileRequest request)
+	@Transactional
+	public void updateProfile (UserId userId, ProfileRequest request)
 	{
 		Profile profile = getProfileByUserId(userId.id());
 		request.emplace(profile);
+		profileRepository.save(profile);
+		eventPublisher.publishEvent(profile.getLocation());
 	}
 
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Location getUserLocation(Long userId)
 	{
 		Profile profile = profileRepository.findByUserId(userId).orElseThrow();

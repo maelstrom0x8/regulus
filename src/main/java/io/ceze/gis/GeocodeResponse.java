@@ -17,9 +17,10 @@ package io.ceze.gis;
 
 import java.util.List;
 
-public record GeocodeResponse(Summary summary, List<Result> results)
-{
-
+public record GeocodeResponse(
+	Summary summary,
+	List<Result> results
+) {
 	public record Summary(
 		String query,
 		String queryType,
@@ -27,9 +28,8 @@ public record GeocodeResponse(Summary summary, List<Result> results)
 		int numResults,
 		int offset,
 		int totalResults,
-		int fuzzyLevel)
-	{
-	}
+		int fuzzyLevel
+	) {}
 
 	public record Result(
 		String type,
@@ -38,78 +38,34 @@ public record GeocodeResponse(Summary summary, List<Result> results)
 		MatchConfidence matchConfidence,
 		Address address,
 		Position position,
-		List<Mapcode> mapcodes,
-		Viewport viewport,
-		List<EntryPoint> entryPoints,
-		AddressRanges addressRanges,
-		DataSources dataSources)
-	{
-	}
+		Viewport viewport
+	) {
+		public record MatchConfidence(double score) {}
 
-	public record MatchConfidence(int score)
-	{
-	}
+		public record Address(
+			String streetName,
+			String municipalitySubdivision,
+			String municipality,
+			String countrySubdivision,
+			String countrySubdivisionName,
+			String countrySubdivisionCode,
+			String countryCode,
+			String country,
+			String countryCodeISO3,
+			String freeformAddress,
+			String localName
+		) {}
 
-	public record Address(
-		String streetNumber,
-		String streetName,
-		String municipalitySubdivision,
-		String municipality,
-		String countrySecondarySubdivision,
-		String countryTertiarySubdivision,
-		String countrySubdivision,
-		String postalCode,
-		String extendedPostalCode,
-		String countryCode,
-		String country,
-		String countryCodeISO3,
-		String freeformAddress,
-		String countrySubdivisionName,
-		String localName)
-	{
-	}
+		public record Position(
+			double lat,
+			double lon
+		) {}
 
-	public record Position(double lat, double lon)
-	{
-	}
-
-	public record Mapcode(String type, String fullMapcode, String territory, String code)
-	{
-	}
-
-	public record Viewport(TopLeftPoint topLeftPoint, BtmRightPoint btmRightPoint)
-	{
-	}
-
-	public record TopLeftPoint(double lat, double lon)
-	{
-	}
-
-	public record BtmRightPoint(double lat, double lon)
-	{
-	}
-
-	public record EntryPoint(String type, Position position)
-	{
-	}
-
-	public record AddressRanges(String rangeLeft, String rangeRight, From from, To to)
-	{
-	}
-
-	public record From(double lat, double lon)
-	{
-	}
-
-	public record To(double lat, double lon)
-	{
-	}
-
-	public record DataSources(Geometry geometry)
-	{
-	}
-
-	public record Geometry(String id)
-	{
+		public record Viewport(
+			Point topLeftPoint,
+			Point btmRightPoint
+		) {
+			public record Point(double lat, double lon) {}
+		}
 	}
 }

@@ -38,4 +38,12 @@ public record LocationData(
 			location.getPostalCode(),
 			location.getStreetNumber());
 	}
+
+
+	@Override
+	public String toString ()
+	{
+		return String.format("%s, %s, %s, %s %s, %s",
+			street, number, city, state, zipCode, country);
+	}
 }
