@@ -14,7 +14,8 @@
  * limitations under the License.
  *
  */
-@ApplicationModule(displayName = "Core", type = ApplicationModule.Type.OPEN)
-package io.ceze.regulus.core;
+
+@ApplicationModule(displayName = "Payload", type = ApplicationModule.Type.OPEN)
+package io.ceze.regulus.core.generator.payload;
 
 import org.springframework.modulith.ApplicationModule;

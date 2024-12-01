@@ -35,13 +35,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PayloadService
 {
 
@@ -75,7 +75,6 @@ public class PayloadService
 	 * @throws NullPointerException if the user associated with the current security context is not
 	 *                              found or if the user's location is null
 	 */
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public PayloadResponse initiatePayloadRequest (UserId userId, PayloadRequest request)
 		throws DuplicateRequestException
 	{
