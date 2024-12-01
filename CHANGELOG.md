@@ -6,47 +6,84 @@ All notable changes to the Regulus API will be documented in this file.
 
 ### New Features
 - **Real-Time Tracking**:  
-  Add support for real-time tracking of waste collection vehicles.
+  Support for real-time tracking of waste collection vehicles.
 
 - **Enhanced Reporting**:  
-  Introduce advanced reporting capabilities for waste management organizations.
+  Advanced reporting capabilities for waste management organizations.
 
 - **Optimized Routing**:  
-  Improve routing algorithms to optimize collection routes based on live traffic data.
+  Improved routing algorithms for optimized collection routes based on live traffic data.
 
 - **GIS Integration**:  
-  Enhance integration with external GIS for more accurate location-based information.
+  Enhanced integration with external GIS for more accurate location-based information.
+
+- **Subscription Management**:  
+  Introduction of subscription plans (Standard and Premium) for organizations, enabling tiered feature access and pricing flexibility.
 
 ---
 
 ### Refactor and Modularization
-Refactor the code structure to align with a modular architecture for improved maintainability and scalability:
+The code structure has been refactored to align with a modular architecture for better maintainability and scalability:
 
-- **Account Module (`regulus/user`)**:  
+- **Account (`regulus/user`)**:  
   Manages user accounts, roles, and profiles.  
   Contains services, repositories, DTOs, and web controllers for account management.
 
-- **Commons Module (`regulus/core`)**:  
-  Includes shared data entities, utility classes, and commonly used components.
+- **Commons (`regulus/core`)**:  
+  Provides shared data entities, utility classes, and commonly used components.
 
-- **Configuration Module (`config`)**:  
-  Manages external service configurations such as GIS services, payment gateways, and mailing.
+- **Configuration (`config`)**:  
+  Manages external service configurations, including GIS services, payment gateways, and mailing.
 
-- **Control Module (`regulus/core/dispatch`)**:  
-  Handles waste collection coordination and payload operations.  
-  Manages collector agents, collection clusters, and dispatch handling.
+- **Cluster (`regulus/core/cluster`)**:  
+  Manages operational clusters for waste collection.  
+  Facilitates grouping of collection units, ensuring efficient dispatching and route planning.
 
-- **Generator Module (`regulus/core/generator`)**:  
-  Manages the creation and processing of waste payloads.  
-  Handles payload information, labels, and requests.
+- **Collector (`regulus/core/collector`)**:  
+  Manages collector agents, their operations, and associated payloads.  
+  Handles the coordination of agents for efficient waste collection.
 
-- **Integration Module (`gis`)**:  
-  Facilitates external service integration for location-based functionalities.  
-  Provides geolocation and routing clients and utilities.
+- **Dispatch (`regulus/core/dispatch`)**:  
+  Coordinates waste collection activities and payload operations.  
+  Manages collection clusters and dispatch processes.
 
-- **Security Module (`config/security`)**:  
+- **Generator (`regulus/core/generator`)**:  
+  Handles the creation and processing of waste payloads.  
+  Manages payload information, labels, and requests.
+
+- **Processing (`regulus/core/processing`)**:  
+  Oversees waste processing and recycling operations.  
+  Manages integration with landfill and recycling operators, as well as the categorization of waste types.
+
+- **GIS Integration (`gis`)**:  
+  Facilitates integration with external services for location-based functionalities.  
+  Provides geolocation, routing clients, and utilities.
+
+- **Security (`config/security`)**:  
   Implements user authentication, authorization, and role-based access management.
-- 
-- **Subscription Module (`regulus/core/subscription`)**:  
-  Manages organizational subscriptions, including standard and premium pricing models.  
-  Handles subscription plans, billing cycles, and feature access management. 
+
+- **Subscription (`regulus/subscription`)**:  
+  Manages organizational subscriptions, including tier-based pricing models.  
+  Handles subscription plans, billing cycles, and feature access management.
+
+- **Event (`regulus/event`)**:  
+  Handles domain events for inter-service communication.  
+  Manages event publication, subscription, and notification systems.
+
+- **Analytics (`regulus/core/analytics`)**:  
+  Aggregates and processes data from multiple modules for detailed reporting.  
+  Provides dashboards for key performance metrics.
+
+- **Admin (`regulus/admin`)**:  
+  Offers tools for system administrators to manage users, roles, and configurations.  
+  Includes interfaces for subscription management, reports, and system monitoring.
+
+- **Payment (`payment`)**:  
+  Manages all payment-related operations, including invoicing and integration with external payment gateways.
+
+
+---
+
+### Additional Improvements
+- Improved code organization and separation of concerns.  
+- Enhanced modularity for easier integration and extension of functionalities.
