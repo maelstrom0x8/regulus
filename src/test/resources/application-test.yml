@@ -1,0 +1,50 @@
+spring:
+  docker:
+    compose:
+      enabled: false
+  application:
+    name: regulus
+  flyway:
+    enabled: true
+    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user&stringtype=unspecified
+    password: user
+    user: user
+  datasource:
+    url: jdbc:tc:postgresql:16://localhost/db?user=user&password=user&stringtype=unspecified
+    username: user
+    password: user
+  jpa:
+    defer-datasource-initialization: false
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  cloud:
+    discovery:
+      enabled: false
+    eureka:
+      client:
+        enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer_uri: http://localhost:9000
+          jwk_set_uri: http://localhost:9000/oauth/jwks
+logging:
+  level:
+    com:
+      zaxxer: WARN
+    org:
+      hibernate: WARN
+      testcontainers: OFF
+      springframework: WARN
+      apache: WARN
+    tc: OFF
+
+regulus:
+  providers:
+    gis:
+      name: 'GisProvider'
+      api-key: test
+      base-url: https://api.gis.com
